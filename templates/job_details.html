@@ -207,12 +207,12 @@
                 <div class="card-body">
                     <p class="mb-2">
                         <strong>Posted:</strong><br>
-                        <small class="text-muted">{{ job.created_at.strftime('%B %d, %Y at %I:%M %p') }}</small>
+                        <small class="text-muted">{% if job.created_at %}{{ job.created_at.strftime('%B %d, %Y at %I:%M %p') }}{% else %}Recently{% endif %}</small>
                     </p>
                     
                     <p class="mb-2">
                         <strong>Last Updated:</strong><br>
-                        <small class="text-muted">{{ job.updated_at.strftime('%B %d, %Y at %I:%M %p') }}</small>
+                        <small class="text-muted">{% if job.updated_at %}{{ job.updated_at.strftime('%B %d, %Y at %I:%M %p') }}{% else %}Recently{% endif %}</small>
                     </p>
                     
                     {% if job.job_url %}
