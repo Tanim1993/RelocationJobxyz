@@ -103,7 +103,8 @@ def search_jsearch_api(job_type: str, location: str, api_key: str) -> List[Dict]
         ]
         
         # Construct search query
-        search_query = f"{job_type} " + " OR ".join([f'"{keyword}"' for keyword in relocation_keywords[:3]])
+        job_term = job_type if job_type else "engineer"
+        search_query = f"{job_term} " + " OR ".join([f'"{keyword}"' for keyword in relocation_keywords[:3]])
         
         headers = {
             "X-RapidAPI-Key": api_key,
