@@ -1,0 +1,20 @@
+curl 'https://replit.com/graphql' \
+  -H 'accept: */*' \
+  -H 'accept-language: en-US,en;q=0.9' \
+  -H 'content-type: application/json' \
+  -b 'gating_id=64c5f821-8e07-493e-ae65-8a399dcdaa5e; ajs_anonymous_id=d046441e-c85d-4843-b745-1070d50d1cf1; _tt_enable_cookie=1; _ttp=01K2CD8RMVPQEATA8XQNZ4DHK9_.tt.1; _ga=GA1.2.1559707522.1754910713; _gcl_au=1.1.1180146193.1754910713; gfa_ref=https://replit.com/@khaledtanim1993/MediConnect; gfa_landed_on=/@khaledtanim1993/MediConnect; __stripe_mid=71b9800c-e686-4535-a713-17da80955049d6830a; replit_authed=1; ajs_user_id=3707683; ld_uid=3707683; _gid=GA1.2.311805587.1755076150; _cfuvid=5vXTB1.JHqbZ9dzolonMKlsxGL4eYR88.WeCxGP2AH0-1755268827770-0.0.1.1-604800000; amplitudeSessionId=1755277008; connect.sid=eyJhbGciOiJSUzI1NiIsImtpZCI6IlJXYk9qQSJ9.eyJpc3MiOiJodHRwczovL3Nlc3Npb24uZmlyZWJhc2UuZ29vZ2xlLmNvbS9yZXBsaXQtd2ViIiwiYXVkIjoicmVwbGl0LXdlYiIsImF1dGhfdGltZSI6MTc1NDkxMDc4NCwidXNlcl9pZCI6ImpidE9KNWZCc1pPZXdRMlV5dEN5ZWNLeHNDNjIiLCJzdWIiOiJqYnRPSjVmQnNaT2V3UTJVeXRDeWVjS3hzQzYyIiwiaWF0IjoxNzU1Mjc3MjU3LCJleHAiOjE3NTU4ODIwNTcsImVtYWlsIjoia2hhbGVkdGFuaW1AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTA1ODU1NDMyMzg5NTYwNTI0MTciXSwiZW1haWwiOlsia2hhbGVkdGFuaW1AZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.VFImJ5miaBU4-fRnqlyR396ADTX3zrNsOL_bUz44zE7zbqsb6xPdEg8kTcfPi42vYSb9n-eEE009ug5azJaCpOq18B0_jWVrvksnIj7KsJ861GFvuHIbVYb-mzWurh6uWvorYlHMMakh0zDTF5gPZ45i2xmNGBheOoyNcHiwDEwJftkKcrkLi15MBszM6yNtAU_Lj_OjxMtx8z7HBF7uk7AttlcIe7IcYbXkmYP7zSN3MuOwVSnBZT7-3JeJQCQcnmHbZjw0ESA5YU6oiHihfH363qe8UxUWQ9egscBMMC0X32XoIYE0l7YZwotw3qY2L0344Bu97TwJDGGM9ZET6g; ttcsid=1755277256750::4iY5Xx3CSn-nuCp4lgCS.11.1755277750950; ttcsid_D004GE3C77U8PIVDSDJG=1755277256749::9jmdK2XerwnI5HomAa4L.12.1755277751316; __cf_bm=SCdAR.V.vMmuSMF1YjKH.o_Eta8XsPlr0nWLguDCM6Q-1755286064-1.0.1.1-8TV6AsyaCa6ntEb3ITgOHS_JSwmLGB.tYlHOsUhcojGlQNmDMIJnjtlCv60Nk69izMjL5FY8ezG6Eee9m3XpitCzHdCgteG0pdyarxFPju0; _gat=1; _ga_MPJY3F1YEL=GS2.2.s1755277009$o15$g1$t1755286786$j60$l0$h1167857020; _dd_s=logs=1&id=a0f72a1c-12e6-465c-9f43-1d770f31e7e7&created=1755277000162&expire=1755287721959&rum=0' \
+  -H 'origin: https://replit.com' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://replit.com/t/procoders/repls/JobReloFinder' \
+  -H 'sec-ch-ua: "Not;A=Brand";v="99", "Microsoft Edge";v="139", "Chromium";v="139"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Windows"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0' \
+  -H 'x-client-version: b5b85f0b' \
+  -H 'x-forwarded-host: replit.com' \
+  -H 'x-kitchen: false' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  --data-raw $'[{"operationName":"PingOrgReplPresenceSession","variables":{"input":{"sessionId":"02d04aec-c626-4310-8891-b937a0b717b2"}},"extensions":{"persistedQuery":{"version":1,"sha256Hash":"3d3a0410fc4920a141e912b50905a19f8b9fc7a10ecf6e0d652cb242b7059f30"}},"query":"mutation PingOrgReplPresenceSession($input: PingOrgReplPresenceSessionInput\u0021) {\\n  pingOrgReplPresenceSession(input: $input)\\n}"}]'
