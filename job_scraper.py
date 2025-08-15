@@ -240,7 +240,7 @@ def extract_moving_allowance(job_description: str) -> str:
     elif "relocation package" in description_lower:
         return "Package available"
     else:
-        return None
+        return ""
 
 def determine_relocation_type(job_description: str) -> str:
     """Determine the type of relocation support offered"""
@@ -259,10 +259,10 @@ def extract_company_email(job_data: Dict) -> str:
     """Extract company email if available"""
     # This would be implemented based on the specific job data structure
     # Most APIs don't provide direct email access for privacy reasons
-    return None
+    return ""
 
 def extract_hr_email(job_data: Dict) -> str:
     """Extract HR email if available"""
     # This would be implemented based on the specific job data structure
     # Most APIs don't provide direct email access for privacy reasons
-    return None
+    return ""
