@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block title %}Email Template for {{ job.title }} - Relocation Jobs Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ url_for('job_details', job_id=job.id) }}">{{ job.title }}</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Email Template</li>
+                </ol>
+            </nav>
+            
+            <div class="text-center mb-4">
+                <h1 class="display-6">
+                    <i class="fas fa-envelope me-3"></i>Relocation-Focused Email Template
+                </h1>
+                <p class="lead text-muted">
+                    Personalized email template for {{ job.title }} at {{ job.company }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Email Preview -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-eye me-2"></i>Email Preview
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Email Headers -->
+                    <div class="mb-3 p-3 bg-light rounded">
+                        <div class="row">
+                            <div class="col-sm-2"><strong>To:</strong></div>
+                            <div class="col-sm-10">{{ email_content.recipient_email }}</div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-2"><strong>Subject:</strong></div>
+                            <div class="col-sm-10">{{ email_content.subject }}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Email Body -->
+                    <div class="email-body">
+                        <pre class="email-content">{{ email_content.body }}</pre>
+                    </div>
+                </div>
+                
+                <div class="card-footer">
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" onclick="copyToClipboard('email-body')">
+                            <i class="fas fa-copy me-2"></i>Copy Email
+                        </button>
+                        <button class="btn btn-secondary" onclick="copyToClipboard('email-subject')">
+                            <i class="fas fa-copy me-2"></i>Copy Subject
+                        </button>
+                        <a href="mailto:{{ email_content.recipient_email }}?subject={{ email_content.subject|urlencode }}&body={{ email_content.body|urlencode }}" 
+                           class="btn btn-success">
+                            <i class="fas fa-external-link-alt me-2"></i>Open in Email Client
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <!-- Job Summary -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-briefcase me-2"></i>Job Summary
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="text-primary">{{ job.title }}</h6>
+                    <p class="mb-2">
+                        <strong>Company:</strong> {{ job.company }}<br>
+                        <strong>Location:</strong> {{ job.location }}
+                    </p>
+                    
+                    {% if job.salary_range %}
+                        <p class="mb-2">
+                            <strong>Salary:</strong> {{ job.salary_range }}
+                        </p>
+                    {% endif %}
+                    
+                    <div class="relocation-badges">
+                        {% if job.visa_sponsorship %}
+                            <span class="badge bg-primary me-1">Visa Sponsorship</span>
+                        {% endif %}
+                        {% if job.housing_assistance %}
+                            <span class="badge bg-info me-1">Housing Assistance</span>
+                        {% endif %}
+                        {% if job.moving_allowance %}
+                            <span class="badge bg-warning text-dark me-1">Moving Allowance</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Email Tips -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>Relocation Email Tips
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <small>Emphasize your readiness for international relocation</small>
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <small>Mention specific relocation benefits that interest you</small>
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <small>Show commitment to long-term employment</small>
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <small>Highlight international experience or adaptability</small>
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <small>Express flexibility with visa processes and timing</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Customization Options -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit me-2"></i>Customize Email
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="applicant-name" placeholder="Enter your name">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Your Current Location</label>
+                        <input type="text" class="form-control" id="current-location" placeholder="e.g., Mumbai, India">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Your Email</label>
+                        <input type="email" class="form-control" id="applicant-email" placeholder="your.email@example.com">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Years of Experience</label>
+                        <input type="number" class="form-control" id="experience-years" placeholder="5" min="0" max="50">
+                    </div>
+                    
+                    <button class="btn btn-primary w-100" onclick="personalizeEmail()">
+                        <i class="fas fa-magic me-2"></i>Personalize Email
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cogs me-2"></i>Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('job_details', job_id=job.id) }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Job Details
+                        </a>
+                        
+                        {% if job.job_url %}
+                            <a href="{{ job.job_url }}" target="_blank" class="btn btn-success">
+                                <i class="fas fa-external-link-alt me-2"></i>Apply to Job
+                            </a>
+                        {% endif %}
+                        
+                        <button class="btn btn-info" onclick="downloadEmail()">
+                            <i class="fas fa-download me-2"></i>Download as Text
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden elements for copying -->
+<textarea id="email-subject" style="position: absolute; left: -9999px;">{{ email_content.subject }}</textarea>
+<textarea id="email-body" style="position: absolute; left: -9999px;">{{ email_content.body }}</textarea>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    element.select();
+    element.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    
+    // Show feedback
+    const feedback = elementId === 'email-subject' ? 'Subject' : 'Email body';
+    showToast(`${feedback} copied to clipboard!`, 'success');
+}
+
+function personalizeEmail() {
+    const name = document.getElementById('applicant-name').value;
+    const location = document.getElementById('current-location').value;
+    const email = document.getElementById('applicant-email').value;
+    const experience = document.getElementById('experience-years').value;
+    
+    if (!name) {
+        showToast('Please enter your name to personalize the email', 'warning');
+        return;
+    }
+    
+    // Get current email content
+    let emailBody = document.getElementById('email-body').value;
+    
+    // Replace placeholders
+    emailBody = emailBody.replace('[Your Name]', name);
+    emailBody = emailBody.replace('[Your Contact Information]', email || '[Your Email]');
+    emailBody = emailBody.replace('[Your Current Location]', location || '[Your Current Location]');
+    
+    if (experience) {
+        emailBody = emailBody.replace('extensive experience', `${experience} years of experience`);
+    }
+    
+    // Update the display and hidden textarea
+    document.querySelector('.email-content').textContent = emailBody;
+    document.getElementById('email-body').value = emailBody;
+    
+    showToast('Email personalized successfully!', 'success');
+}
+
+function downloadEmail() {
+    const subject = document.getElementById('email-subject').value;
+    const body = document.getElementById('email-body').value;
+    
+    const content = `Subject: ${subject}\n\n${body}`;
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `relocation_email_${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    
+    showToast('Email downloaded successfully!', 'success');
+}
+
+function showToast(message, type) {
+    // Create a simple toast notification
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type} position-fixed top-0 start-50 translate-middle-x mt-3`;
+    toast.style.zIndex = '9999';
+    toast.textContent = message;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}{{ job.title }} at {{ job.company }} - Relocation Jobs Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Job Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ job.title }}</li>
+                </ol>
+            </nav>
+            
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="card-title mb-0">
+                        <i class="fas fa-briefcase me-2"></i>{{ job.title }}
+                    </h1>
+                    <p class="mb-0">
+                        <i class="fas fa-building me-2"></i>{{ job.company }} • 
+                        <i class="fas fa-map-marker-alt me-2"></i>{{ job.location }}
+                    </p>
+                </div>
+                
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            {% if job.salary_range %}
+                                <p class="h5 text-success">
+                                    <i class="fas fa-dollar-sign me-2"></i>{{ job.salary_range }}
+                                </p>
+                            {% endif %}
+                            
+                            {% if job.job_type %}
+                                <p>
+                                    <span class="badge bg-secondary">{{ job.job_type }}</span>
+                                    {% if job.remote_friendly %}
+                                        <span class="badge bg-info ms-2">Remote Friendly</span>
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4 text-md-end">
+                            {% if job.job_url %}
+                                <a href="{{ job.job_url }}" target="_blank" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt me-2"></i>Apply Now
+                                </a>
+                            {% endif %}
+                            
+                            <a href="{{ url_for('generate_email', job_id=job.id) }}" class="btn btn-secondary">
+                                <i class="fas fa-envelope me-2"></i>Email Template
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Job Description -->
+        <div class="col-md-8">
+            {% if job.job_description %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-file-alt me-2"></i>Job Description
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="job-description">
+                            {{ job.job_description|safe }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            
+            {% if job.requirements %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list-check me-2"></i>Requirements
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="requirements">
+                            {{ job.requirements|safe }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Relocation Information Sidebar -->
+        <div class="col-md-4">
+            <!-- Relocation Benefits -->
+            <div class="card mb-4 border-success">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-globe me-2"></i>Relocation Benefits
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if job.visa_sponsorship %}
+                        <div class="mb-3 p-3 bg-primary bg-opacity-10 rounded">
+                            <h6 class="text-primary">
+                                <i class="fas fa-passport me-2"></i>Visa Sponsorship Available
+                            </h6>
+                            <p class="mb-0 small">Company sponsors work visas for international candidates</p>
+                        </div>
+                    {% endif %}
+                    
+                    {% if job.housing_assistance %}
+                        <div class="mb-3 p-3 bg-info bg-opacity-10 rounded">
+                            <h6 class="text-info">
+                                <i class="fas fa-home me-2"></i>Housing Assistance
+                            </h6>
+                            <p class="mb-0 small">Temporary accommodation or housing support provided</p>
+                        </div>
+                    {% endif %}
+                    
+                    {% if job.moving_allowance %}
+                        <div class="mb-3 p-3 bg-warning bg-opacity-10 rounded">
+                            <h6 class="text-warning">
+                                <i class="fas fa-truck me-2"></i>Moving Allowance
+                            </h6>
+                            <p class="mb-0 small">{{ job.moving_allowance }}</p>
+                        </div>
+                    {% endif %}
+                    
+                    {% if job.relocation_type %}
+                        <div class="mb-3">
+                            <h6 class="text-muted">Relocation Type</h6>
+                            <span class="badge bg-secondary">
+                                {{ job.relocation_type.replace('_', ' ').title() }}
+                            </span>
+                        </div>
+                    {% endif %}
+                    
+                    {% if relocation_package %}
+                        <div class="mb-3">
+                            <h6 class="text-success">Additional Benefits</h6>
+                            {% for benefit, value in relocation_package.items() %}
+                                {% if value %}
+                                    <div class="small mb-1">
+                                        <i class="fas fa-check text-success me-2"></i>
+                                        {{ benefit.replace('_', ' ').title() }}
+                                        {% if value != True %}: {{ value }}{% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Contact Information -->
+            {% if job.hr_email or job.company_email %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-address-book me-2"></i>Contact Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if job.hr_email %}
+                            <p class="mb-2">
+                                <strong>HR Contact:</strong><br>
+                                <a href="mailto:{{ job.hr_email }}" class="text-decoration-none">
+                                    <i class="fas fa-envelope me-2"></i>{{ job.hr_email }}
+                                </a>
+                            </p>
+                        {% endif %}
+                        
+                        {% if job.company_email %}
+                            <p class="mb-2">
+                                <strong>Company Email:</strong><br>
+                                <a href="mailto:{{ job.company_email }}" class="text-decoration-none">
+                                    <i class="fas fa-envelope me-2"></i>{{ job.company_email }}
+                                </a>
+                            </p>
+                        {% endif %}
+                        
+                        {% if job.recruiter_info %}
+                            <p class="mb-0">
+                                <strong>Recruiter Info:</strong><br>
+                                <small class="text-muted">{{ job.recruiter_info }}</small>
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            
+            <!-- Job Details -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Job Details
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong>Posted:</strong><br>
+                        <small class="text-muted">{{ job.created_at.strftime('%B %d, %Y at %I:%M %p') }}</small>
+                    </p>
+                    
+                    <p class="mb-2">
+                        <strong>Last Updated:</strong><br>
+                        <small class="text-muted">{{ job.updated_at.strftime('%B %d, %Y at %I:%M %p') }}</small>
+                    </p>
+                    
+                    {% if job.job_url %}
+                        <p class="mb-0">
+                            <strong>Original Listing:</strong><br>
+                            <a href="{{ job.job_url }}" target="_blank" class="text-decoration-none small">
+                                <i class="fas fa-external-link-alt me-1"></i>View on Job Board
+                            </a>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('generate_email', job_id=job.id) }}" class="btn btn-primary">
+                            <i class="fas fa-envelope me-2"></i>Generate Email Template
+                        </a>
+                        
+                        {% if job.job_url %}
+                            <a href="{{ job.job_url }}" target="_blank" class="btn btn-secondary">
+                                <i class="fas fa-external-link-alt me-2"></i>Apply Directly
+                            </a>
+                        {% endif %}
+                        
+                        <button class="btn btn-info" onclick="shareJob()">
+                            <i class="fas fa-share me-2"></i>Share This Job
+                        </button>
+                        
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Search
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function shareJob() {
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ job.title }} at {{ job.company }}',
+            text: 'Found this great relocation opportunity: {{ job.title }} at {{ job.company }}',
+            url: window.location.href
+        });
+    } else {
+        // Fallback to copying URL
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('Job URL copied to clipboard!');
+        });
+    }
+}
+</script>
+{% endblock %}

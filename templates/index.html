@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="text-center py-5">
+                <h1 class="display-4 fw-bold mb-3">
+                    <i class="fas fa-plane-departure text-primary me-3"></i>
+                    Find Your Next International Opportunity
+                </h1>
+                <p class="lead text-muted">
+                    Discover jobs exclusively offering visa sponsorship, relocation packages, and international support
+                </p>
+                
+                <!-- Search New Jobs Form -->
+                <form method="POST" action="{{ url_for('search_jobs') }}" class="mt-4">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <input type="text" name="job_type" class="form-control form-control-lg" 
+                                   placeholder="Job Type (e.g., QA, Software Engineer)" 
+                                   value="{{ current_filters.job_type }}">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="location" class="form-control form-control-lg" 
+                                   placeholder="Location" 
+                                   value="{{ current_filters.location }}">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-search me-2"></i>Search New Jobs
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-filter me-2"></i>Filter Relocation Jobs
+                    </h5>
+                    
+                    <form method="GET" action="{{ url_for('index') }}">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label">Job Type</label>
+                                <select name="job_type" class="form-select">
+                                    <option value="">All Job Types</option>
+                                    {% for job_type in job_types %}
+                                        <option value="{{ job_type }}" 
+                                                {% if current_filters.job_type == job_type %}selected{% endif %}>
+                                            {{ job_type }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label">Location</label>
+                                <select name="location" class="form-select">
+                                    <option value="">All Locations</option>
+                                    {% for location in locations %}
+                                        <option value="{{ location }}" 
+                                                {% if current_filters.location == location %}selected{% endif %}>
+                                            {{ location }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label">Relocation Type</label>
+                                <select name="relocation_type" class="form-select">
+                                    <option value="">All Types</option>
+                                    <option value="visa_sponsorship" 
+                                            {% if current_filters.relocation_type == 'visa_sponsorship' %}selected{% endif %}>
+                                        Visa Sponsorship
+                                    </option>
+                                    <option value="internal_transfer" 
+                                            {% if current_filters.relocation_type == 'internal_transfer' %}selected{% endif %}>
+                                        Internal Transfer
+                                    </option>
+                                    <option value="remote_to_office" 
+                                            {% if current_filters.relocation_type == 'remote_to_office' %}selected{% endif %}>
+                                        Remote to Office
+                                    </option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-secondary">
+                                        <i class="fas fa-filter me-2"></i>Apply Filters
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jobs Results -->
+    <div class="row">
+        <div class="col-12">
+            {% if jobs %}
+                <h3 class="mb-4">
+                    <i class="fas fa-briefcase me-2"></i>
+                    {{ jobs|length }} Relocation-Friendly Jobs Found
+                </h3>
+                
+                {% for job in jobs %}
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="{{ url_for('job_details', job_id=job.id) }}" 
+                                           class="text-decoration-none">
+                                            {{ job.title }}
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">{{ job.company }}</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>{{ job.location }}
+                                        {% if job.remote_friendly %}
+                                            • <span class="badge bg-info">Remote Friendly</span>
+                                        {% endif %}
+                                    </p>
+                                    
+                                    {% if job.salary_range %}
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>{{ job.salary_range }}
+                                        </p>
+                                    {% endif %}
+                                    
+                                    {% if job.job_description %}
+                                        <p class="card-text">
+                                            {{ job.job_description[:200] }}{% if job.job_description|length > 200 %}...{% endif %}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        {% if job.visa_sponsorship %}
+                                            <div class="mb-2">
+                                                <i class="fas fa-passport text-primary me-2"></i>
+                                                <span class="badge bg-primary">Visa Sponsorship</span>
+                                            </div>
+                                        {% endif %}
+                                        
+                                        {% if job.housing_assistance %}
+                                            <div class="mb-2">
+                                                <i class="fas fa-home text-info me-2"></i>
+                                                <span class="badge bg-info">Housing Assistance</span>
+                                            </div>
+                                        {% endif %}
+                                        
+                                        {% if job.moving_allowance %}
+                                            <div class="mb-2">
+                                                <i class="fas fa-truck text-warning me-2"></i>
+                                                <span class="badge bg-warning text-dark">Moving Allowance</span>
+                                            </div>
+                                        {% endif %}
+                                        
+                                        {% if job.relocation_type %}
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: {{ job.relocation_type.replace('_', ' ').title() }}
+                                                </small>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="{{ url_for('job_details', job_id=job.id) }}" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="{{ url_for('generate_email', job_id=job.id) }}" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: {{ job.created_at.strftime('%B %d, %Y') }}
+                                
+                                {% if job.job_url %}
+                                    • <a href="{{ job.job_url }}" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h4>No relocation-friendly jobs found yet</h4>
+                    <p class="text-muted">
+                        Try searching for new jobs using the search form above, or modify your filters.
+                    </p>
+                    <p class="text-muted">
+                        Our platform specifically focuses on positions offering visa sponsorship, 
+                        relocation packages, and international support.
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
