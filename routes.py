@@ -71,9 +71,12 @@ def search_jobs():
     job_type = request.form.get('job_type', '')
     location = request.form.get('location', '')
     
+    logging.info(f"Search request: job_type='{job_type}', location='{location}'")
+    
     try:
         # Search for new jobs using our scraper
         new_jobs = search_relocation_jobs(job_type, location)
+        logging.info(f"API returned {len(new_jobs)} jobs")
         
         # Save new jobs to database
         saved_count = 0

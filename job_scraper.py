@@ -63,6 +63,7 @@ def search_usajobs_api(job_type: str, location: str) -> List[Dict]:
         
         if response.status_code == 200:
             data = response.json()
+            logging.info(f"USAJobs API response: Found {len(data.get('SearchResult', {}).get('SearchResultItems', []))} jobs")
             
             for job_data in data.get("SearchResult", {}).get("SearchResultItems", []):
                 job_detail = job_data.get("MatchedObjectDescriptor", {})
@@ -131,6 +132,7 @@ def search_jsearch_api(job_type: str, location: str, api_key: str) -> List[Dict]
         
         if response.status_code == 200:
             data = response.json()
+            logging.info(f"JSearch API response: Found {len(data.get('data', []))} total jobs")
             
             for job_data in data.get("data", []):
                 # Check if job description contains relocation keywords
@@ -141,6 +143,7 @@ def search_jsearch_api(job_type: str, location: str, api_key: str) -> List[Dict]
                                    for keyword in relocation_keywords)
                 
                 if has_relocation:
+                    logging.info(f"Found relocation job: {job_data.get('job_title', '')} at {job_data.get('employer_name', '')}")
                     # Extract relocation benefits from description
                     relocation_package = extract_relocation_benefits(job_description)
                     
@@ -170,6 +173,7 @@ def search_jsearch_api(job_type: str, location: str, api_key: str) -> List[Dict]
         
         else:
             logging.error(f"JSearch API request failed with status {response.status_code}")
+            logging.error(f"Response: {response.text[:500]}")
             
     except Exception as e:
         logging.error(f"Error in JSearch API: {str(e)}")
