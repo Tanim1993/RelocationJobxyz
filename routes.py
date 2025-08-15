@@ -89,24 +89,23 @@ def search_jobs():
             ).first()
             
             if not existing_job:
-                job = Job(
-                    title=job_data['title'],
-                    company=job_data['company'],
-                    location=job_data['location'],
-                    job_url=job_data['job_url'],
-                    visa_sponsorship=job_data.get('visa_sponsorship', False),
-                    relocation_package=json.dumps(job_data.get('relocation_package', {})),
-                    moving_allowance=job_data.get('moving_allowance'),
-                    housing_assistance=job_data.get('housing_assistance', False),
-                    relocation_type=job_data.get('relocation_type'),
-                    hr_email=job_data.get('hr_email'),
-                    company_email=job_data.get('company_email'),
-                    job_description=job_data.get('job_description'),
-                    requirements=job_data.get('requirements'),
-                    salary_range=job_data.get('salary_range'),
-                    job_type=job_data.get('job_type'),
-                    remote_friendly=job_data.get('remote_friendly', False)
-                )
+                job = Job()
+                job.title = job_data['title']
+                job.company = job_data['company']
+                job.location = job_data['location']
+                job.job_url = job_data['job_url']
+                job.visa_sponsorship = job_data.get('visa_sponsorship', False)
+                job.relocation_package = json.dumps(job_data.get('relocation_package', {}))
+                job.moving_allowance = job_data.get('moving_allowance')
+                job.housing_assistance = job_data.get('housing_assistance', False)
+                job.relocation_type = job_data.get('relocation_type')
+                job.hr_email = job_data.get('hr_email')
+                job.company_email = job_data.get('company_email')
+                job.job_description = job_data.get('job_description')
+                job.requirements = job_data.get('requirements')
+                job.salary_range = job_data.get('salary_range')
+                job.job_type = job_data.get('job_type')
+                job.remote_friendly = job_data.get('remote_friendly', False)
                 db.session.add(job)
                 saved_count += 1
         
