@@ -1,5 +1,48 @@
 /* Custom styles for Relocation Jobs Hub */
 
+/* Fix input field colors in dark theme */
+[data-bs-theme="dark"] input.form-control {
+    background-color: var(--bs-dark) !important;
+    border: 1px solid var(--bs-secondary) !important;
+    color: var(--bs-light) !important;
+}
+
+[data-bs-theme="dark"] input.form-control:focus {
+    background-color: var(--bs-dark) !important;
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-light) !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+[data-bs-theme="dark"] input.form-control::placeholder {
+    color: var(--bs-secondary) !important;
+}
+
+/* Compact spacing */
+.py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.py-3 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Remove any white overlays */
+.modal-backdrop {
+    display: none !important;
+}
+
+.popover, .tooltip {
+    z-index: 1070;
+}
+
+/* Ensure proper spacing between elements */
+.g-2 > * {
+    padding: 0.5rem;
+}
+
 .job-description, .requirements {
     line-height: 1.6;
     word-wrap: break-word;

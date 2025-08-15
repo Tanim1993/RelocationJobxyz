@@ -147,10 +147,10 @@ def search_jsearch_api(job_type: str, location: str, api_key: str) -> List[Dict]
                     job = {
                         "title": job_data.get("job_title", ""),
                         "company": job_data.get("employer_name", ""),
-                        "location": job_data.get("job_city", "") + ", " + job_data.get("job_country", ""),
+                        "location": f"{job_data.get('job_city') or ''}, {job_data.get('job_country') or ''}".strip(', '),
                         "job_url": job_data.get("job_apply_link", ""),
                         "job_description": job_data.get("job_description", ""),
-                        "requirements": job_data.get("job_required_skills", []),
+                        "requirements": str(job_data.get("job_required_skills", [])),
                         "salary_range": extract_salary_range(job_data),
                         "job_type": job_type or extract_job_type(job_data.get("job_title", "")),
                         "visa_sponsorship": "visa" in job_description or "h1b" in job_description,
@@ -159,8 +159,8 @@ def search_jsearch_api(job_type: str, location: str, api_key: str) -> List[Dict]
                         "relocation_type": determine_relocation_type(job_description),
                         "relocation_package": relocation_package,
                         "remote_friendly": job_data.get("job_is_remote", False),
-                        "company_email": extract_company_email(job_data),
-                        "hr_email": extract_hr_email(job_data)
+                        "company_email": extract_company_email(job_data) or "",
+                        "hr_email": extract_hr_email(job_data) or ""
                     }
                     
                     jobs.append(job)
