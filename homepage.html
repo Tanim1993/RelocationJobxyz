@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relocation Jobs Hub - Find Your Next International Opportunity</title>
+    
+    <!-- Bootstrap CSS (Replit themed) -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/custom.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-globe-americas me-2"></i>
+                Relocation Jobs Hub
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-search me-1"></i>Find Jobs
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api/jobs">
+                            <i class="fas fa-code me-1"></i>API
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    
+        
+    
+
+    <!-- Main Content -->
+    <main class="py-4">
+        
+<div class="container">
+    <!-- Hero Section -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="text-center py-3">
+                <h1 class="display-4 fw-bold mb-3">
+                    <i class="fas fa-plane-departure text-primary me-3"></i>
+                    Find Your Next International Opportunity
+                </h1>
+                <p class="lead text-muted">
+                    Discover jobs exclusively offering visa sponsorship, relocation packages, and international support
+                </p>
+                
+                <!-- Search New Jobs Form -->
+                <form method="POST" action="/search_jobs" class="mt-3">
+                    <div class="row justify-content-center g-2">
+                        <div class="col-md-4">
+                            <input type="text" name="job_type" class="form-control dark-input" 
+                                   placeholder="Job Type (e.g., QA, Software Engineer)" 
+                                   value="">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="location" class="form-control dark-input" 
+                                   placeholder="Location" 
+                                   value="">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-2"></i>Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-filter me-2"></i>Filter Relocation Jobs
+                    </h5>
+                    
+                    <form method="GET" action="/">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label">Job Type</label>
+                                <select name="job_type" class="form-select">
+                                    <option value="">All Job Types</option>
+                                    
+                                        <option value="QA Engineer" 
+                                                >
+                                            QA Engineer
+                                        </option>
+                                    
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label">Location</label>
+                                <select name="location" class="form-select">
+                                    <option value="">All Locations</option>
+                                    
+                                        <option value="US" 
+                                                >
+                                            US
+                                        </option>
+                                    
+                                        <option value="Reston, US" 
+                                                >
+                                            Reston, US
+                                        </option>
+                                    
+                                        <option value="Chantilly, US" 
+                                                >
+                                            Chantilly, US
+                                        </option>
+                                    
+                                        <option value="Baltimore, US" 
+                                                >
+                                            Baltimore, US
+                                        </option>
+                                    
+                                        <option value="Concord, US" 
+                                                >
+                                            Concord, US
+                                        </option>
+                                    
+                                        <option value="Mt Rainier, US" 
+                                                >
+                                            Mt Rainier, US
+                                        </option>
+                                    
+                                        <option value="Herndon, US" 
+                                                >
+                                            Herndon, US
+                                        </option>
+                                    
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label">Relocation Type</label>
+                                <select name="relocation_type" class="form-select">
+                                    <option value="">All Types</option>
+                                    <option value="visa_sponsorship" 
+                                            >
+                                        Visa Sponsorship
+                                    </option>
+                                    <option value="internal_transfer" 
+                                            >
+                                        Internal Transfer
+                                    </option>
+                                    <option value="remote_to_office" 
+                                            >
+                                        Remote to Office
+                                    </option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label">&nbsp;</label>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-secondary">
+                                        <i class="fas fa-filter me-2"></i>Apply Filters
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jobs Results -->
+    <div class="row">
+        <div class="col-12">
+            
+                <h3 class="mb-4">
+                    <i class="fas fa-briefcase me-2"></i>
+                    10 Relocation-Friendly Jobs Found
+                </h3>
+                
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/15" 
+                                           class="text-decoration-none">
+                                            QA Automation Engineer (SDET)
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">WTAnow</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>Herndon, US
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>Salary not specified
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            WebTech Analytics is seeking a Quality Engineer to join our Partner Tools and Operations team, the team supports testing for multiple tools offered to our partners and internal stakeholders, the integ...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <i class="fas fa-passport text-primary me-2"></i>
+                                                <span class="badge bg-primary">Visa Sponsorship</span>
+                                            </div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: Visa Sponsorship
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/15" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/15" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://www.glassdoor.com/job-listing/qa-automation-engineer-sdet-wtanow-JV_IC1130374_KO0,27_KE28,34.htm?jl=1009500035082&amp;utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/14" 
+                                           class="text-decoration-none">
+                                            QA Analyst (H1b Visa Sponsorship Available)
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">Perfict Global, Inc.</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>US
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>$65,000 - $75,000
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            Perfict Global Inc is a leading consulting company focused on providing innovative and successful business workforce solutions. Providing specialized staffing and recruitment solutions to our direct c...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: General Relocation
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/14" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/14" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://www.optnation.com/qa-analyst-h1b-visa-sponsorship-available-job-in-california-view-jobid-33388?utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/13" 
+                                           class="text-decoration-none">
+                                            QA/BA Jr. Tester Analyst (Training &amp; Placement)
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">IT Excel</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>Reston, US
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>Salary not specified
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            Company Description
+
+We are a E-Verified, IT consulting company that specializes in Business Analysis/Quality Assurance with over 300+ employees working all over United States. We team up with the lea...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: General Relocation
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/13" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/13" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://www.indeed.com/viewjob?jk=7a80d360d7f752d3&amp;utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/12" 
+                                           class="text-decoration-none">
+                                            QA Analyst - Entry Level
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">Insilico Logix</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>Reston, US
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>Salary not specified
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            Company Description
+
+Insilico Logix is a proven expertise allow us to attract top IT professionals and match them to your needs. Our consultants have served diverse industries and are skilled in navig...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <i class="fas fa-home text-info me-2"></i>
+                                                <span class="badge bg-info">Housing Assistance</span>
+                                            </div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: General Relocation
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/12" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/12" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://www.ziprecruiter.com/c/Insilico-Logix/Job/QA-Analyst-Entry-Level/-in-Reston,VA?jid=a1b32509f0db5d2b&amp;utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/11" 
+                                           class="text-decoration-none">
+                                            Cyber Software Test Engineer/Principal Cyber Software Test Engineer - R10202879
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">Northrop Grumman</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>Chantilly, US
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>$81,300 - $150,000
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            RELOCATION ASSISTANCE: Relocation assistance may be available
+
+CLEARANCE TYPE: SCI
+
+TRAVEL: Yes, 10% of the Time
+
+Description
+
+At Northrop Grumman, our employees have incredible opportunities to work ...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: General Relocation
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/11" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/11" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://www.linkedin.com/jobs/view/cyber-software-test-engineer-principal-cyber-software-test-engineer-r10202879-at-northrop-grumman-4282117340?utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/10" 
+                                           class="text-decoration-none">
+                                            Entry Level Software Tester (H1b Visa Sponsorship available)
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">Perfict</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>US
+                                        
+                                            • <span class="badge bg-info">Remote Friendly</span>
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>Salary not specified
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            This a Full Remote job, the offer is available from: Arizona (USA), California (USA), Iowa (USA), Kentucky (USA), Minnesota (USA), Nebraska (USA), Oklahoma (USA), Texas (USA)
+
+About Us:
+
+Perfict Globa...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <i class="fas fa-passport text-primary me-2"></i>
+                                                <span class="badge bg-primary">Visa Sponsorship</span>
+                                            </div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: Visa Sponsorship
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/10" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/10" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://jobgether.com/offer/68380da8199ef4b170501008-entry-level-software-tester-h1b-visa-sponsorship-available?utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/9" 
+                                           class="text-decoration-none">
+                                            Entry Level Software Tester (H1b Visa Sponsorship available)
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">Perfict Global</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>Concord, US
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>Salary not specified
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            Position Overview
+
+Job Title: QA Engineer (OPT/CPT/H1B/GC/Citizens)
+
+Location: Remote – Multiple locations (CA, AZ, TX, MN, IA, NE, KY, OK)
+
+Job Type: Fulltime
+
+Required Experience: 0 to 1 year
+
+Perfi...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <i class="fas fa-passport text-primary me-2"></i>
+                                                <span class="badge bg-primary">Visa Sponsorship</span>
+                                            </div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: Visa Sponsorship
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/9" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/9" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://jobs.digitalhire.com/job-listing/opening/2ddWl51BlWbkvTsNNrBsS?utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/8" 
+                                           class="text-decoration-none">
+                                            Entry Level QA (H1b Visa Sponsorship Available)
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">Perfict Global, Inc.</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>US
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>$65,000 - $75,000
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            Perfict Global Inc is a leading consulting company focused on providing innovative and successful business workforce solutions. Providing specialized staffing and recruitment solutions to our direct c...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: General Relocation
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/8" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/8" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://www.optnation.com/entry-level-qa-h1b-visa-sponsorship-available-job-in-la-jolla-ca-view-jobid-33585?utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/7" 
+                                           class="text-decoration-none">
+                                            QA Analyst (H1b Visa Sponsorship Available)
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">Perfict Global, Inc.</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>Baltimore, US
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>$65,000 - $75,000
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            Perfict Global Inc is a leading consulting company focused on providing innovative and successful business workforce solutions. Providing specialized staffing and recruitment solutions to our direct c...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <i class="fas fa-passport text-primary me-2"></i>
+                                                <span class="badge bg-primary">Visa Sponsorship</span>
+                                            </div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: Visa Sponsorship
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/7" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/7" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://www.optnation.com/qa-analyst-h1b-visa-sponsorship-available-job-in-baltimore-md-view-jobid-33445?utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                    <div class="card mb-4 border-start border-primary border-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5 class="card-title">
+                                        <a href="/job/6" 
+                                           class="text-decoration-none">
+                                            Jr QA Tester
+                                        </a>
+                                    </h5>
+                                    
+                                    <p class="card-text">
+                                        <strong class="text-primary">IT EXCEL LLC</strong> • 
+                                        <i class="fas fa-map-marker-alt me-1"></i>Mt Rainier, US
+                                        
+                                    </p>
+                                    
+                                    
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-dollar-sign me-1"></i>$55,000 - $58,000
+                                        </p>
+                                    
+                                    
+                                    
+                                        <p class="card-text">
+                                            Company Description
+
+I.T. EXCEL is an E-VERIFIED Company.
+
+I.T. Excel is a new breed of service firm - an industry-focused consulting and integration firm offering a broad range of solution offerings ...
+                                        </p>
+                                    
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="relocation-benefits">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-globe me-2"></i>Relocation Benefits
+                                        </h6>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                            <div class="mb-2">
+                                                <small class="text-muted">
+                                                    Type: General Relocation
+                                                </small>
+                                            </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="mt-3">
+                                        <a href="/job/6" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>View Details
+                                        </a>
+                                        
+                                        <a href="/generate_email/6" 
+                                           class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-envelope me-1"></i>Email Template
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Posted: August 15, 2025
+                                
+                                
+                                    • <a href="https://www.indeed.com/viewjob?jk=bd6c84f964649e32&amp;utm_campaign=google_jobs_apply&amp;utm_source=google_jobs_apply&amp;utm_medium=organic" target="_blank" class="text-decoration-none">
+                                        <i class="fas fa-external-link-alt me-1"></i>Apply on Original Site
+                                    </a>
+                                
+                            </small>
+                        </div>
+                    </div>
+                
+                
+            
+        </div>
+    </div>
+</div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-globe-americas me-2"></i>Relocation Jobs Hub</h5>
+                    <p class="mb-0">Find international opportunities with visa sponsorship and relocation support.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">
+                        <i class="fas fa-heart text-danger"></i> 
+                        Made for international job seekers
+                    </p>
+                    <small class="text-muted">Connecting global talent with relocation-friendly employers</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="/static/js/main.js"></script>
+    
+    
+</body>
+</html>
