@@ -1,6 +1,7 @@
 from flask import render_template, request, jsonify, flash, redirect, url_for
+from flask_login import login_required, current_user
 from app import app, db
-from models import Job, EmailTemplate
+from models import Job, EmailTemplate, JobBookmark, User
 from job_scraper import search_relocation_jobs
 from email_templates import generate_email_content
 import json
@@ -48,7 +49,8 @@ def index():
                              'job_type': job_type,
                              'location': location,
                              'relocation_type': relocation_type
-                         })
+                         },
+                         user_bookmarks=get_user_bookmarks() if current_user.is_authenticated else [])
 
 @app.route('/job/<int:job_id>')
 def job_details(job_id):
@@ -164,6 +166,22 @@ def api_jobs():
         })
     
     return jsonify(jobs_data)
+
+def get_user_bookmarks():
+    """Get current user's bookmarked job IDs"""
+    if current_user.is_authenticated:
+        bookmarks = JobBookmark.query.filter_by(user_id=current_user.id).all()
+        return [bookmark.job_id for bookmark in bookmarks]
+    return []
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    """Redirect to appropriate dashboard"""
+    if current_user.user_type == 'employer':
+        return redirect(url_for('ats.dashboard'))
+    else:
+        return redirect(url_for('dashboard.dashboard'))
 
 @app.route('/compare_jobs')
 def compare_jobs():
