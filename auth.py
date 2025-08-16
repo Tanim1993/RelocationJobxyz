@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from flask_login import login_user, logout_user, login_required, current_user
 from app import db
 from models import User, Company
+from datetime import datetime, timedelta
 import json
 
 auth = Blueprint('auth', __name__)
@@ -47,14 +48,18 @@ def register():
             user.company_size = request.form.get('company_size')
             user.industry = request.form.get('industry')
         
+        # Set 30-day free trial
+        user.subscription_type = 'free'
+        user.subscription_expires = datetime.utcnow() + timedelta(days=30)
+        
         db.session.add(user)
         db.session.commit()
         
         # Auto login after registration
         login_user(user)
         
-        flash('Registration successful!', 'success')
-        return redirect(url_for('dashboard'))
+        flash('Registration successful! You now have 30 days of free access to all features.', 'success')
+        return redirect(url_for('dashboard.dashboard'))
         
     return render_template('auth/register.html')
 
@@ -71,12 +76,12 @@ def login():
             flash('Login successful!', 'success')
             
             # Update last login
-            user.last_login = db.datetime.utcnow()
+            user.last_login = datetime.utcnow()
             db.session.commit()
             
             # Redirect to dashboard or next page
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('dashboard'))
+            return redirect(next_page) if next_page else redirect(url_for('dashboard.dashboard'))
         else:
             flash('Invalid email or password', 'error')
     

@@ -1,5 +1,5 @@
 from app import db
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import Text, DateTime, Boolean
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -82,6 +82,18 @@ class User(UserMixin, db.Model):
     
     def is_premium(self):
         return self.subscription_type in ['premium', 'family', 'enterprise']
+    
+    def is_trial_active(self):
+        """Check if user's free trial is still active"""
+        if self.subscription_type != 'free':
+            return False
+        if not self.subscription_expires:
+            return False
+        return datetime.utcnow() < self.subscription_expires
+    
+    def has_access(self):
+        """Check if user has access to features (premium or active trial)"""
+        return self.is_premium() or self.is_trial_active()
     
     def __repr__(self):
         return f'<User {self.username}>'

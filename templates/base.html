@@ -28,11 +28,48 @@
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <!-- Left side - Login/Register for non-authenticated users -->
+                {% if not current_user.is_authenticated %}
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="btn btn-primary me-2" href="{{ url_for('auth.login') }}">
+                            <i class="fas fa-sign-in-alt me-1"></i>Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-success" href="{{ url_for('auth.register') }}">
+                            <i class="fas fa-user-plus me-1"></i>Start Free Trial
+                        </a>
+                    </li>
+                </ul>
+                {% endif %}
+                
+                <!-- Center - Main Features -->
+                <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('index') }}">
                             <i class="fas fa-search me-1"></i>Find Jobs
                         </a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-tools me-1"></i>Tools
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('salary_tools.salary_comparison') }}">
+                                <i class="fas fa-chart-bar me-2"></i>Salary Comparison
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('salary_tools.visa_checker') }}">
+                                <i class="fas fa-passport me-2"></i>Visa Checker
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('salary_tools.cost_calculator') }}">
+                                <i class="fas fa-calculator me-2"></i>Cost Calculator
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('salary_tools.resume_optimizer') }}">
+                                <i class="fas fa-file-alt me-2"></i>Resume Optimizer
+                            </a></li>
+                        </ul>
                     </li>
                     
                     {% if current_user.is_authenticated %}
@@ -54,55 +91,37 @@
                             </a>
                         </li>
                         {% endif %}
-                    {% endif %}
-                    
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-tools me-1"></i>Tools
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('salary_tools.salary_comparison') }}">
-                                <i class="fas fa-chart-bar me-2"></i>Salary Comparison
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('salary_tools.visa_checker') }}">
-                                <i class="fas fa-passport me-2"></i>Visa Checker
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('salary_tools.cost_calculator') }}">
-                                <i class="fas fa-calculator me-2"></i>Cost Calculator
-                            </a></li>
-                            {% if current_user.is_authenticated %}
-                            <li><a class="dropdown-item" href="{{ url_for('salary_tools.resume_optimizer') }}">
-                                <i class="fas fa-file-alt me-2"></i>Resume Optimizer
-                            </a></li>
-                            {% endif %}
-                        </ul>
-                    </li>
-                    
-                    {% if current_user.is_authenticated and current_user.user_type == 'job_seeker' %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-bookmark me-1"></i>My Jobs
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('dashboard.bookmarks') }}">
-                                <i class="fas fa-heart me-2"></i>Bookmarked Jobs
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('dashboard.applications') }}">
-                                <i class="fas fa-paper-plane me-2"></i>Applications
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('dashboard.analytics') }}">
-                                <i class="fas fa-chart-line me-2"></i>Analytics
-                            </a></li>
-                        </ul>
-                    </li>
+                        
+                        {% if current_user.user_type == 'job_seeker' %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-bookmark me-1"></i>My Jobs
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ url_for('dashboard.bookmarks') }}">
+                                    <i class="fas fa-heart me-2"></i>Bookmarked Jobs
+                                </a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('dashboard.applications') }}">
+                                    <i class="fas fa-paper-plane me-2"></i>Applications
+                                </a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('dashboard.analytics') }}">
+                                    <i class="fas fa-chart-line me-2"></i>Analytics
+                                </a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
                     {% endif %}
                 </ul>
                 
+                <!-- Right side - User menu for authenticated users -->
+                {% if current_user.is_authenticated %}
                 <ul class="navbar-nav">
-                    {% if current_user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-user me-1"></i>{{ current_user.first_name or current_user.username }}
+                            {% if current_user.subscription_type == 'free' %}
+                                <span class="badge bg-warning ms-1">Free Trial</span>
+                            {% endif %}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ url_for('dashboard.dashboard') }}">
@@ -119,19 +138,8 @@
                             </a></li>
                         </ul>
                     </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.login') }}">
-                            <i class="fas fa-sign-in-alt me-1"></i>Login
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-success ms-2" href="{{ url_for('auth.register') }}">
-                            <i class="fas fa-user-plus me-1"></i>Register
-                        </a>
-                    </li>
-                    {% endif %}
                 </ul>
+                {% endif %}
             </div>
         </div>
     </nav>
