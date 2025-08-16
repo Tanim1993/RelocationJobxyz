@@ -59,7 +59,7 @@ def register():
         login_user(user)
         
         flash('Registration successful! You now have 30 days of free access to all features.', 'success')
-        return redirect(url_for('dashboard.dashboard'))
+        return redirect(url_for('index'))
         
     return render_template('auth/register.html')
 
@@ -79,9 +79,12 @@ def login():
             user.last_login = datetime.utcnow()
             db.session.commit()
             
-            # Redirect to dashboard or next page
+            # Redirect to homepage to see navigation changes immediately
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('dashboard.dashboard'))
+            if next_page:
+                return redirect(next_page)
+            else:
+                return redirect(url_for('index'))
         else:
             flash('Invalid email or password', 'error')
     
