@@ -39,6 +39,12 @@ def load_user(user_id):
     from models import User
     return User.query.get(int(user_id))
 
+# Make current_user available in templates
+@app.context_processor
+def inject_user():
+    from flask_login import current_user
+    return dict(current_user=current_user)
+
 with app.app_context():
     # Import models and routes
     import models

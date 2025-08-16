@@ -193,6 +193,11 @@
                         </a>
                         {% endif %}
                     {% endif %}
+                    
+                    <!-- Debug info - remove this later -->
+                    {% if current_user %}
+                    <!-- User state: {{ current_user.is_authenticated }} -->
+                    {% endif %}
                 </div>
                 
                 <!-- Right side - Theme toggle, User menu and auth buttons -->
