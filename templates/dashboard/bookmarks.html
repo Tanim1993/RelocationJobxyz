@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Bookmarked Jobs - Relocation Jobs Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1><i class="fas fa-heart me-2"></i>Bookmarked Jobs</h1>
+            <p class="text-muted">Your saved job opportunities</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        {% if jobs %}
+            {% for job in jobs %}
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5>{{ job.title }}</h5>
+                                <p class="text-muted">{{ job.company }} - {{ job.location }}</p>
+                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                    {% if job.visa_sponsorship %}
+                                        <span class="badge bg-success">Visa Sponsorship</span>
+                                    {% endif %}
+                                    {% if job.housing_assistance %}
+                                        <span class="badge bg-info">Housing Assistance</span>
+                                    {% endif %}
+                                    {% if job.remote_friendly %}
+                                        <span class="badge bg-warning">Remote Friendly</span>
+                                    {% endif %}
+                                </div>
+                                {% if job.salary_range %}
+                                    <p><strong>Salary:</strong> {{ job.salary_range }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-danger btn-sm" onclick="removeBookmark({{ job.id }})">
+                                    <i class="fas fa-heart-broken"></i>
+                                </button>
+                                <a href="{{ job.job_url }}" class="btn btn-primary btn-sm" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> View Job
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="fas fa-heart fa-3x text-muted mb-3"></i>
+                    <h3>No Bookmarked Jobs Yet</h3>
+                    <p class="text-muted">Start browsing jobs and bookmark the ones you're interested in!</p>
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>Find Jobs
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+async function removeBookmark(jobId) {
+    try {
+        const response = await fetch(`/dashboard/bookmark/${jobId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        const result = await response.json();
+        if (result.success) {
+            location.reload();
+        }
+    } catch (error) {
+        console.error('Error removing bookmark:', error);
+    }
+}
+</script>
+{% endblock %}

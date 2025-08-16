@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}Resume Optimizer - Relocation Jobs Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg">
+                <div class="card-header bg-info text-white">
+                    <h2 class="mb-0">
+                        <i class="fas fa-file-alt me-2"></i>AI-Powered Resume Optimizer
+                    </h2>
+                    <p class="mb-0 mt-2">Optimize your resume for international job applications</p>
+                </div>
+                <div class="card-body">
+                    {% if not current_user.is_authenticated %}
+                    <div class="alert alert-warning">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Sign up for free</strong> to use the Resume Optimizer and get personalized suggestions for international job applications.
+                        <a href="{{ url_for('auth.register') }}" class="btn btn-warning ms-2">Start Free Trial</a>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="target-country" class="form-label fw-semibold">Target Country:</label>
+                                <select class="form-select" id="target-country">
+                                    <option value="United States">United States</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="Netherlands">Netherlands</option>
+                                    <option value="Singapore">Singapore</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="job-level" class="form-label fw-semibold">Career Level:</label>
+                                <select class="form-select" id="job-level">
+                                    <option value="entry">Entry Level (0-2 years)</option>
+                                    <option value="mid" selected>Mid Level (3-7 years)</option>
+                                    <option value="senior">Senior Level (7+ years)</option>
+                                    <option value="executive">Executive Level</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="resume-text" class="form-label fw-semibold">Paste Your Resume Content:</label>
+                        <textarea class="form-control" id="resume-text" rows="10" 
+                                  placeholder="Paste your resume content here..."></textarea>
+                        <div class="form-text">Include your work experience, skills, education, and achievements</div>
+                    </div>
+                    
+                    <div class="text-center mb-4">
+                        <button class="btn btn-primary btn-lg" id="analyze-btn" 
+                                {% if not current_user.is_authenticated %}disabled{% endif %}>
+                            <i class="fas fa-magic me-2"></i>Analyze Resume
+                        </button>
+                    </div>
+                    
+                    <div id="analysis-results" style="display: none;">
+                        <div class="card border-success">
+                            <div class="card-header bg-success text-white">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-chart-line me-2"></i>Resume Analysis Results
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-4">
+                                    <div class="col-md-4 text-center">
+                                        <div class="h2 text-primary" id="resume-score">0</div>
+                                        <div class="text-muted">Overall Score</div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <div class="h2 text-info" id="word-count">0</div>
+                                        <div class="text-muted">Word Count</div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <div class="h2 text-success" id="suggestions-count">0</div>
+                                        <div class="text-muted">Suggestions</div>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="mb-3">
+                                    <i class="fas fa-lightbulb me-2"></i>Optimization Suggestions
+                                </h5>
+                                <div id="suggestions-list">
+                                    <!-- Suggestions will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+{% if current_user.is_authenticated %}
+document.getElementById('analyze-btn').addEventListener('click', async function() {
+    const resumeText = document.getElementById('resume-text').value.trim();
+    const targetCountry = document.getElementById('target-country').value;
+    
+    if (!resumeText) {
+        alert('Please paste your resume content first.');
+        return;
+    }
+    
+    this.disabled = true;
+    this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyzing...';
+    
+    try {
+        const response = await fetch('/tools/api/analyze-resume', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                resume_text: resumeText,
+                target_country: targetCountry
+            })
+        });
+        
+        const result = await response.json();
+        
+        // Update results
+        document.getElementById('resume-score').textContent = result.score;
+        document.getElementById('word-count').textContent = result.word_count;
+        document.getElementById('suggestions-count').textContent = result.suggestions.length;
+        
+        // Build suggestions HTML
+        let suggestionsHtml = '';
+        result.suggestions.forEach(suggestion => {
+            const priorityClass = suggestion.priority === 'high' ? 'danger' : 
+                                suggestion.priority === 'medium' ? 'warning' : 'info';
+            const priorityIcon = suggestion.priority === 'high' ? 'exclamation-triangle' : 
+                               suggestion.priority === 'medium' ? 'exclamation-circle' : 'info-circle';
+            
+            suggestionsHtml += `
+                <div class="alert alert-${priorityClass}">
+                    <h6>
+                        <i class="fas fa-${priorityIcon} me-2"></i>
+                        ${suggestion.title}
+                        <span class="badge bg-${priorityClass} ms-2">${suggestion.priority} priority</span>
+                    </h6>
+                    <p class="mb-0">${suggestion.description}</p>
+                </div>
+            `;
+        });
+        
+        if (result.suggestions.length === 0) {
+            suggestionsHtml = `
+                <div class="alert alert-success">
+                    <h6><i class="fas fa-check-circle me-2"></i>Excellent Resume!</h6>
+                    <p class="mb-0">Your resume looks great for international applications. No major improvements needed.</p>
+                </div>
+            `;
+        }
+        
+        document.getElementById('suggestions-list').innerHTML = suggestionsHtml;
+        document.getElementById('analysis-results').style.display = 'block';
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while analyzing your resume. Please try again.');
+    }
+    
+    this.disabled = false;
+    this.innerHTML = '<i class="fas fa-magic me-2"></i>Analyze Resume';
+});
+{% endif %}
+</script>
+{% endblock %}

@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Relocation Jobs Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>
+                    <i class="fas fa-tachometer-alt me-2"></i>Your Dashboard
+                </h1>
+                {% if current_user.subscription_type == 'free' %}
+                <div class="alert alert-warning mb-0 py-2">
+                    <i class="fas fa-clock me-1"></i>
+                    <strong>Free Trial Active</strong> - Expires: {{ current_user.subscription_expires.strftime('%B %d, %Y') if current_user.subscription_expires else 'Unknown' }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{ total_bookmarks }}</h4>
+                            <p>Bookmarked Jobs</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-bookmark fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{ total_applications }}</h4>
+                            <p>Applications</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-paper-plane fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{ status_counts.interview }}</h4>
+                            <p>Interviews</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{ status_counts.offer }}</h4>
+                            <p>Job Offers</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-trophy fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Activity -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-heart me-2"></i>Recent Bookmarks</h5>
+                </div>
+                <div class="card-body">
+                    {% if bookmarked_jobs %}
+                        {% for job in bookmarked_jobs %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <h6>{{ job.title }}</h6>
+                            <p class="text-muted mb-1">{{ job.company }} - {{ job.location }}</p>
+                            <small class="text-success">
+                                {% if job.visa_sponsorship %}
+                                    <i class="fas fa-passport me-1"></i>Visa Sponsorship
+                                {% endif %}
+                            </small>
+                        </div>
+                        {% endfor %}
+                        <a href="{{ url_for('dashboard.bookmarks') }}" class="btn btn-outline-primary btn-sm">
+                            View All Bookmarks
+                        </a>
+                    {% else %}
+                        <p class="text-muted">No bookmarked jobs yet. Start browsing!</p>
+                        <a href="{{ url_for('index') }}" class="btn btn-primary">Find Jobs</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-paper-plane me-2"></i>Recent Applications</h5>
+                </div>
+                <div class="card-body">
+                    {% if applications %}
+                        {% for app in applications %}
+                        <div class="border-bottom pb-2 mb-2">
+                            <h6>{{ app.job.title }}</h6>
+                            <p class="text-muted mb-1">{{ app.job.company }} - {{ app.job.location }}</p>
+                            <span class="badge bg-{% if app.status == 'offer' %}success{% elif app.status == 'interview' %}info{% elif app.status == 'rejected' %}danger{% else %}secondary{% endif %}">
+                                {{ app.status.title() }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                        <a href="{{ url_for('dashboard.applications') }}" class="btn btn-outline-success btn-sm">
+                            View All Applications
+                        </a>
+                    {% else %}
+                        <p class="text-muted">No applications yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recommended Jobs -->
+    {% if recommended_jobs %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-star me-2"></i>Recommended Jobs</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for job in recommended_jobs %}
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card border-light">
+                                <div class="card-body">
+                                    <h6>{{ job.title }}</h6>
+                                    <p class="text-muted small">{{ job.company }} - {{ job.location }}</p>
+                                    {% if job.visa_sponsorship %}
+                                        <span class="badge bg-success">Visa Sponsorship</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

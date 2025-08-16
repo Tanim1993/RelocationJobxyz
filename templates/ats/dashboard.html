@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}ATS Dashboard - Relocation Jobs Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>
+                    <i class="fas fa-briefcase me-2"></i>Employer Dashboard
+                </h1>
+                <a href="{{ url_for('ats.new_job') }}" class="btn btn-success">
+                    <i class="fas fa-plus me-1"></i>Post New Job
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{ total_jobs }}</h4>
+                            <p>Active Jobs</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-briefcase fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>0</h4>
+                            <p>Applications</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>0</h4>
+                            <p>Interviews</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-calendar fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>0</h4>
+                            <p>Hires</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-handshake fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Welcome Card -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-rocket fa-3x text-primary mb-3"></i>
+                    <h3>Welcome to Your Free ATS System!</h3>
+                    <p class="lead">Post unlimited jobs, track applications, and find the best international talent.</p>
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-primary">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-plus-circle fa-2x text-primary mb-2"></i>
+                                            <h5>Post Jobs</h5>
+                                            <p class="small">Create job listings with relocation support details</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-success">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-search fa-2x text-success mb-2"></i>
+                                            <h5>Track Applications</h5>
+                                            <p class="small">Manage candidates through your hiring pipeline</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card border-info">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-chart-line fa-2x text-info mb-2"></i>
+                                            <h5>Analytics</h5>
+                                            <p class="small">Get insights on your recruitment performance</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('ats.new_job') }}" class="btn btn-primary btn-lg mt-3">
+                        <i class="fas fa-plus me-2"></i>Post Your First Job
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

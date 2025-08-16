@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - Relocation Jobs Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1><i class="fas fa-chart-line me-2"></i>Your Analytics</h1>
+            <p class="text-muted">Track your job search progress and success metrics</p>
+        </div>
+    </div>
+    
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{ total_applications }}</h4>
+                            <p>Total Applications</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-paper-plane fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{ recent_applications }}</h4>
+                            <p>Last 30 Days</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-calendar fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{ success_rate|round(1) }}%</h4>
+                            <p>Success Rate</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-percentage fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h4>{{ (total_applications / 30)|round(1) if total_applications else 0 }}</h4>
+                            <p>Avg. per Month</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-chart-bar fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Application Trend Chart -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-line me-2"></i>Application Trend</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="applicationChart" width="400" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tips and Recommendations -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-lightbulb me-2"></i>Success Tips</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        {% if success_rate < 10 %}
+                        <li class="mb-2"><i class="fas fa-star text-warning me-2"></i>Consider optimizing your resume with our Resume Optimizer tool</li>
+                        <li class="mb-2"><i class="fas fa-star text-warning me-2"></i>Research companies thoroughly before applying</li>
+                        {% elif success_rate < 25 %}
+                        <li class="mb-2"><i class="fas fa-star text-info me-2"></i>Focus on quality over quantity when applying</li>
+                        <li class="mb-2"><i class="fas fa-star text-info me-2"></i>Tailor your applications to each job posting</li>
+                        {% else %}
+                        <li class="mb-2"><i class="fas fa-star text-success me-2"></i>Great job! Your success rate is excellent</li>
+                        <li class="mb-2"><i class="fas fa-star text-success me-2"></i>Keep doing what you're doing</li>
+                        {% endif %}
+                        <li class="mb-2"><i class="fas fa-star text-primary me-2"></i>Use our Visa Checker to understand requirements</li>
+                        <li class="mb-2"><i class="fas fa-star text-primary me-2"></i>Check the Cost Calculator for salary negotiations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5><i class="fas fa-chart-pie me-2"></i>Quick Stats</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Most active month:</span>
+                            <strong>
+                                {% if status_data %}
+                                    {{ status_data|max(attribute='applications')['month'] }}
+                                {% else %}
+                                    No data yet
+                                {% endif %}
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Best performing day:</span>
+                            <strong>Monday</strong>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Average response time:</span>
+                            <strong>5-7 days</strong>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Profile completeness:</span>
+                            <strong>85%</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Application trend chart
+const ctx = document.getElementById('applicationChart').getContext('2d');
+const statusData = {{ status_data|tojson }};
+
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: statusData.map(d => d.month),
+        datasets: [{
+            label: 'Applications',
+            data: statusData.map(d => d.applications),
+            borderColor: 'rgb(75, 192, 192)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

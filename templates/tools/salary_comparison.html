@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Salary Comparison - Relocation Jobs Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Global Salary Comparison Tool
+                    </h2>
+                    <p class="mb-0 mt-2">Compare salaries across different countries for your role</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                <label for="job-role" class="form-label fw-semibold">Select Job Role:</label>
+                                <select class="form-select" id="job-role">
+                                    <option value="">Choose a role...</option>
+                                    {% for role in salary_data.keys() %}
+                                    <option value="{{ role }}">{{ role }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                <label for="experience-level" class="form-label fw-semibold">Experience Level:</label>
+                                <select class="form-select" id="experience-level">
+                                    <option value="mid">Mid Level (3-7 years)</option>
+                                    <option value="senior">Senior Level (7+ years)</option>
+                                    <option value="entry">Entry Level (0-3 years)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="salary-results" class="row" style="display: none;">
+                        <div class="col-12">
+                            <h4 class="mb-3">
+                                <i class="fas fa-globe me-2"></i>Salary Comparison Results
+                            </h4>
+                            <div id="salary-cards" class="row">
+                                <!-- Salary cards will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const salaryData = {{ salary_data|tojson }};
+
+document.getElementById('job-role').addEventListener('change', function() {
+    const selectedRole = this.value;
+    const resultsDiv = document.getElementById('salary-results');
+    const cardsDiv = document.getElementById('salary-cards');
+    
+    if (selectedRole && salaryData[selectedRole]) {
+        cardsDiv.innerHTML = '';
+        
+        Object.entries(salaryData[selectedRole]).forEach(([country, data]) => {
+            const card = `
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card border-primary h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-map-marker-alt text-primary me-1"></i>
+                                ${country}
+                            </h5>
+                            <p class="card-text">
+                                <strong>Salary Range:</strong><br>
+                                <span class="text-success fs-5">
+                                    ${data.currency} ${data.min.toLocaleString()} - ${data.max.toLocaleString()}
+                                </span>
+                            </p>
+                            <div class="mt-2">
+                                <small class="text-muted">
+                                    Cost of Living Index: ${data.col_index}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            cardsDiv.innerHTML += card;
+        });
+        
+        resultsDiv.style.display = 'block';
+    } else {
+        resultsDiv.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

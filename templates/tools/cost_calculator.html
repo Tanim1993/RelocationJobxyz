@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block title %}Cost Calculator - Relocation Jobs Hub{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg">
+                <div class="card-header bg-warning text-dark">
+                    <h2 class="mb-0">
+                        <i class="fas fa-calculator me-2"></i>Relocation Cost Calculator
+                    </h2>
+                    <p class="mb-0 mt-2">Calculate and compare living costs between cities worldwide</p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                <label for="current-city" class="form-label fw-semibold">Current City:</label>
+                                <select class="form-select" id="current-city">
+                                    <option value="">Select your current city...</option>
+                                    {% for city in cost_data.keys() %}
+                                    <option value="{{ city }}">{{ city }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-4">
+                                <label for="target-city" class="form-label fw-semibold">Target City:</label>
+                                <select class="form-select" id="target-city">
+                                    <option value="">Select target city...</option>
+                                    {% for city in cost_data.keys() %}
+                                    <option value="{{ city }}">{{ city }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="cost-results" class="mt-4" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-home me-2"></i>Current City
+                                        </h4>
+                                    </div>
+                                    <div class="card-body" id="current-costs">
+                                        <!-- Current city costs -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-map-marker-alt me-2"></i>Target City
+                                        </h4>
+                                    </div>
+                                    <div class="card-body" id="target-costs">
+                                        <!-- Target city costs -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card border-info">
+                                    <div class="card-header bg-info text-white">
+                                        <h4 class="mb-0">
+                                            <i class="fas fa-chart-pie me-2"></i>Cost Comparison Summary
+                                        </h4>
+                                    </div>
+                                    <div class="card-body" id="comparison-summary">
+                                        <!-- Comparison summary -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const costData = {{ cost_data|tojson }};
+
+function updateResults() {
+    const currentCity = document.getElementById('current-city').value;
+    const targetCity = document.getElementById('target-city').value;
+    
+    if (currentCity && targetCity && costData[currentCity] && costData[targetCity]) {
+        const currentData = costData[currentCity];
+        const targetData = costData[targetCity];
+        
+        // Update current city costs
+        document.getElementById('current-costs').innerHTML = `
+            <h5>${currentCity}</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span><i class="fas fa-home me-2"></i>Monthly Rent</span>
+                    <strong>$${currentData.rent.toLocaleString()}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span><i class="fas fa-utensils me-2"></i>Food & Dining</span>
+                    <strong>$${currentData.food.toLocaleString()}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span><i class="fas fa-bus me-2"></i>Transportation</span>
+                    <strong>$${currentData.transport.toLocaleString()}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span><i class="fas fa-lightbulb me-2"></i>Utilities</span>
+                    <strong>$${currentData.utilities.toLocaleString()}</strong>
+                </li>
+            </ul>
+            <div class="mt-3">
+                <strong>Total Monthly: $${(currentData.rent + currentData.food + currentData.transport + currentData.utilities).toLocaleString()}</strong>
+            </div>
+        `;
+        
+        // Update target city costs
+        document.getElementById('target-costs').innerHTML = `
+            <h5>${targetCity}</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                    <span><i class="fas fa-home me-2"></i>Monthly Rent</span>
+                    <strong>$${targetData.rent.toLocaleString()}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span><i class="fas fa-utensils me-2"></i>Food & Dining</span>
+                    <strong>$${targetData.food.toLocaleString()}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span><i class="fas fa-bus me-2"></i>Transportation</span>
+                    <strong>$${targetData.transport.toLocaleString()}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span><i class="fas fa-lightbulb me-2"></i>Utilities</span>
+                    <strong>$${targetData.utilities.toLocaleString()}</strong>
+                </li>
+            </ul>
+            <div class="mt-3">
+                <strong>Total Monthly: $${(targetData.rent + targetData.food + targetData.transport + targetData.utilities).toLocaleString()}</strong>
+            </div>
+        `;
+        
+        // Calculate comparison
+        const currentTotal = currentData.rent + currentData.food + currentData.transport + currentData.utilities;
+        const targetTotal = targetData.rent + targetData.food + targetData.transport + targetData.utilities;
+        const difference = targetTotal - currentTotal;
+        const percentChange = ((difference / currentTotal) * 100).toFixed(1);
+        
+        document.getElementById('comparison-summary').innerHTML = `
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <h5>Cost Difference</h5>
+                    <p class="fs-4 ${difference > 0 ? 'text-danger' : 'text-success'}">
+                        ${difference > 0 ? '+' : ''}$${difference.toLocaleString()}
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Percentage Change</h5>
+                    <p class="fs-4 ${percentChange > 0 ? 'text-danger' : 'text-success'}">
+                        ${percentChange > 0 ? '+' : ''}${percentChange}%
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Cost of Living Index</h5>
+                    <p class="fs-6">
+                        ${currentCity}: ${currentData.col_index}<br>
+                        ${targetCity}: ${targetData.col_index}
+                    </p>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('cost-results').style.display = 'block';
+    } else {
+        document.getElementById('cost-results').style.display = 'none';
+    }
+}
+
+document.getElementById('current-city').addEventListener('change', updateResults);
+document.getElementById('target-city').addEventListener('change', updateResults);
+</script>
+{% endblock %}
