@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, flash, redirect, url_for
+from flask import render_template, request, jsonify, flash, redirect, url_for, session
 from flask_login import login_required, current_user
 from app import app, db
 from models import Job, EmailTemplate, JobBookmark, User
@@ -205,3 +205,15 @@ def compare_jobs():
             job.parsed_relocation_package = {}
     
     return render_template('compare_jobs.html', jobs=jobs)
+
+@app.route('/toggle_theme', methods=['POST'])
+def toggle_theme():
+    """Toggle between light and dark themes"""
+    current_theme = session.get('theme', 'dark')
+    new_theme = 'light' if current_theme == 'dark' else 'dark'
+    session['theme'] = new_theme
+    
+    return jsonify({
+        'success': True,
+        'theme': new_theme
+    })
