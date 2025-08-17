@@ -13,7 +13,7 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" action="{{ url_for('auth.login') }}" onsubmit="console.log('Form submitted');">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control dark-input" id="email" name="email" required>
@@ -25,11 +25,18 @@
                         </div>
                         
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" onclick="console.log('Login button clicked');">
                                 <i class="fas fa-sign-in-alt me-2"></i>Login
                             </button>
                         </div>
                     </form>
+                    
+                    <!-- Quick Login Button for Testing -->
+                    <div class="mt-3">
+                        <button class="btn btn-info btn-sm w-100" onclick="quickLogin()" type="button">
+                            Quick Login (testuser)
+                        </button>
+                    </div>
                     
                     <div class="text-center mt-3">
                         <p>Don't have an account? <a href="{{ url_for('auth.register') }}">Register here</a></p>
@@ -39,4 +46,22 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function quickLogin() {
+    console.log('Quick login triggered');
+    document.getElementById('email').value = 'testuser@example.com';
+    document.getElementById('password').value = 'password123';
+    
+    // Submit the form
+    const form = document.querySelector('form');
+    console.log('Submitting form with:', {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+    });
+    form.submit();
+}
+</script>
 {% endblock %}
