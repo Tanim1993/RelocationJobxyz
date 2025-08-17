@@ -72,19 +72,23 @@ def login():
         user = User.query.filter_by(email=email).first()
         
         if user and user.check_password(password):
-            login_user(user)
+            login_user(user, remember=True)
             flash('Login successful!', 'success')
             
             # Update last login
             user.last_login = datetime.utcnow()
             db.session.commit()
             
-            # Redirect to homepage to see navigation changes immediately
+            # Force a redirect with explicit response
             next_page = request.args.get('next')
             if next_page:
-                return redirect(next_page)
+                response = redirect(next_page)
             else:
-                return redirect(url_for('index'))
+                response = redirect(url_for('index'))
+            
+            # Ensure session is saved
+            response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+            return response
         else:
             flash('Invalid email or password', 'error')
     

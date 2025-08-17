@@ -13,28 +13,26 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ url_for('auth.login') }}" onsubmit="console.log('Form submitted');">
+                    <form method="POST" action="/login" id="loginForm" enctype="application/x-www-form-urlencoded">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control dark-input" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" required value="testuser@example.com">
                         </div>
                         
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control dark-input" id="password" name="password" required>
+                            <input type="password" class="form-control" id="password" name="password" required value="password123">
                         </div>
                         
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary" onclick="console.log('Login button clicked');">
-                                <i class="fas fa-sign-in-alt me-2"></i>Login
-                            </button>
+                            <input type="submit" class="btn btn-primary" value="Login" id="loginButton">
                         </div>
                     </form>
                     
-                    <!-- Quick Login Button for Testing -->
+                    <!-- Alternative Login Method -->
                     <div class="mt-3">
-                        <button class="btn btn-info btn-sm w-100" onclick="quickLogin()" type="button">
-                            Quick Login (testuser)
+                        <button class="btn btn-success btn-sm w-100" onclick="directLogin()" type="button">
+                            Direct Login (Bypass Form)
                         </button>
                     </div>
                     
@@ -50,18 +48,74 @@
 
 {% block scripts %}
 <script>
-function quickLogin() {
-    console.log('Quick login triggered');
-    document.getElementById('email').value = 'testuser@example.com';
-    document.getElementById('password').value = 'password123';
+// Direct login using fetch API as fallback
+function directLogin() {
+    console.log('Direct login triggered');
     
-    // Submit the form
-    const form = document.querySelector('form');
-    console.log('Submitting form with:', {
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    if (!email || !password) {
+        alert('Please enter email and password');
+        return;
+    }
+    
+    // Show loading
+    const button = event.target;
+    const originalText = button.textContent;
+    button.textContent = 'Logging in...';
+    button.disabled = true;
+    
+    // Create form data
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+    
+    // Submit via fetch
+    fetch('/login', {
+        method: 'POST',
+        body: formData,
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        if (response.redirected) {
+            console.log('Login successful, redirecting...');
+            window.location.href = response.url;
+        } else {
+            return response.text();
+        }
+    })
+    .then(html => {
+        if (html && html.includes('Invalid email or password')) {
+            alert('Invalid credentials');
+            button.textContent = originalText;
+            button.disabled = false;
+        } else if (html) {
+            console.log('Login may have failed');
+            button.textContent = originalText;
+            button.disabled = false;
+        }
+    })
+    .catch(error => {
+        console.error('Login error:', error);
+        alert('Login failed. Please try again.');
+        button.textContent = originalText;
+        button.disabled = false;
     });
-    form.submit();
 }
+
+// Enhanced form handling
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('loginForm');
+    
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            console.log('Standard form submission');
+            const button = document.getElementById('loginButton');
+            button.value = 'Logging in...';
+            button.disabled = true;
+        });
+    }
+});
 </script>
 {% endblock %}
