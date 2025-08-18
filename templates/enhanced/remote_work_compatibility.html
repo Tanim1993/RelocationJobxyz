@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+
+{% block title %}Remote Work Compatibility Scorer{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary">Remote Work Compatibility Scorer</h1>
+                <p class="lead text-muted">Assess your readiness for remote international opportunities with AI-powered analysis</p>
+            </div>
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-laptop-house me-2"></i>Remote Work Assessment</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form id="remoteWorkForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="currentRole" class="form-label">Current Role</label>
+                                <input type="text" class="form-control" id="currentRole" required placeholder="Software Engineer">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="targetRole" class="form-label">Target Remote Role</label>
+                                <input type="text" class="form-control" id="targetRole" required placeholder="Senior Software Engineer">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6>Technical Setup</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="reliableInternet">
+                                        <label class="form-check-label" for="reliableInternet">Reliable high-speed internet</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="dedicatedWorkspace">
+                                        <label class="form-check-label" for="dedicatedWorkspace">Dedicated workspace</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="modernEquipment">
+                                        <label class="form-check-label" for="modernEquipment">Modern computer/equipment</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="videoConferencing">
+                                        <label class="form-check-label" for="videoConferencing">Video conferencing setup</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="securityTools">
+                                        <label class="form-check-label" for="securityTools">Security tools (VPN, etc.)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="backupInternet">
+                                        <label class="form-check-label" for="backupInternet">Backup internet connection</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6>Communication Skills</h6>
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">English Proficiency</label>
+                                    <select class="form-select" id="englishProficiency">
+                                        <option value="native">Native</option>
+                                        <option value="fluent">Fluent</option>
+                                        <option value="advanced">Advanced</option>
+                                        <option value="intermediate">Intermediate</option>
+                                        <option value="basic">Basic</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">Written Communication</label>
+                                    <select class="form-select" id="writtenComm">
+                                        <option value="excellent">Excellent</option>
+                                        <option value="good">Good</option>
+                                        <option value="average">Average</option>
+                                        <option value="needs_improvement">Needs Improvement</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6>Self-Management & Experience</h6>
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">Remote Work Experience</label>
+                                    <select class="form-select" id="remoteExperience">
+                                        <option value="5+">5+ years</option>
+                                        <option value="3-5">3-5 years</option>
+                                        <option value="1-3">1-3 years</option>
+                                        <option value="6-12">6-12 months</option>
+                                        <option value="none">No experience</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label">Time Management</label>
+                                    <select class="form-select" id="timeManagement">
+                                        <option value="excellent">Excellent</option>
+                                        <option value="good">Good</option>
+                                        <option value="average">Average</option>
+                                        <option value="needs_improvement">Needs Improvement</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Preferred Time Zones for Remote Work</label>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="EST" id="est">
+                                        <label class="form-check-label" for="est">Eastern (EST/EDT)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="PST" id="pst">
+                                        <label class="form-check-label" for="pst">Pacific (PST/PDT)</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="GMT" id="gmt">
+                                        <label class="form-check-label" for="gmt">GMT/UTC</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="CET" id="cet">
+                                        <label class="form-check-label" for="cet">Central Europe</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="APAC" id="apac">
+                                        <label class="form-check-label" for="apac">Asia Pacific</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="flexible" id="flexible">
+                                        <label class="form-check-label" for="flexible">Flexible</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-info btn-lg px-5">
+                                <i class="fas fa-chart-line me-2"></i>Assess Compatibility
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="mt-5" style="display: none;">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-trophy me-2"></i>Your Remote Work Compatibility Score</h5>
+                    </div>
+                    <div class="card-body" id="scoreResults">
+                        <!-- Score results will be populated here -->
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0"><i class="fas fa-bullseye me-2"></i>Strengths & Areas to Improve</h5>
+                            </div>
+                            <div class="card-body" id="strengthsResults">
+                                <!-- Strengths will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fas fa-globe me-2"></i>Suitable Countries</h5>
+                            </div>
+                            <div class="card-body" id="countriesResults">
+                                <!-- Countries will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('remoteWorkForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const techSetup = [
+        'reliableInternet', 'dedicatedWorkspace', 'modernEquipment',
+        'videoConferencing', 'securityTools', 'backupInternet'
+    ].filter(id => document.getElementById(id).checked);
+    
+    const timeZones = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+        .filter(cb => ['EST', 'PST', 'GMT', 'CET', 'APAC', 'flexible'].includes(cb.value))
+        .map(cb => cb.value);
+    
+    const formData = {
+        profile: {
+            current_role: document.getElementById('currentRole').value,
+            tech_setup: techSetup,
+            english_proficiency: document.getElementById('englishProficiency').value,
+            written_communication: document.getElementById('writtenComm').value,
+            remote_experience: document.getElementById('remoteExperience').value,
+            time_management: document.getElementById('timeManagement').value,
+            preferred_timezones: timeZones
+        },
+        target_role: document.getElementById('targetRole').value
+    };
+    
+    try {
+        const response = await fetch('/api/remote-work-score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            displayResults(data);
+        } else {
+            alert('Error: ' + data.error);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+});
+
+function displayResults(data) {
+    // Display overall score
+    const scoreResults = document.getElementById('scoreResults');
+    const scoreColor = data.overall_score >= 80 ? 'success' : data.overall_score >= 60 ? 'warning' : 'danger';
+    
+    scoreResults.innerHTML = `
+        <div class="text-center mb-4">
+            <div class="display-1 text-${scoreColor}">${data.overall_score}</div>
+            <p class="lead">Overall Compatibility Score</p>
+            <div class="progress" style="height: 20px;">
+                <div class="progress-bar bg-${scoreColor}" style="width: ${data.overall_score}%">${data.overall_score}%</div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h6><i class="fas fa-cogs text-primary me-2"></i>Technical Readiness</h6>
+                <div class="progress mb-3">
+                    <div class="progress-bar" style="width: ${data.category_scores.technical_readiness}%">${data.category_scores.technical_readiness}%</div>
+                </div>
+                
+                <h6><i class="fas fa-comments text-primary me-2"></i>Communication Skills</h6>
+                <div class="progress mb-3">
+                    <div class="progress-bar" style="width: ${data.category_scores.communication_skills}%">${data.category_scores.communication_skills}%</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h6><i class="fas fa-user-check text-primary me-2"></i>Self Management</h6>
+                <div class="progress mb-3">
+                    <div class="progress-bar" style="width: ${data.category_scores.self_management}%">${data.category_scores.self_management}%</div>
+                </div>
+                
+                <h6><i class="fas fa-handshake text-primary me-2"></i>Collaboration Ability</h6>
+                <div class="progress mb-3">
+                    <div class="progress-bar" style="width: ${data.category_scores.collaboration_ability}%">${data.category_scores.collaboration_ability}%</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Display strengths and improvement areas
+    const strengthsResults = document.getElementById('strengthsResults');
+    strengthsResults.innerHTML = `
+        <h6><i class="fas fa-star text-success me-2"></i>Strengths</h6>
+        <ul class="list-unstyled mb-3">
+            ${data.strengths.map(strength => `<li><i class="fas fa-check text-success me-2"></i>${strength}</li>`).join('')}
+        </ul>
+        
+        <h6><i class="fas fa-arrow-up text-warning me-2"></i>Areas for Improvement</h6>
+        <ul class="list-unstyled mb-3">
+            ${data.improvement_areas.map(area => `<li><i class="fas fa-exclamation-triangle text-warning me-2"></i>${area}</li>`).join('')}
+        </ul>
+        
+        <h6><i class="fas fa-lightbulb text-info me-2"></i>Recommendations</h6>
+        <ul class="list-unstyled">
+            ${data.recommendations.map(rec => `<li><i class="fas fa-arrow-right text-info me-2"></i>${rec}</li>`).join('')}
+        </ul>
+    `;
+    
+    // Display suitable countries
+    const countriesResults = document.getElementById('countriesResults');
+    countriesResults.innerHTML = data.suitable_countries.map(country => `
+        <div class="border-bottom pb-2 mb-2">
+            <div class="d-flex justify-content-between">
+                <span class="fw-bold">${country.name}</span>
+                <span class="badge bg-primary">${country.score}% match</span>
+            </div>
+            <small class="text-muted">${country.reason}</small>
+        </div>
+    `).join('');
+    
+    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+{% endblock %}

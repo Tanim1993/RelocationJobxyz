@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}Cultural Mentor Matching{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary">Cultural Mentor Matching</h1>
+                <p class="lead text-muted">Connect with experienced professionals who've successfully navigated international career transitions</p>
+            </div>
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-user-friends me-2"></i>Find Your Perfect Mentor</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form id="mentorMatchingForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="currentRole" class="form-label">Current Role/Title</label>
+                                <input type="text" class="form-control" id="currentRole" required placeholder="Software Engineer">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="targetCountry" class="form-label">Target Country</label>
+                                <select class="form-select" id="targetCountry" required>
+                                    <option value="">Select target country</option>
+                                    <option value="United States">United States</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="Netherlands">Netherlands</option>
+                                    <option value="Singapore">Singapore</option>
+                                    <option value="Switzerland">Switzerland</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="industry" class="form-label">Industry</label>
+                                <select class="form-select" id="industry" required>
+                                    <option value="">Select industry</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="finance">Finance & Banking</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="consulting">Consulting</option>
+                                    <option value="engineering">Engineering</option>
+                                    <option value="marketing">Marketing & Sales</option>
+                                    <option value="education">Education</option>
+                                    <option value="research">Research & Development</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="experienceLevel" class="form-label">Experience Level</label>
+                                <select class="form-select" id="experienceLevel">
+                                    <option value="entry">Entry Level (0-2 years)</option>
+                                    <option value="mid">Mid Level (3-7 years)</option>
+                                    <option value="senior">Senior Level (8-15 years)</option>
+                                    <option value="executive">Executive Level (15+ years)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="currentCountry" class="form-label">Current Country</label>
+                                <select class="form-select" id="currentCountry">
+                                    <option value="">Select current country</option>
+                                    <option value="India">India</option>
+                                    <option value="China">China</option>
+                                    <option value="Brazil">Brazil</option>
+                                    <option value="Mexico">Mexico</option>
+                                    <option value="Nigeria">Nigeria</option>
+                                    <option value="Philippines">Philippines</option>
+                                    <option value="Eastern Europe">Eastern Europe</option>
+                                    <option value="Middle East">Middle East</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="visaStatus" class="form-label">Current Visa Status/Goal</label>
+                                <select class="form-select" id="visaStatus">
+                                    <option value="seeking_sponsorship">Seeking Sponsorship</option>
+                                    <option value="have_visa">Already Have Visa</option>
+                                    <option value="student">Student Visa</option>
+                                    <option value="dependent">Dependent Visa</option>
+                                    <option value="permanent_resident">Permanent Resident</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="mentorshipGoals" class="form-label">What are you looking for in a mentor? (Select all that apply)</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="cultural_adaptation" id="cultural">
+                                        <label class="form-check-label" for="cultural">Cultural adaptation guidance</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="career_advancement" id="career">
+                                        <label class="form-check-label" for="career">Career advancement strategies</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="networking" id="networking">
+                                        <label class="form-check-label" for="networking">Professional networking</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="interview_prep" id="interview">
+                                        <label class="form-check-label" for="interview">Interview preparation</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="visa_process" id="visa">
+                                        <label class="form-check-label" for="visa">Visa/immigration process</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="work_life_balance" id="worklife">
+                                        <label class="form-check-label" for="worklife">Work-life balance</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="family_relocation" id="family">
+                                        <label class="form-check-label" for="family">Family relocation support</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="industry_insights" id="insights">
+                                        <label class="form-check-label" for="insights">Industry-specific insights</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="communicationStyle" class="form-label">Preferred Communication Style</label>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="commStyle" value="formal" id="formal">
+                                        <label class="form-check-label" for="formal">Formal & structured</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="commStyle" value="casual" id="casual">
+                                        <label class="form-check-label" for="casual">Casual & friendly</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="commStyle" value="flexible" id="commFlexible" checked>
+                                        <label class="form-check-label" for="commFlexible">Flexible</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-search me-2"></i>Find Mentors
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="mt-5" style="display: none;">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-users me-2"></i>Your Mentor Matches</h5>
+                    </div>
+                    <div class="card-body" id="mentorResults">
+                        <!-- Mentor results will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('mentorMatchingForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const mentorshipGoals = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+        .map(cb => cb.value)
+        .filter(value => value !== 'EST' && value !== 'PST' && value !== 'GMT' && value !== 'CET' && value !== 'APAC' && value !== 'flexible');
+    
+    const communicationStyle = document.querySelector('input[name="commStyle"]:checked').value;
+    
+    const formData = {
+        profile: {
+            current_role: document.getElementById('currentRole').value,
+            industry: document.getElementById('industry').value,
+            experience_level: document.getElementById('experienceLevel').value,
+            current_country: document.getElementById('currentCountry').value,
+            visa_status: document.getElementById('visaStatus').value,
+            mentorship_goals: mentorshipGoals,
+            communication_style: communicationStyle
+        },
+        target_country: document.getElementById('targetCountry').value,
+        industry: document.getElementById('industry').value
+    };
+    
+    try {
+        const response = await fetch('/api/mentor-matching', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            displayMentorMatches(data.matches);
+        } else {
+            alert('Error: ' + data.error);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+});
+
+function displayMentorMatches(matches) {
+    const mentorResults = document.getElementById('mentorResults');
+    
+    if (matches.length === 0) {
+        mentorResults.innerHTML = `
+            <div class="text-center p-4">
+                <i class="fas fa-search text-muted fa-3x mb-3"></i>
+                <p class="text-muted">No mentors found matching your criteria. Try adjusting your preferences.</p>
+            </div>
+        `;
+    } else {
+        mentorResults.innerHTML = matches.map(mentor => `
+            <div class="card mb-3 border-start border-primary border-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-1">${mentor.name}</h5>
+                                <span class="badge bg-primary fs-6">${mentor.match_score}% match</span>
+                            </div>
+                            <p class="text-muted mb-2">${mentor.title} at ${mentor.company}</p>
+                            <p class="text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i>${mentor.location}</p>
+                            
+                            <div class="mb-3">
+                                <h6><i class="fas fa-handshake text-success me-2"></i>Shared Background</h6>
+                                <ul class="list-unstyled mb-2">
+                                    ${mentor.shared_background.map(bg => `<li><i class="fas fa-check text-success me-2"></i>${bg}</li>`).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6><i class="fas fa-brain text-info me-2"></i>Expertise Areas</h6>
+                                <div class="d-flex flex-wrap gap-1">
+                                    ${mentor.expertise_areas.map(area => `<span class="badge bg-light text-dark">${area}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <h6><i class="fas fa-calendar text-warning me-2"></i>Availability</h6>
+                                <p class="small">${mentor.availability}</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h6><i class="fas fa-trophy text-primary me-2"></i>Success Stories</h6>
+                                <p class="small">${mentor.success_stories}</p>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" onclick="requestMentorship('${mentor.mentor_id}', '${mentor.name}')">
+                                    <i class="fas fa-envelope me-2"></i>Request Mentorship
+                                </button>
+                                <button class="btn btn-outline-secondary" onclick="viewProfile('${mentor.mentor_id}')">
+                                    <i class="fas fa-user me-2"></i>View Full Profile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function requestMentorship(mentorId, mentorName) {
+    // In a real application, this would open a modal or navigate to a messaging system
+    alert(`Mentorship request feature coming soon! You would send a request to ${mentorName}.`);
+}
+
+function viewProfile(mentorId) {
+    // In a real application, this would show detailed mentor profile
+    alert(`Detailed profile view coming soon for mentor ID: ${mentorId}`);
+}
+</script>
+{% endblock %}

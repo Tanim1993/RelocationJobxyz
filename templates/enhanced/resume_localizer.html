@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}AI Resume Localizer{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary">AI Resume Localizer</h1>
+                <p class="lead text-muted">Adapt your resume for different countries and cultures with AI-powered localization</p>
+            </div>
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Resume Localization</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form id="resumeLocalizationForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="targetCountry" class="form-label">Target Country</label>
+                                <select class="form-select" id="targetCountry" required>
+                                    <option value="">Select target country</option>
+                                    <option value="United States">United States</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="Netherlands">Netherlands</option>
+                                    <option value="Singapore">Singapore</option>
+                                    <option value="Japan">Japan</option>
+                                    <option value="France">France</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="targetRole" class="form-label">Target Role</label>
+                                <input type="text" class="form-control" id="targetRole" required placeholder="Senior Software Engineer">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" required placeholder="John Smith">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="currentLocation" class="form-label">Current Location</label>
+                                <input type="text" class="form-control" id="currentLocation" placeholder="New York, USA">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phoneNumber" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phoneNumber" placeholder="+1 (555) 123-4567">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="john.smith@email.com">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="professionalSummary" class="form-label">Professional Summary</label>
+                            <textarea class="form-control" id="professionalSummary" rows="4" required placeholder="Experienced software engineer with 8+ years developing scalable web applications..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="workExperience" class="form-label">Work Experience (One experience per line, format: Company | Role | Years | Description)</label>
+                            <textarea class="form-control" id="workExperience" rows="6" required placeholder="TechCorp Inc. | Senior Software Engineer | 2020-2023 | Led development of microservices architecture serving 1M+ users
+StartupXYZ | Software Engineer | 2018-2020 | Developed full-stack web applications using React and Node.js"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="education" class="form-label">Education</label>
+                                <textarea class="form-control" id="education" rows="3" placeholder="Bachelor of Science in Computer Science
+University of Technology, 2018
+GPA: 3.8/4.0"></textarea>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="skills" class="form-label">Skills (comma-separated)</label>
+                                <textarea class="form-control" id="skills" rows="3" placeholder="Python, JavaScript, React, Node.js, AWS, Docker, Kubernetes, Agile, Leadership"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="certifications" class="form-label">Certifications (optional)</label>
+                                <textarea class="form-control" id="certifications" rows="2" placeholder="AWS Certified Solutions Architect
+PMP Certification"></textarea>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="languages" class="form-label">Languages (optional)</label>
+                                <textarea class="form-control" id="languages" rows="2" placeholder="English (Native)
+Spanish (Conversational)
+French (Basic)"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-info btn-lg px-5">
+                                <i class="fas fa-magic me-2"></i>Localize Resume
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="mt-5" style="display: none;">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="fas fa-file-export me-2"></i>Localized Resume</h5>
+                            </div>
+                            <div class="card-body" id="localizedResumeContent">
+                                <!-- Localized resume content will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Key Changes Made</h5>
+                            </div>
+                            <div class="card-body" id="changesContent">
+                                <!-- Changes will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Cultural Tips</h5>
+                            </div>
+                            <div class="card-body" id="tipsContent">
+                                <!-- Cultural tips will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-envelope me-2"></i>Cover Letter Template</h5>
+                            </div>
+                            <div class="card-body" id="coverLetterContent">
+                                <!-- Cover letter template will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0"><i class="fas fa-comments me-2"></i>Interview Prep Notes</h5>
+                            </div>
+                            <div class="card-body" id="interviewPrepContent">
+                                <!-- Interview prep notes will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('resumeLocalizationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        resume_data: {
+            personal_info: {
+                full_name: document.getElementById('fullName').value,
+                current_location: document.getElementById('currentLocation').value,
+                phone: document.getElementById('phoneNumber').value,
+                email: document.getElementById('email').value
+            },
+            professional_summary: document.getElementById('professionalSummary').value,
+            work_experience: document.getElementById('workExperience').value.split('\n').filter(line => line.trim()),
+            education: document.getElementById('education').value,
+            skills: document.getElementById('skills').value.split(',').map(s => s.trim()),
+            certifications: document.getElementById('certifications').value.split('\n').filter(line => line.trim()),
+            languages: document.getElementById('languages').value.split('\n').filter(line => line.trim())
+        },
+        target_country: document.getElementById('targetCountry').value,
+        target_role: document.getElementById('targetRole').value
+    };
+    
+    try {
+        const response = await fetch('/api/resume-localization', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            displayResults(data);
+        } else {
+            alert('Error: ' + data.error);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+});
+
+function displayResults(data) {
+    const localization = data.localized_resume;
+    
+    // Display localized resume content
+    const resumeContent = document.getElementById('localizedResumeContent');
+    resumeContent.innerHTML = `
+        <div class="resume-preview">
+            <h6><i class="fas fa-user me-2"></i>Format Adjustments</h6>
+            <ul class="list-unstyled mb-3">
+                ${localization.format_adjustments.map(adj => `<li><i class="fas fa-arrow-right text-primary me-2"></i>${adj}</li>`).join('')}
+            </ul>
+            
+            <h6><i class="fas fa-edit me-2"></i>Content Modifications</h6>
+            <ul class="list-unstyled mb-3">
+                ${localization.content_modifications.map(mod => `<li><i class="fas fa-arrow-right text-success me-2"></i>${mod}</li>`).join('')}
+            </ul>
+            
+            <h6><i class="fas fa-globe me-2"></i>Cultural Adaptations</h6>
+            <ul class="list-unstyled mb-3">
+                ${localization.cultural_adaptations.map(adapt => `<li><i class="fas fa-arrow-right text-info me-2"></i>${adapt}</li>`).join('')}
+            </ul>
+            
+            <h6><i class="fas fa-language me-2"></i>Language Style</h6>
+            <p class="text-muted">${localization.language_style}</p>
+        </div>
+    `;
+    
+    // Display key changes
+    const changesContent = document.getElementById('changesContent');
+    changesContent.innerHTML = `
+        <h6>Section Recommendations:</h6>
+        <ul class="list-unstyled">
+            ${localization.section_recommendations.map(rec => `<li><i class="fas fa-check text-success me-2"></i>${rec}</li>`).join('')}
+        </ul>
+    `;
+    
+    // Display cultural tips
+    const tipsContent = document.getElementById('tipsContent');
+    tipsContent.innerHTML = `
+        <div class="small">
+            ${localization.cultural_adaptations.map(tip => `
+                <div class="alert alert-light border-start border-info border-4 mb-2 py-2">
+                    <i class="fas fa-info-circle text-info me-2"></i>${tip}
+                </div>
+            `).join('')}
+        </div>
+    `;
+    
+    // Display cover letter template
+    const coverLetterContent = document.getElementById('coverLetterContent');
+    coverLetterContent.innerHTML = `
+        <div class="bg-light p-3 rounded">
+            <pre class="mb-0" style="white-space: pre-wrap; font-family: inherit;">${data.cover_letter_template}</pre>
+        </div>
+        <div class="mt-2">
+            <button class="btn btn-outline-info btn-sm" onclick="copyToClipboard('${data.cover_letter_template.replace(/'/g, "\\'")}')">
+                <i class="fas fa-copy me-1"></i>Copy Template
+            </button>
+        </div>
+    `;
+    
+    // Display interview prep notes
+    const interviewPrepContent = document.getElementById('interviewPrepContent');
+    interviewPrepContent.innerHTML = `
+        <div class="small">
+            ${data.interview_prep_notes.map(note => `
+                <div class="border-bottom pb-2 mb-2">
+                    <i class="fas fa-lightbulb text-warning me-2"></i>${note}
+                </div>
+            `).join('')}
+        </div>
+    `;
+    
+    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        alert('Cover letter template copied to clipboard!');
+    }, function(err) {
+        console.error('Could not copy text: ', err);
+    });
+}
+</script>
+
+<style>
+.resume-preview {
+    font-size: 0.9em;
+}
+</style>
+{% endblock %}

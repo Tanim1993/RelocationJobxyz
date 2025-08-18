@@ -1,0 +1,377 @@
+{% extends "base.html" %}
+
+{% block title %}Housing Market Intelligence{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary">Housing Market Intelligence</h1>
+                <p class="lead text-muted">Get comprehensive real estate insights and recommendations for your international relocation</p>
+            </div>
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-home me-2"></i>Housing Market Analysis</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form id="housingAnalysisForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="targetLocation" class="form-label">Target Location</label>
+                                <input type="text" class="form-control" id="targetLocation" required placeholder="New York, NY or London, UK">
+                                <div class="form-text">Include city and country/state for best results</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="budget" class="form-label">Budget (USD)</label>
+                                <select class="form-select" id="budget" required>
+                                    <option value="">Select budget range</option>
+                                    <option value="0-200000">Under $200,000</option>
+                                    <option value="200000-500000">$200,000 - $500,000</option>
+                                    <option value="500000-1000000">$500,000 - $1,000,000</option>
+                                    <option value="1000000-2000000">$1,000,000 - $2,000,000</option>
+                                    <option value="2000000+">$2,000,000+</option>
+                                    <option value="rental">Looking to Rent</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="propertyType" class="form-label">Property Type</label>
+                                <select class="form-select" id="propertyType">
+                                    <option value="any">Any</option>
+                                    <option value="apartment">Apartment/Flat</option>
+                                    <option value="house">House</option>
+                                    <option value="condo">Condominium</option>
+                                    <option value="townhouse">Townhouse</option>
+                                    <option value="studio">Studio</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="bedrooms" class="form-label">Bedrooms</label>
+                                <select class="form-select" id="bedrooms">
+                                    <option value="any">Any</option>
+                                    <option value="1">1 bedroom</option>
+                                    <option value="2">2 bedrooms</option>
+                                    <option value="3">3 bedrooms</option>
+                                    <option value="4+">4+ bedrooms</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Priority Factors (Select all that apply)</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="commute_time" id="commute">
+                                        <label class="form-check-label" for="commute">Short commute to work</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="school_quality" id="schools">
+                                        <label class="form-check-label" for="schools">Good schools nearby</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="safety" id="safety">
+                                        <label class="form-check-label" for="safety">Safe neighborhood</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="public_transport" id="transport">
+                                        <label class="form-check-label" for="transport">Public transportation access</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="expat_community" id="expat">
+                                        <label class="form-check-label" for="expat">Expat-friendly community</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="amenities" id="amenities">
+                                        <label class="form-check-label" for="amenities">Shopping and dining nearby</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="green_spaces" id="parks">
+                                        <label class="form-check-label" for="parks">Parks and green spaces</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="investment_potential" id="investment">
+                                        <label class="form-check-label" for="investment">Investment potential</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="familySize" class="form-label">Family Size</label>
+                                <select class="form-select" id="familySize">
+                                    <option value="1">Single person</option>
+                                    <option value="2">Couple</option>
+                                    <option value="3">Family with 1 child</option>
+                                    <option value="4">Family with 2 children</option>
+                                    <option value="5+">Large family (5+ people)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="timeframe" class="form-label">Timeline</label>
+                                <select class="form-select" id="timeframe">
+                                    <option value="immediate">Immediate (1-3 months)</option>
+                                    <option value="short_term">Short term (3-6 months)</option>
+                                    <option value="medium_term">Medium term (6-12 months)</option>
+                                    <option value="long_term">Long term (1+ year)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success btn-lg px-5">
+                                <i class="fas fa-chart-area me-2"></i>Analyze Housing Market
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="mt-5" style="display: none;">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Market Overview</h5>
+                            </div>
+                            <div class="card-body" id="marketOverview">
+                                <!-- Market overview will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0"><i class="fas fa-calendar me-2"></i>Timeline</h5>
+                            </div>
+                            <div class="card-body" id="timelineRecs">
+                                <!-- Timeline recommendations will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="fas fa-map-marker-alt me-2"></i>Neighborhood Recommendations</h5>
+                            </div>
+                            <div class="card-body" id="neighborhoodRecs">
+                                <!-- Neighborhood recommendations will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="fas fa-dollar-sign me-2"></i>Financing Options</h5>
+                            </div>
+                            <div class="card-body" id="financingOptions">
+                                <!-- Financing options will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0"><i class="fas fa-gavel me-2"></i>Legal Considerations</h5>
+                            </div>
+                            <div class="card-body" id="legalConsiderations">
+                                <!-- Legal considerations will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('housingAnalysisForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const preferences = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+        .map(cb => cb.value);
+    
+    const formData = {
+        target_location: document.getElementById('targetLocation').value,
+        budget: document.getElementById('budget').value,
+        preferences: {
+            property_type: document.getElementById('propertyType').value,
+            bedrooms: document.getElementById('bedrooms').value,
+            family_size: document.getElementById('familySize').value,
+            timeframe: document.getElementById('timeframe').value,
+            priority_factors: preferences
+        }
+    };
+    
+    try {
+        const response = await fetch('/api/housing-analysis', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            displayResults(data);
+        } else {
+            alert('Error: ' + data.error);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+});
+
+function displayResults(data) {
+    // Display market overview
+    const marketOverview = document.getElementById('marketOverview');
+    const overview = data.market_overview;
+    
+    marketOverview.innerHTML = `
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <h6><i class="fas fa-home text-primary me-2"></i>Average Prices</h6>
+                <ul class="list-unstyled">
+                    ${Object.entries(overview.average_prices).map(([type, price]) => `
+                        <li><strong>${type}:</strong> $${price.toLocaleString()}</li>
+                    `).join('')}
+                </ul>
+            </div>
+            <div class="col-md-6 mb-3">
+                <h6><i class="fas fa-chart-line text-success me-2"></i>Price Trends</h6>
+                <div class="d-flex justify-content-between">
+                    <span>Year-over-year:</span>
+                    <span class="fw-bold ${overview.price_trends.yearly_change >= 0 ? 'text-success' : 'text-danger'}">
+                        ${overview.price_trends.yearly_change >= 0 ? '+' : ''}${overview.price_trends.yearly_change}%
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span>Market trend:</span>
+                    <span class="fw-bold">${overview.price_trends.trend}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <h6><i class="fas fa-thermometer-half text-info me-2"></i>Market Conditions</h6>
+            <div class="alert alert-${overview.market_conditions.type === 'buyer' ? 'success' : overview.market_conditions.type === 'seller' ? 'warning' : 'info'} mb-2">
+                <strong>${overview.market_conditions.type} Market:</strong> ${overview.market_conditions.description}
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <h6><i class="fas fa-crystal-ball text-warning me-2"></i>Investment Outlook</h6>
+            <p>${overview.investment_outlook}</p>
+        </div>
+    `;
+    
+    // Display timeline recommendations
+    const timelineRecs = document.getElementById('timelineRecs');
+    timelineRecs.innerHTML = data.timeline_recommendations.map((rec, index) => `
+        <div class="border-start border-3 border-primary ps-3 mb-3">
+            <h6>Phase ${index + 1}: ${rec.phase}</h6>
+            <p class="small text-muted">${rec.duration}</p>
+            <ul class="list-unstyled small">
+                ${rec.tasks.map(task => `<li><i class="fas fa-check text-success me-2"></i>${task}</li>`).join('')}
+            </ul>
+        </div>
+    `).join('');
+    
+    // Display neighborhood recommendations
+    const neighborhoodRecs = document.getElementById('neighborhoodRecs');
+    neighborhoodRecs.innerHTML = `
+        <div class="row">
+            ${data.neighborhood_recommendations.map(neighborhood => `
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 border-start border-info border-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h6 class="card-title">${neighborhood.name}</h6>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge bg-primary me-2">${neighborhood.safety_rating}/5</span>
+                                    <i class="fas fa-shield-alt text-primary" title="Safety Rating"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <strong>Price Range:</strong> $${neighborhood.price_range.min.toLocaleString()} - $${neighborhood.price_range.max.toLocaleString()}
+                            </div>
+                            
+                            <div class="mb-2">
+                                <strong>Commute Times:</strong>
+                                <ul class="list-unstyled small">
+                                    ${Object.entries(neighborhood.commute_times).map(([method, time]) => `
+                                        <li><i class="fas fa-clock me-1"></i>${method}: ${time}</li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <strong>Key Amenities:</strong>
+                                <div class="d-flex flex-wrap gap-1">
+                                    ${neighborhood.amenities.slice(0, 4).map(amenity => `
+                                        <span class="badge bg-light text-dark">${amenity}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <div class="mt-2">
+                                <div class="d-flex justify-content-between">
+                                    <span>Expat Friendliness:</span>
+                                    <div class="progress flex-grow-1 ms-2" style="height: 20px;">
+                                        <div class="progress-bar" style="width: ${neighborhood.expat_friendliness}%">${neighborhood.expat_friendliness}%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    
+    // Display financing options
+    const financingOptions = document.getElementById('financingOptions');
+    financingOptions.innerHTML = data.financing_options.map(option => `
+        <div class="border-bottom pb-2 mb-2">
+            <h6>${option.type}</h6>
+            <p class="small">${option.description}</p>
+            <div class="d-flex justify-content-between">
+                <span class="text-muted">Requirements:</span>
+                <span class="small">${option.requirements}</span>
+            </div>
+        </div>
+    `).join('');
+    
+    // Display legal considerations
+    const legalConsiderations = document.getElementById('legalConsiderations');
+    legalConsiderations.innerHTML = data.legal_considerations.map(consideration => `
+        <div class="alert alert-light border-start border-warning border-4 mb-2 py-2">
+            <i class="fas fa-exclamation-triangle text-warning me-2"></i>${consideration}
+        </div>
+    `).join('');
+    
+    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+{% endblock %}

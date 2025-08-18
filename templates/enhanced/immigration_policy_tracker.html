@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}Immigration Policy Tracker{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary">Immigration Policy Tracker</h1>
+                <p class="lead text-muted">Stay updated with real-time immigration policy changes and their impact on your relocation plans</p>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="card shadow-lg border-0 mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Policy Filters</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="countryFilter" class="form-label">Country</label>
+                            <select class="form-select" id="countryFilter">
+                                <option value="all">All Countries</option>
+                                <option value="United States">United States</option>
+                                <option value="United Kingdom">United Kingdom</option>
+                                <option value="Canada">Canada</option>
+                                <option value="Germany">Germany</option>
+                                <option value="Australia">Australia</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="visaTypeFilter" class="form-label">Visa Type</label>
+                            <select class="form-select" id="visaTypeFilter">
+                                <option value="all">All Visa Types</option>
+                                <option value="work">Work Visas</option>
+                                <option value="student">Student Visas</option>
+                                <option value="family">Family Visas</option>
+                                <option value="business">Business Visas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn btn-primary w-100" onclick="loadPolicyUpdates()">
+                                <i class="fas fa-sync-alt me-2"></i>Refresh Updates
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Policy Updates -->
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card shadow">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0"><i class="fas fa-newspaper me-2"></i>Recent Policy Updates</h5>
+                        </div>
+                        <div class="card-body" id="policyUpdates">
+                            <div class="text-center p-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading latest policy updates...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <!-- Impact Analysis -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Impact Analysis</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="impactAnalysisForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Your Current Status</label>
+                                    <select class="form-select" id="currentStatus">
+                                        <option value="job_seeker">Job Seeker</option>
+                                        <option value="student">Student</option>
+                                        <option value="work_visa_holder">Work Visa Holder</option>
+                                        <option value="family_sponsored">Family Sponsored</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Target Countries</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="United States" id="us">
+                                        <label class="form-check-label" for="us">United States</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="United Kingdom" id="uk">
+                                        <label class="form-check-label" for="uk">United Kingdom</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Canada" id="ca">
+                                        <label class="form-check-label" for="ca">Canada</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-warning w-100">
+                                    <i class="fas fa-chart-line me-2"></i>Analyze Impact
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Impact Results -->
+                    <div id="impactResults" class="card shadow" style="display: none;">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Impact Summary</h5>
+                        </div>
+                        <div class="card-body" id="impactContent">
+                            <!-- Impact analysis results will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Load policy updates on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadPolicyUpdates();
+});
+
+async function loadPolicyUpdates() {
+    const country = document.getElementById('countryFilter').value;
+    const visaType = document.getElementById('visaTypeFilter').value;
+    
+    try {
+        const response = await fetch(`/api/policy-updates?country=${country}&visa_type=${visaType}`);
+        const data = await response.json();
+        
+        if (response.ok) {
+            displayPolicyUpdates(data.updates);
+        } else {
+            document.getElementById('policyUpdates').innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Error loading updates: ${data.error}
+                </div>
+            `;
+        }
+    } catch (error) {
+        document.getElementById('policyUpdates').innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle me-2"></i>Error loading updates: ${error.message}
+            </div>
+        `;
+    }
+}
+
+function displayPolicyUpdates(updates) {
+    const container = document.getElementById('policyUpdates');
+    
+    if (updates.length === 0) {
+        container.innerHTML = `
+            <div class="text-center p-4">
+                <i class="fas fa-info-circle text-muted fa-3x mb-3"></i>
+                <p class="text-muted">No recent policy updates found for the selected criteria.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = updates.map(update => {
+        const impactColor = update.impact_level === 'high' ? 'danger' : 
+                           update.impact_level === 'medium' ? 'warning' : 'info';
+        
+        return `
+            <div class="border-bottom pb-3 mb-3">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="mb-1">${update.title}</h6>
+                    <span class="badge bg-${impactColor}">${update.impact_level} impact</span>
+                </div>
+                <div class="text-muted small mb-2">
+                    <i class="fas fa-globe me-1"></i>${update.country} | 
+                    <i class="fas fa-passport me-1"></i>${update.visa_type} | 
+                    <i class="fas fa-calendar me-1"></i>${new Date(update.effective_date).toLocaleDateString()}
+                </div>
+                <p class="mb-2">${update.summary}</p>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-outline-primary btn-sm" onclick="showDetails('${update.title}', '${update.details}')">
+                        <i class="fas fa-info-circle me-1"></i>Details
+                    </button>
+                    ${update.source_url ? `<a href="${update.source_url}" target="_blank" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-external-link-alt me-1"></i>Source
+                    </a>` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Impact analysis form
+document.getElementById('impactAnalysisForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const selectedCountries = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+        .map(cb => cb.value);
+    
+    const formData = {
+        profile: {
+            status: document.getElementById('currentStatus').value
+        },
+        target_countries: selectedCountries
+    };
+    
+    try {
+        const response = await fetch('/api/policy-impact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            displayImpactAnalysis(data);
+        } else {
+            alert('Error: ' + data.error);
+        }
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+});
+
+function displayImpactAnalysis(data) {
+    const impactContent = document.getElementById('impactContent');
+    const impactColor = data.overall_impact === 'positive' ? 'success' : 
+                       data.overall_impact === 'negative' ? 'danger' : 'warning';
+    
+    impactContent.innerHTML = `
+        <div class="text-center mb-3">
+            <span class="badge bg-${impactColor} fs-6">Overall Impact: ${data.overall_impact}</span>
+        </div>
+        
+        <h6><i class="fas fa-passport me-2"></i>Affected Visas</h6>
+        <ul class="list-unstyled mb-3">
+            ${data.affected_visas.map(visa => `<li><i class="fas fa-chevron-right text-muted me-2"></i>${visa}</li>`).join('')}
+        </ul>
+        
+        <h6><i class="fas fa-lightbulb me-2"></i>Action Items</h6>
+        <ul class="list-unstyled">
+            ${data.action_items.map(item => `<li class="mb-1"><i class="fas fa-check text-success me-2"></i>${item}</li>`).join('')}
+        </ul>
+    `;
+    
+    document.getElementById('impactResults').style.display = 'block';
+}
+
+function showDetails(title, details) {
+    alert(`${title}\n\n${details}`);
+}
+</script>
+{% endblock %}
