@@ -164,32 +164,31 @@
                         <i class="fas fa-search me-1"></i>Find Jobs
                     </a>
                     
-                    <a class="nav-btn" href="{{ url_for('salary_tools.salary_comparison') }}">
-                        <i class="fas fa-chart-bar me-1"></i>Salary Tools
+                    <a class="nav-btn" href="{{ url_for('enhanced.salary_intelligence') }}">
+                        <i class="fas fa-chart-line me-1"></i>Salary Intelligence
                     </a>
                     
-                    <a class="nav-btn" href="{{ url_for('salary_tools.visa_checker') }}">
-                        <i class="fas fa-passport me-1"></i>Visa Checker
+                    <a class="nav-btn" href="{{ url_for('enhanced.visa_navigator') }}">
+                        <i class="fas fa-passport me-1"></i>Visa Navigator
                     </a>
                     
-                    <a class="nav-btn" href="{{ url_for('salary_tools.cost_calculator') }}">
-                        <i class="fas fa-calculator me-1"></i>Cost Calculator
-                    </a>
-                    
-                    <a class="nav-btn" href="{{ url_for('salary_tools.resume_optimizer') }}">
-                        <i class="fas fa-file-alt me-1"></i>Resume Optimizer
+                    <a class="nav-btn" href="{{ url_for('enhanced.cultural_intelligence') }}">
+                        <i class="fas fa-users me-1"></i>Cultural Fit
                     </a>
                     
                     {% if current_user.is_authenticated %}
                         {% if current_user.user_type == 'job_seeker' %}
-                        <a class="nav-btn" href="{{ url_for('dashboard.dashboard') }}">
-                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        <a class="nav-btn" href="{{ url_for('enhanced.relocation_calculator') }}">
+                            <i class="fas fa-calculator me-1"></i>Relocation Cost
+                        </a>
+                        <a class="nav-btn" href="{{ url_for('enhanced.interview_prep') }}">
+                            <i class="fas fa-microphone me-1"></i>Interview Prep
                         </a>
                         {% endif %}
                         
                         {% if current_user.user_type == 'employer' %}
-                        <a class="nav-btn" href="{{ url_for('ats.dashboard') }}">
-                            <i class="fas fa-briefcase me-1"></i>Post Jobs
+                        <a class="nav-btn" href="{{ url_for('enhanced.ats_dashboard') }}">
+                            <i class="fas fa-briefcase me-1"></i>Free ATS
                         </a>
                         {% endif %}
                     {% endif %}

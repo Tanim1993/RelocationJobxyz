@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+
+{% block title %}Free ATS Dashboard - Recruitment Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- Dashboard Header -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2><i class="fas fa-chart-pie me-2"></i>ATS Dashboard</h2>
+                    <p class="text-muted">Free Applicant Tracking System with International Focus</p>
+                </div>
+                <div>
+                    <a href="{{ url_for('enhanced.ats_jobs') }}" class="btn btn-primary me-2">
+                        <i class="fas fa-plus me-2"></i>Post New Job
+                    </a>
+                    <a href="#" class="btn btn-outline-primary">
+                        <i class="fas fa-users me-2"></i>View Candidates
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Metrics Overview -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="text-primary">{{ metrics.overview.active_jobs }}</h4>
+                    <p class="mb-0">Active Jobs</p>
+                    <small class="text-muted">{{ metrics.overview.total_jobs }} total</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="text-success">{{ metrics.overview.total_applications }}</h4>
+                    <p class="mb-0">Total Applications</p>
+                    <small class="text-muted">All time</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="text-warning">{{ metrics.overview.interviews_this_week }}</h4>
+                    <p class="mb-0">Interviews This Week</p>
+                    <small class="text-muted">Scheduled</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="text-info">{{ metrics.pipeline_stats.get('Offer Extended', 0) }}</h4>
+                    <p class="mb-0">Offers Extended</p>
+                    <small class="text-muted">Pending response</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pipeline Status -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-funnel-dollar me-2"></i>Hiring Pipeline</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for status, count in metrics.pipeline_stats.items() %}
+                        <div class="col-md-4 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="small">{{ status }}</span>
+                                        <span class="badge bg-secondary">{{ count }}</span>
+                                    </div>
+                                    <div class="progress mt-1" style="height: 6px;">
+                                        {% set percentage = (count / (metrics.overview.total_applications or 1)) * 100 %}
+                                        <div class="progress-bar" style="width: {{ percentage }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Upcoming Interviews</h5>
+                </div>
+                <div class="card-body">
+                    {% if metrics.upcoming_interviews %}
+                        {% for interview in metrics.upcoming_interviews %}
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">{{ interview.candidate_name }}</div>
+                                <div class="text-muted small">{{ interview.job_title }}</div>
+                                <div class="text-info small">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    {{ interview.scheduled_date[:16] }}
+                                </div>
+                            </div>
+                            <span class="badge bg-primary">{{ interview.type }}</span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted text-center">No upcoming interviews</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Activity & Quick Actions -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    {% if metrics.recent_activity %}
+                        {% for activity in metrics.recent_activity %}
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                {% if activity.type == 'application' %}
+                                    <i class="fas fa-user-plus text-success"></i>
+                                {% elif activity.type == 'interview' %}
+                                    <i class="fas fa-handshake text-primary"></i>
+                                {% else %}
+                                    <i class="fas fa-bell text-info"></i>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1">
+                                <div>{{ activity.description }}</div>
+                                <small class="text-muted">{{ activity.date[:16] }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted text-center">No recent activity</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-rocket me-2"></i>Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <a href="{{ url_for('enhanced.ats_jobs') }}" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-plus-circle me-2"></i>
+                                <div>Post New Job</div>
+                                <small>Create job posting</small>
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-outline-success w-100">
+                                <i class="fas fa-search me-2"></i>
+                                <div>Find Candidates</div>
+                                <small>Search talent pool</small>
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-outline-warning w-100">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                <div>Schedule Interview</div>
+                                <small>Book candidate meeting</small>
+                            </a>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <a href="#" class="btn btn-outline-info w-100">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                <div>View Analytics</div>
+                                <small>Hiring metrics</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ATS Features Highlight -->
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-star me-2"></i>Free ATS Features</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6><i class="fas fa-check-circle text-success me-2"></i>Core Features</h6>
+                            <ul class="list-unstyled small">
+                                <li>✅ Unlimited job postings</li>
+                                <li>✅ Candidate pipeline management</li>
+                                <li>✅ Interview scheduling</li>
+                                <li>✅ Team collaboration</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <h6><i class="fas fa-globe text-primary me-2"></i>International Focus</h6>
+                            <ul class="list-unstyled small">
+                                <li>🌍 Visa sponsorship tracking</li>
+                                <li>🌍 International candidate scoring</li>
+                                <li>🌍 Cultural fit assessment</li>
+                                <li>🌍 Multi-timezone scheduling</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <h6><i class="fas fa-brain text-warning me-2"></i>AI-Powered</h6>
+                            <ul class="list-unstyled small">
+                                <li>🤖 Resume screening automation</li>
+                                <li>🤖 Cultural compatibility analysis</li>
+                                <li>🤖 Interview question suggestions</li>
+                                <li>🤖 Salary benchmarking</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <h6><i class="fas fa-dollar-sign text-info me-2"></i>Always Free</h6>
+                            <ul class="list-unstyled small">
+                                <li>💰 No monthly fees</li>
+                                <li>💰 No candidate limits</li>
+                                <li>💰 No feature restrictions</li>
+                                <li>💰 Premium support included</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('enhanced.ats_jobs') }}" class="btn btn-success btn-lg">
+                            <i class="fas fa-rocket me-2"></i>Start Hiring Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Dashboard auto-refresh every 5 minutes
+setInterval(function() {
+    location.reload();
+}, 300000);
+
+// Initialize any charts or interactive elements here
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('ATS Dashboard loaded');
+});
+</script>
+{% endblock %}

@@ -217,3 +217,10 @@ def toggle_theme():
         'success': True,
         'theme': new_theme
     })
+
+# Register enhanced features blueprint
+try:
+    from routes_enhanced import enhanced_bp
+    app.register_blueprint(enhanced_bp)
+except ImportError:
+    print("Enhanced features not available")

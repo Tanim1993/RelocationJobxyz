@@ -1,0 +1,319 @@
+{% extends "base.html" %}
+
+{% block title %}Salary Intelligence - Global Compensation Analysis{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-chart-line me-2"></i>Global Salary Intelligence
+                    </h4>
+                    <p class="text-muted mb-0">Compare salaries across countries with cost of living adjustments</p>
+                </div>
+                <div class="card-body">
+                    <!-- Salary Comparison Form -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form id="salaryComparisonForm">
+                                <div class="mb-3">
+                                    <label for="jobTitle" class="form-label">Job Title</label>
+                                    <select class="form-select" id="jobTitle" required>
+                                        <option value="">Select a job title</option>
+                                        <option value="Software Engineer">Software Engineer</option>
+                                        <option value="Data Scientist">Data Scientist</option>
+                                        <option value="Product Manager">Product Manager</option>
+                                        <option value="DevOps Engineer">DevOps Engineer</option>
+                                        <option value="UX Designer">UX Designer</option>
+                                        <option value="Marketing Manager">Marketing Manager</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="experienceLevel" class="form-label">Experience Level</label>
+                                    <select class="form-select" id="experienceLevel" required>
+                                        <option value="">Select experience level</option>
+                                        <option value="Entry">Entry Level (0-2 years)</option>
+                                        <option value="Mid">Mid Level (3-5 years)</option>
+                                        <option value="Senior">Senior Level (6-10 years)</option>
+                                        <option value="Lead">Lead Level (10+ years)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="locations" class="form-label">Locations to Compare</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="New York, NY" id="ny" checked>
+                                                <label class="form-check-label" for="ny">New York, NY</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="San Francisco, CA" id="sf" checked>
+                                                <label class="form-check-label" for="sf">San Francisco, CA</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="London, UK" id="london" checked>
+                                                <label class="form-check-label" for="london">London, UK</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Berlin, Germany" id="berlin">
+                                                <label class="form-check-label" for="berlin">Berlin, Germany</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Toronto, Canada" id="toronto">
+                                                <label class="form-check-label" for="toronto">Toronto, Canada</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Singapore" id="singapore">
+                                                <label class="form-check-label" for="singapore">Singapore</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Sydney, Australia" id="sydney">
+                                                <label class="form-check-label" for="sydney">Sydney, Australia</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Dubai, UAE" id="dubai">
+                                                <label class="form-check-label" for="dubai">Dubai, UAE</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-calculator me-2"></i>Compare Salaries
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <!-- Negotiation Insights Form -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Salary Negotiation Assistant</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form id="negotiationForm">
+                                        <div class="mb-3">
+                                            <label for="currentOffer" class="form-label">Current Offer ($)</label>
+                                            <input type="number" class="form-control" id="currentOffer" placeholder="e.g., 120000">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="offerLocation" class="form-label">Job Location</label>
+                                            <select class="form-select" id="offerLocation">
+                                                <option value="New York, NY">New York, NY</option>
+                                                <option value="San Francisco, CA">San Francisco, CA</option>
+                                                <option value="London, UK">London, UK</option>
+                                                <option value="Berlin, Germany">Berlin, Germany</option>
+                                                <option value="Toronto, Canada">Toronto, Canada</option>
+                                                <option value="Singapore">Singapore</option>
+                                                <option value="Sydney, Australia">Sydney, Australia</option>
+                                                <option value="Dubai, UAE">Dubai, UAE</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-handshake me-2"></i>Get Negotiation Tips
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Section -->
+    <div class="row mt-4" id="resultsSection" style="display: none;">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Salary Comparison Results</h5>
+                </div>
+                <div class="card-body">
+                    <div id="salaryResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Negotiation Results -->
+    <div class="row mt-4" id="negotiationSection" style="display: none;">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Negotiation Insights</h5>
+                </div>
+                <div class="card-body">
+                    <div id="negotiationResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Salary Comparison
+document.getElementById('salaryComparisonForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const jobTitle = document.getElementById('jobTitle').value;
+    const experienceLevel = document.getElementById('experienceLevel').value;
+    
+    // Get selected locations
+    const locationCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    const locations = Array.from(locationCheckboxes).map(cb => cb.value);
+    
+    if (locations.length === 0) {
+        alert('Please select at least one location');
+        return;
+    }
+    
+    fetch('/api/salary-comparison', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            job_title: jobTitle,
+            experience_level: experienceLevel,
+            locations: locations
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+            return;
+        }
+        
+        displaySalaryResults(data.results);
+        document.getElementById('resultsSection').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to get salary comparison');
+    });
+});
+
+// Negotiation Insights
+document.getElementById('negotiationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const jobTitle = document.getElementById('jobTitle').value;
+    const experienceLevel = document.getElementById('experienceLevel').value;
+    const currentOffer = document.getElementById('currentOffer').value;
+    const location = document.getElementById('offerLocation').value;
+    
+    if (!jobTitle || !experienceLevel || !currentOffer) {
+        alert('Please fill in all required fields first');
+        return;
+    }
+    
+    fetch('/api/negotiation-insights', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            job_title: jobTitle,
+            experience_level: experienceLevel,
+            location: location,
+            current_offer: parseFloat(currentOffer)
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+            return;
+        }
+        
+        displayNegotiationResults(data);
+        document.getElementById('negotiationSection').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to get negotiation insights');
+    });
+});
+
+function displaySalaryResults(results) {
+    const container = document.getElementById('salaryResults');
+    
+    let html = '<div class="table-responsive"><table class="table table-striped">';
+    html += '<thead><tr>';
+    html += '<th>Location</th><th>Gross Salary</th><th>Net Salary</th><th>Purchasing Power</th><th>Cost of Living</th><th>Tax Rate</th>';
+    html += '</tr></thead><tbody>';
+    
+    results.forEach(result => {
+        html += '<tr>';
+        html += `<td><strong>${result.location}</strong></td>`;
+        html += `<td>$${result.base_salary.toLocaleString()}</td>`;
+        html += `<td>$${result.net_salary.toLocaleString()}</td>`;
+        html += `<td>$${result.purchasing_power.toLocaleString()}</td>`;
+        html += `<td>${result.cost_of_living_index}%</td>`;
+        html += `<td>${(result.tax_rate * 100).toFixed(1)}%</td>`;
+        html += '</tr>';
+    });
+    
+    html += '</tbody></table></div>';
+    
+    // Add summary
+    const bestLocation = results[0];
+    html += `<div class="alert alert-info mt-3">`;
+    html += `<strong>Best Value:</strong> ${bestLocation.location} offers the highest purchasing power of $${bestLocation.purchasing_power.toLocaleString()}`;
+    html += `</div>`;
+    
+    container.innerHTML = html;
+}
+
+function displayNegotiationResults(data) {
+    const container = document.getElementById('negotiationResults');
+    
+    let html = '<div class="row">';
+    
+    // Current offer analysis
+    html += '<div class="col-md-6">';
+    html += '<h6>Offer Analysis</h6>';
+    html += `<p><strong>Current Offer:</strong> $${data.current_offer.toLocaleString()}</p>`;
+    html += `<p><strong>Market Average:</strong> $${data.market_average.toLocaleString()}</p>`;
+    html += `<p><strong>Percentile:</strong> ${data.percentile.toFixed(1)}%</p>`;
+    html += `<div class="alert alert-${data.percentile >= 75 ? 'success' : 'warning'}">`;
+    html += `<strong>${data.recommendation}</strong>`;
+    html += `</div>`;
+    html += '</div>';
+    
+    // Negotiation ranges
+    html += '<div class="col-md-6">';
+    html += '<h6>Negotiation Ranges</h6>';
+    html += `<p><strong>Conservative:</strong> $${data.negotiation_range.conservative.toLocaleString()}</p>`;
+    html += `<p><strong>Target:</strong> $${data.negotiation_range.target.toLocaleString()}</p>`;
+    html += `<p><strong>Aggressive:</strong> $${data.negotiation_range.aggressive.toLocaleString()}</p>`;
+    html += '</div>';
+    
+    html += '</div>';
+    
+    // Supporting points
+    if (data.supporting_points.length > 0) {
+        html += '<h6 class="mt-3">Supporting Points for Negotiation</h6>';
+        html += '<ul>';
+        data.supporting_points.forEach(point => {
+            html += `<li>${point}</li>`;
+        });
+        html += '</ul>';
+    }
+    
+    container.innerHTML = html;
+}
+</script>
+{% endblock %}

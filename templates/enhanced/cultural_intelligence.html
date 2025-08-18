@@ -1,0 +1,396 @@
+{% extends "base.html" %}
+
+{% block title %}Cultural Intelligence - Work Style & Company Matching{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-users me-2"></i>Cultural Intelligence Assessment
+                    </h4>
+                    <p class="text-muted mb-0">Discover your work style and find companies that match your culture preferences</p>
+                </div>
+                <div class="card-body">
+                    <!-- Cultural Assessment Form -->
+                    <form id="culturalAssessmentForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Work Style Preferences</h6>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">How do you prefer to work?</label>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="teamwork" value="I prefer collaborative team work" id="teamwork1">
+                                            <label class="form-check-label" for="teamwork1">I prefer collaborative team work</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="teamwork" value="I prefer working independently" id="teamwork2">
+                                            <label class="form-check-label" for="teamwork2">I prefer working independently</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="teamwork" value="I like a mix of both" id="teamwork3">
+                                            <label class="form-check-label" for="teamwork3">I like a mix of both</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Communication Style</label>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="communication" value="Direct and straightforward" id="comm1">
+                                            <label class="form-check-label" for="comm1">Direct and straightforward</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="communication" value="Diplomatic and careful" id="comm2">
+                                            <label class="form-check-label" for="comm2">Diplomatic and careful</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="communication" value="Formal and structured" id="comm3">
+                                            <label class="form-check-label" for="comm3">Formal and structured</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="communication" value="Casual and informal" id="comm4">
+                                            <label class="form-check-label" for="comm4">Casual and informal</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Leadership Preference</label>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="leadership" value="Flat hierarchies and collaborative leadership" id="lead1">
+                                            <label class="form-check-label" for="lead1">Flat hierarchies and collaborative leadership</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="leadership" value="Clear hierarchy and strong leadership" id="lead2">
+                                            <label class="form-check-label" for="lead2">Clear hierarchy and strong leadership</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="leadership" value="Depends on the situation" id="lead3">
+                                            <label class="form-check-label" for="lead3">Depends on the situation</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Decision Making</label>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="decision_making" value="Quick decisions with available data" id="decision1">
+                                            <label class="form-check-label" for="decision1">Quick decisions with available data</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="decision_making" value="Consensus-based decisions" id="decision2">
+                                            <label class="form-check-label" for="decision2">Consensus-based decisions</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="decision_making" value="Thorough analysis before deciding" id="decision3">
+                                            <label class="form-check-label" for="decision3">Thorough analysis before deciding</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h6>Work Environment Preferences</h6>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Conflict Resolution</label>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="conflict" value="Address conflicts directly" id="conflict1">
+                                            <label class="form-check-label" for="conflict1">Address conflicts directly</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="conflict" value="Find compromise and middle ground" id="conflict2">
+                                            <label class="form-check-label" for="conflict2">Find compromise and middle ground</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="conflict" value="Avoid conflicts when possible" id="conflict3">
+                                            <label class="form-check-label" for="conflict3">Avoid conflicts when possible</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Feedback Preference</label>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="feedback" value="Regular and specific feedback" id="feedback1">
+                                            <label class="form-check-label" for="feedback1">Regular and specific feedback</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="feedback" value="Occasional feedback on major issues" id="feedback2">
+                                            <label class="form-check-label" for="feedback2">Occasional feedback on major issues</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="feedback" value="Self-directed with minimal feedback" id="feedback3">
+                                            <label class="form-check-label" for="feedback3">Self-directed with minimal feedback</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Meeting Style</label>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="meetings" value="Structured with clear agendas" id="meetings1">
+                                            <label class="form-check-label" for="meetings1">Structured with clear agendas</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="meetings" value="Informal and flexible" id="meetings2">
+                                            <label class="form-check-label" for="meetings2">Informal and flexible</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="meetings" value="Minimal meetings preferred" id="meetings3">
+                                            <label class="form-check-label" for="meetings3">Minimal meetings preferred</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Work-Life Balance</label>
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="work_life" value="Clear boundaries between work and life" id="worklife1">
+                                            <label class="form-check-label" for="worklife1">Clear boundaries between work and life</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="work_life" value="Flexible integration of work and life" id="worklife2">
+                                            <label class="form-check-label" for="worklife2">Flexible integration of work and life</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="work_life" value="Work-focused with occasional flexibility" id="worklife3">
+                                            <label class="form-check-label" for="worklife3">Work-focused with occasional flexibility</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="targetCompanies" class="form-label">Companies to Analyze (optional)</label>
+                                    <input type="text" class="form-control" id="targetCompanies" 
+                                           placeholder="e.g., Google, Microsoft, Goldman Sachs" 
+                                           data-bs-toggle="tooltip" 
+                                           title="Enter company names separated by commas">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-brain me-2"></i>Analyze Cultural Fit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Section -->
+    <div class="row mt-4" id="resultsSection" style="display: none;">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Cultural Intelligence Results</h5>
+                </div>
+                <div class="card-body">
+                    <div id="culturalResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Cultural Assessment Form
+document.getElementById('culturalAssessmentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Collect form data
+    const formData = new FormData(this);
+    const responses = {};
+    
+    for (let [key, value] of formData.entries()) {
+        responses[key] = value;
+    }
+    
+    // Validate that all questions are answered
+    const requiredFields = ['teamwork', 'communication', 'leadership', 'decision_making', 'conflict', 'feedback', 'meetings', 'work_life'];
+    const missingFields = requiredFields.filter(field => !responses[field]);
+    
+    if (missingFields.length > 0) {
+        alert('Please answer all questions before submitting');
+        return;
+    }
+    
+    // Get target companies
+    const companiesInput = document.getElementById('targetCompanies').value;
+    const targetCompanies = companiesInput ? companiesInput.split(',').map(c => c.trim()).filter(c => c) : ['Google', 'Microsoft', 'Goldman Sachs'];
+    
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyzing...';
+    submitBtn.disabled = true;
+    
+    fetch('/api/cultural-assessment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            responses: responses,
+            target_companies: targetCompanies
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+            return;
+        }
+        
+        displayCulturalResults(data);
+        document.getElementById('resultsSection').style.display = 'block';
+        
+        // Scroll to results
+        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to analyze cultural fit');
+    })
+    .finally(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+});
+
+function displayCulturalResults(data) {
+    const container = document.getElementById('culturalResults');
+    
+    let html = '';
+    
+    // Personality Profile Summary
+    html += '<div class="row mb-4">';
+    html += '<div class="col-md-12">';
+    html += '<div class="card bg-light">';
+    html += '<div class="card-body">';
+    html += '<h6><i class="fas fa-user me-2"></i>Your Work Personality Profile</h6>';
+    html += `<div class="row">`;
+    html += `<div class="col-md-3"><strong>Work Style:</strong><br>${data.personality_profile.work_style}</div>`;
+    html += `<div class="col-md-3"><strong>Communication:</strong><br>${data.personality_profile.communication_style}</div>`;
+    html += `<div class="col-md-3"><strong>Leadership:</strong><br>${data.personality_profile.leadership_preference}</div>`;
+    html += `<div class="col-md-3"><strong>Decision Making:</strong><br>${data.personality_profile.decision_making}</div>`;
+    html += `</div>`;
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    
+    // Company Matches
+    if (data.company_matches.length > 0) {
+        html += '<h6 class="mb-3"><i class="fas fa-building me-2"></i>Company Cultural Fit Analysis</h6>';
+        html += '<div class="row">';
+        
+        data.company_matches.forEach(match => {
+            let fitClass = 'success';
+            if (match.overall_fit_score < 70) fitClass = 'warning';
+            if (match.overall_fit_score < 55) fitClass = 'danger';
+            
+            html += '<div class="col-md-6 mb-4">';
+            html += '<div class="card border-' + fitClass + '">';
+            html += '<div class="card-header bg-' + fitClass + ' text-white">';
+            html += `<div class="d-flex justify-content-between align-items-center">`;
+            html += `<h6 class="mb-0">${match.company_name}</h6>`;
+            html += `<span class="badge bg-light text-dark">${match.overall_fit_score.toFixed(1)}%</span>`;
+            html += `</div>`;
+            html += `<small>${match.compatibility_level}</small>`;
+            html += '</div>';
+            html += '<div class="card-body">';
+            
+            // Strengths
+            if (match.strengths.length > 0) {
+                html += '<div class="mb-3">';
+                html += '<small class="text-success"><i class="fas fa-check me-1"></i>Strengths:</small>';
+                html += '<ul class="small mb-0">';
+                match.strengths.slice(0, 3).forEach(strength => {
+                    html += `<li class="text-success">${strength}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+            
+            // Challenges
+            if (match.potential_challenges.length > 0) {
+                html += '<div class="mb-3">';
+                html += '<small class="text-warning"><i class="fas fa-exclamation-triangle me-1"></i>Potential Challenges:</small>';
+                html += '<ul class="small mb-0">';
+                match.potential_challenges.slice(0, 2).forEach(challenge => {
+                    html += `<li class="text-warning">${challenge}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+            
+            // Adaptation Tips
+            if (match.adaptation_tips.length > 0) {
+                html += '<div class="mb-3">';
+                html += '<small class="text-info"><i class="fas fa-lightbulb me-1"></i>Adaptation Tips:</small>';
+                html += '<ul class="small mb-0">';
+                match.adaptation_tips.slice(0, 2).forEach(tip => {
+                    html += `<li>${tip}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+            
+            // Interview Prep
+            if (match.interview_preparation.length > 0) {
+                html += '<div class="mb-0">';
+                html += '<small class="text-primary"><i class="fas fa-handshake me-1"></i>Interview Prep:</small>';
+                html += '<ul class="small mb-0">';
+                match.interview_preparation.slice(0, 2).forEach(prep => {
+                    html += `<li>${prep}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+        });
+        
+        html += '</div>';
+        
+        // Best Match Summary
+        const bestMatch = data.company_matches[0];
+        html += `<div class="alert alert-info mt-3">`;
+        html += `<h6>Top Recommendation</h6>`;
+        html += `<p class="mb-0"><strong>${bestMatch.company_name}</strong> shows the highest cultural fit (${bestMatch.overall_fit_score.toFixed(1)}%) with your work style preferences. `;
+        html += `This ${bestMatch.compatibility_level.toLowerCase()} suggests you would likely thrive in their work environment.</p>`;
+        html += `</div>`;
+    }
+    
+    container.innerHTML = html;
+}
+
+// Initialize tooltips
+document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+{% endblock %}

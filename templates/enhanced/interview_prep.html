@@ -1,0 +1,427 @@
+{% extends "base.html" %}
+
+{% block title %}AI Interview Preparation - Cultural & Technical Coaching{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-microphone me-2"></i>AI Interview Preparation
+                    </h4>
+                    <p class="text-muted mb-0">Get culturally-aware interview coaching and practice questions</p>
+                </div>
+                <div class="card-body">
+                    <!-- Interview Prep Form -->
+                    <form id="interviewPrepForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="companyName" class="form-label">Company Name</label>
+                                    <input type="text" class="form-control" id="companyName" 
+                                           placeholder="e.g., Google, Microsoft, Goldman Sachs" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="position" class="form-label">Position</label>
+                                    <input type="text" class="form-control" id="position" 
+                                           placeholder="e.g., Software Engineer, Product Manager" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="country" class="form-label">Interview Location/Country</label>
+                                    <select class="form-select" id="country" required>
+                                        <option value="">Select country</option>
+                                        <option value="United States">United States</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="Germany">Germany</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="Netherlands">Netherlands</option>
+                                        <option value="Singapore">Singapore</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="interviewType" class="form-label">Interview Type</label>
+                                    <select class="form-select" id="interviewType">
+                                        <option value="phone">Phone/Video Screen</option>
+                                        <option value="technical">Technical Interview</option>
+                                        <option value="behavioral">Behavioral Interview</option>
+                                        <option value="final">Final Round/Onsite</option>
+                                        <option value="panel">Panel Interview</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="experienceLevel" class="form-label">Your Experience Level</label>
+                                    <select class="form-select" id="experienceLevel">
+                                        <option value="entry">Entry Level (0-2 years)</option>
+                                        <option value="mid">Mid Level (3-5 years)</option>
+                                        <option value="senior">Senior Level (6-10 years)</option>
+                                        <option value="lead">Lead Level (10+ years)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="concerns" class="form-label">Specific Concerns (Optional)</label>
+                                    <textarea class="form-control" id="concerns" rows="3" 
+                                              placeholder="e.g., Nervous about cultural differences, technical questions, salary negotiation..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-brain me-2"></i>Generate Interview Prep Guide
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Section -->
+    <div class="row mt-4" id="resultsSection" style="display: none;">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Your Personalized Interview Preparation Guide</h5>
+                </div>
+                <div class="card-body">
+                    <div id="interviewResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Practice Questions Section -->
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-question-circle me-2"></i>Common Interview Questions by Type</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Behavioral Questions</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Tell me about a time you faced a challenge</li>
+                                <li class="list-group-item">Describe your greatest professional achievement</li>
+                                <li class="list-group-item">How do you handle working with difficult people?</li>
+                                <li class="list-group-item">Why do you want to work here?</li>
+                                <li class="list-group-item">Where do you see yourself in 5 years?</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h6>Technical Questions (Software)</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Explain your approach to system design</li>
+                                <li class="list-group-item">Walk through a recent project</li>
+                                <li class="list-group-item">How do you ensure code quality?</li>
+                                <li class="list-group-item">Describe your debugging process</li>
+                                <li class="list-group-item">How do you stay current with technology?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h6>International Candidate Questions</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Why do you want to relocate?</li>
+                                <li class="list-group-item">How will you adapt to our culture?</li>
+                                <li class="list-group-item">What's your visa status?</li>
+                                <li class="list-group-item">Have you worked internationally before?</li>
+                                <li class="list-group-item">How do you handle time zone differences?</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h6>Questions to Ask Them</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">What does success look like in this role?</li>
+                                <li class="list-group-item">How do you support international employees?</li>
+                                <li class="list-group-item">What's the team culture like?</li>
+                                <li class="list-group-item">What are the biggest challenges?</li>
+                                <li class="list-group-item">What's the visa sponsorship process?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Interview Prep Form
+document.getElementById('interviewPrepForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        company_name: document.getElementById('companyName').value,
+        position: document.getElementById('position').value,
+        country: document.getElementById('country').value,
+        interview_type: document.getElementById('interviewType').value,
+        experience_level: document.getElementById('experienceLevel').value,
+        concerns: document.getElementById('concerns').value
+    };
+    
+    // Validate required fields
+    if (!formData.company_name || !formData.position || !formData.country) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating Guide...';
+    submitBtn.disabled = true;
+    
+    fetch('/api/interview-prep', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+            return;
+        }
+        
+        displayInterviewResults(data, formData);
+        document.getElementById('resultsSection').style.display = 'block';
+        
+        // Scroll to results
+        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to generate interview preparation guide');
+    })
+    .finally(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+});
+
+function displayInterviewResults(data, formData) {
+    const container = document.getElementById('interviewResults');
+    
+    let html = '';
+    
+    // Header
+    html += '<div class="row mb-4">';
+    html += '<div class="col-md-12">';
+    html += '<div class="card bg-primary text-white">';
+    html += '<div class="card-body text-center">';
+    html += `<h5>Interview Prep for ${formData.company_name}</h5>`;
+    html += `<p class="mb-0">${formData.position} • ${formData.country} • ${formData.interview_type.replace('_', ' ').toUpperCase()}</p>`;
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    
+    // Cultural Considerations
+    if (data.cultural_considerations && data.cultural_considerations.length > 0) {
+        html += '<div class="row mb-4">';
+        html += '<div class="col-md-6">';
+        html += '<div class="card">';
+        html += '<div class="card-header">';
+        html += '<h6 class="mb-0"><i class="fas fa-globe me-2"></i>Cultural Considerations</h6>';
+        html += '</div>';
+        html += '<div class="card-body">';
+        html += '<ul class="list-unstyled">';
+        data.cultural_considerations.forEach(consideration => {
+            html += `<li class="mb-2"><i class="fas fa-info-circle text-primary me-2"></i>${consideration}</li>`;
+        });
+        html += '</ul>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        
+        // Interview Format Expectations
+        html += '<div class="col-md-6">';
+        html += '<div class="card">';
+        html += '<div class="card-header">';
+        html += '<h6 class="mb-0"><i class="fas fa-calendar-check me-2"></i>Interview Format</h6>';
+        html += '</div>';
+        html += '<div class="card-body">';
+        if (data.interview_format_expectations && data.interview_format_expectations.length > 0) {
+            html += '<ul class="list-unstyled">';
+            data.interview_format_expectations.forEach(expectation => {
+                html += `<li class="mb-2"><i class="fas fa-check text-success me-2"></i>${expectation}</li>`;
+            });
+            html += '</ul>';
+        } else {
+            html += '<p class="text-muted">Standard interview format expected</p>';
+        }
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
+    
+    // Communication Style Tips
+    if (data.communication_style_tips && data.communication_style_tips.length > 0) {
+        html += '<div class="row mb-4">';
+        html += '<div class="col-md-12">';
+        html += '<div class="card">';
+        html += '<div class="card-header">';
+        html += '<h6 class="mb-0"><i class="fas fa-comments me-2"></i>Communication Style Tips</h6>';
+        html += '</div>';
+        html += '<div class="card-body">';
+        html += '<div class="row">';
+        data.communication_style_tips.forEach((tip, index) => {
+            if (index % 2 === 0) html += '<div class="col-md-6">';
+            html += `<p><i class="fas fa-arrow-right text-info me-2"></i>${tip}</p>`;
+            if (index % 2 === 1 || index === data.communication_style_tips.length - 1) html += '</div>';
+        });
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
+    
+    // Question Preparation
+    if (data.question_preparation && data.question_preparation.length > 0) {
+        html += '<div class="row mb-4">';
+        html += '<div class="col-md-6">';
+        html += '<div class="card">';
+        html += '<div class="card-header">';
+        html += '<h6 class="mb-0"><i class="fas fa-question me-2"></i>Expected Questions</h6>';
+        html += '</div>';
+        html += '<div class="card-body">';
+        html += '<ol>';
+        data.question_preparation.forEach(question => {
+            html += `<li class="mb-2">${question}</li>`;
+        });
+        html += '</ol>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        
+        // Follow-up Etiquette
+        html += '<div class="col-md-6">';
+        html += '<div class="card">';
+        html += '<div class="card-header">';
+        html += '<h6 class="mb-0"><i class="fas fa-envelope me-2"></i>Follow-up Guidelines</h6>';
+        html += '</div>';
+        html += '<div class="card-body">';
+        if (data.follow_up_etiquette && data.follow_up_etiquette.length > 0) {
+            html += '<ul class="list-unstyled">';
+            data.follow_up_etiquette.forEach(guideline => {
+                html += `<li class="mb-2"><i class="fas fa-thumbs-up text-success me-2"></i>${guideline}</li>`;
+            });
+            html += '</ul>';
+        } else {
+            html += '<p><i class="fas fa-clock me-2"></i>Send thank you email within 24 hours</p>';
+            html += '<p><i class="fas fa-heart me-2"></i>Express genuine interest in the role</p>';
+            html += '<p><i class="fas fa-question-circle me-2"></i>Ask about next steps</p>';
+        }
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
+    
+    // Additional Tips Based on Concerns
+    if (formData.concerns) {
+        html += '<div class="row mb-4">';
+        html += '<div class="col-md-12">';
+        html += '<div class="card border-info">';
+        html += '<div class="card-header bg-info text-white">';
+        html += '<h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Addressing Your Concerns</h6>';
+        html += '</div>';
+        html += '<div class="card-body">';
+        html += `<p><strong>Your concern:</strong> ${formData.concerns}</p>`;
+        html += '<div class="alert alert-info">';
+        html += '<h6>Recommended approach:</h6>';
+        
+        if (formData.concerns.toLowerCase().includes('cultural')) {
+            html += '<p>• Research the company culture beforehand through employee reviews and social media</p>';
+            html += '<p>• Show enthusiasm for learning and adapting to new environments</p>';
+            html += '<p>• Share examples of successful cross-cultural collaboration</p>';
+        } else if (formData.concerns.toLowerCase().includes('technical')) {
+            html += '<p>• Practice coding problems on platforms like LeetCode or HackerRank</p>';
+            html += '<p>• Prepare to explain your thought process clearly</p>';
+            html += '<p>• Review system design concepts for senior roles</p>';
+        } else if (formData.concerns.toLowerCase().includes('salary')) {
+            html += '<p>• Research salary ranges for the role and location beforehand</p>';
+            html += '<p>• Focus on value you bring rather than just compensation</p>';
+            html += '<p>• Consider total compensation including relocation benefits</p>';
+        } else {
+            html += '<p>• Practice mock interviews with friends or online platforms</p>';
+            html += '<p>• Prepare STAR method examples for behavioral questions</p>';
+            html += '<p>• Research the company thoroughly to show genuine interest</p>';
+        }
+        
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
+    
+    // Success Tips
+    html += '<div class="row">';
+    html += '<div class="col-md-12">';
+    html += '<div class="card border-success">';
+    html += '<div class="card-header bg-success text-white">';
+    html += '<h6 class="mb-0"><i class="fas fa-trophy me-2"></i>Keys to Success</h6>';
+    html += '</div>';
+    html += '<div class="card-body">';
+    html += '<div class="row">';
+    html += '<div class="col-md-4">';
+    html += '<h6><i class="fas fa-clock text-primary me-2"></i>Before Interview</h6>';
+    html += '<ul class="small">';
+    html += '<li>Research company and role thoroughly</li>';
+    html += '<li>Practice answers to common questions</li>';
+    html += '<li>Prepare thoughtful questions to ask</li>';
+    html += '<li>Test technology for virtual interviews</li>';
+    html += '</ul>';
+    html += '</div>';
+    html += '<div class="col-md-4">';
+    html += '<h6><i class="fas fa-comments text-success me-2"></i>During Interview</h6>';
+    html += '<ul class="small">';
+    html += '<li>Listen carefully to questions</li>';
+    html += '<li>Provide specific examples</li>';
+    html += '<li>Show enthusiasm and curiosity</li>';
+    html += '<li>Ask for clarification if needed</li>';
+    html += '</ul>';
+    html += '</div>';
+    html += '<div class="col-md-4">';
+    html += '<h6><i class="fas fa-envelope text-warning me-2"></i>After Interview</h6>';
+    html += '<ul class="small">';
+    html += '<li>Send thank you email within 24 hours</li>';
+    html += '<li>Reiterate your interest</li>';
+    html += '<li>Address any missed points</li>';
+    html += '<li>Follow up appropriately</li>';
+    html += '</ul>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    
+    container.innerHTML = html;
+}
+</script>
+{% endblock %}

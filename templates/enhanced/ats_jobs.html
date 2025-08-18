@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+{% block title %}Job Management - Free ATS{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3><i class="fas fa-briefcase me-2"></i>Job Management</h3>
+                    <p class="text-muted">Create and manage your job postings</p>
+                </div>
+                <div>
+                    <a href="{{ url_for('enhanced.ats_dashboard') }}" class="btn btn-outline-secondary me-2">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                    </a>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createJobModal">
+                        <i class="fas fa-plus me-2"></i>Post New Job
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Job Listings -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Your Job Postings</h5>
+                </div>
+                <div class="card-body">
+                    <div id="jobsList">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Job Modal -->
+<div class="modal fade" id="createJobModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Post New Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createJobForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="jobTitle" class="form-label">Job Title *</label>
+                                <input type="text" class="form-control" id="jobTitle" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="department" class="form-label">Department</label>
+                                <select class="form-select" id="department">
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Product">Product</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="Operations">Operations</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="HR">Human Resources</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location *</label>
+                                <input type="text" class="form-control" id="location" placeholder="e.g., New York, NY or Remote" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="jobType" class="form-label">Job Type</label>
+                                <select class="form-select" id="jobType">
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Part-time">Part-time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Internship">Internship</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remoteOption">
+                                    <label class="form-check-label" for="remoteOption">
+                                        Remote work option available
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="visaSponsorship">
+                                    <label class="form-check-label" for="visaSponsorship">
+                                        Visa sponsorship available
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="salaryMin" class="form-label">Salary Range</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" id="salaryMin" placeholder="Min ($)">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" id="salaryMax" placeholder="Max ($)">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="requiredSkills" class="form-label">Required Skills</label>
+                                <input type="text" class="form-control" id="requiredSkills" 
+                                       placeholder="e.g., Python, React, SQL">
+                                <small class="text-muted">Separate skills with commas</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="preferredSkills" class="form-label">Preferred Skills</label>
+                                <input type="text" class="form-control" id="preferredSkills" 
+                                       placeholder="e.g., AWS, Docker, GraphQL">
+                                <small class="text-muted">Separate skills with commas</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="education" class="form-label">Education Requirement</label>
+                                <select class="form-select" id="education">
+                                    <option value="High school">High School</option>
+                                    <option value="Bachelor's degree">Bachelor's Degree</option>
+                                    <option value="Master's degree">Master's Degree</option>
+                                    <option value="PhD">PhD</option>
+                                    <option value="Equivalent experience">Equivalent Experience</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="experience" class="form-label">Experience Requirement</label>
+                                <select class="form-select" id="experience">
+                                    <option value="0-1 years">Entry Level (0-1 years)</option>
+                                    <option value="2-4 years">Mid Level (2-4 years)</option>
+                                    <option value="5-7 years">Senior Level (5-7 years)</option>
+                                    <option value="8+ years">Lead Level (8+ years)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="hiringManager" class="form-label">Hiring Manager</label>
+                                <input type="text" class="form-control" id="hiringManager" placeholder="e.g., John Smith">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Job Description *</label>
+                        <textarea class="form-control" id="description" rows="5" required
+                                  placeholder="Describe the role, responsibilities, and what you're looking for in a candidate..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="benefits" class="form-label">Benefits & Perks</label>
+                        <input type="text" class="form-control" id="benefits" 
+                               placeholder="e.g., Health insurance, 401k, Flexible hours">
+                        <small class="text-muted">Separate benefits with commas</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="deadline" class="form-label">Application Deadline</label>
+                        <input type="date" class="form-control" id="deadline">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="createJob()">
+                    <i class="fas fa-save me-2"></i>Post Job
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Load jobs on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadJobs();
+});
+
+function loadJobs() {
+    fetch('/api/ats/jobs')
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            console.error('Error loading jobs:', data.error);
+            document.getElementById('jobsList').innerHTML = '<div class="alert alert-danger">Error loading jobs</div>';
+            return;
+        }
+        
+        displayJobs(data.jobs);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('jobsList').innerHTML = '<div class="alert alert-danger">Failed to load jobs</div>';
+    });
+}
+
+function displayJobs(jobs) {
+    const container = document.getElementById('jobsList');
+    
+    if (jobs.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-5">
+                <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
+                <h5>No jobs posted yet</h5>
+                <p class="text-muted">Create your first job posting to start attracting candidates</p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createJobModal">
+                    <i class="fas fa-plus me-2"></i>Post Your First Job
+                </button>
+            </div>
+        `;
+        return;
+    }
+    
+    let html = '<div class="row">';
+    
+    jobs.forEach(job => {
+        let statusClass = job.status === 'Active' ? 'success' : 'secondary';
+        
+        html += '<div class="col-md-6 mb-4">';
+        html += '<div class="card">';
+        html += '<div class="card-header d-flex justify-content-between align-items-center">';
+        html += `<h6 class="mb-0">${job.title}</h6>`;
+        html += `<span class="badge bg-${statusClass}">${job.status}</span>`;
+        html += '</div>';
+        html += '<div class="card-body">';
+        html += `<p class="text-muted mb-2"><i class="fas fa-map-marker-alt me-2"></i>${job.location}</p>`;
+        html += `<p class="mb-2"><strong>Applications:</strong> ${job.applications_count}</p>`;
+        
+        if (job.visa_sponsorship) {
+            html += '<span class="badge bg-info me-2">Visa Sponsorship</span>';
+        }
+        
+        html += `<div class="mt-3">`;
+        html += `<small class="text-muted">Posted: ${new Date(job.posted_date).toLocaleDateString()}</small>`;
+        html += `</div>`;
+        
+        html += '</div>';
+        html += '<div class="card-footer">';
+        html += '<button class="btn btn-sm btn-outline-primary me-2">Edit</button>';
+        html += '<button class="btn btn-sm btn-outline-secondary me-2">View Applications</button>';
+        html += '<button class="btn btn-sm btn-outline-danger">Pause</button>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+function createJob() {
+    const formData = {
+        title: document.getElementById('jobTitle').value,
+        department: document.getElementById('department').value,
+        location: document.getElementById('location').value,
+        job_type: document.getElementById('jobType').value,
+        remote_option: document.getElementById('remoteOption').checked,
+        visa_sponsorship: document.getElementById('visaSponsorship').checked,
+        salary_min: parseInt(document.getElementById('salaryMin').value) || 0,
+        salary_max: parseInt(document.getElementById('salaryMax').value) || 0,
+        required_skills: document.getElementById('requiredSkills').value.split(',').map(s => s.trim()).filter(s => s),
+        preferred_skills: document.getElementById('preferredSkills').value.split(',').map(s => s.trim()).filter(s => s),
+        education: document.getElementById('education').value,
+        experience: document.getElementById('experience').value,
+        description: document.getElementById('description').value,
+        benefits: document.getElementById('benefits').value.split(',').map(s => s.trim()).filter(s => s),
+        hiring_manager: document.getElementById('hiringManager').value,
+        deadline: document.getElementById('deadline').value || null
+    };
+    
+    // Validate required fields
+    if (!formData.title || !formData.location || !formData.description) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    fetch('/api/ats/create-job', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+            return;
+        }
+        
+        // Close modal and reload jobs
+        const modal = bootstrap.Modal.getInstance(document.getElementById('createJobModal'));
+        modal.hide();
+        
+        // Reset form
+        document.getElementById('createJobForm').reset();
+        
+        // Reload jobs list
+        loadJobs();
+        
+        // Show success message
+        alert('Job posted successfully!');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to create job posting');
+    });
+}
+</script>
+{% endblock %}

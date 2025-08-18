@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+
+{% block title %}Visa Navigator - AI-Powered Eligibility Checker{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-passport me-2"></i>Visa Navigator
+                    </h4>
+                    <p class="text-muted mb-0">Check your eligibility for work visas in multiple countries</p>
+                </div>
+                <div class="card-body">
+                    <!-- Visa Eligibility Form -->
+                    <form id="visaEligibilityForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Personal Information</h6>
+                                
+                                <div class="mb-3">
+                                    <label for="education" class="form-label">Highest Education</label>
+                                    <select class="form-select" id="education" required>
+                                        <option value="">Select education level</option>
+                                        <option value="High school">High School</option>
+                                        <option value="Bachelor's degree">Bachelor's Degree</option>
+                                        <option value="Master's degree">Master's Degree</option>
+                                        <option value="PhD">PhD</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="yearsExperience" class="form-label">Years of Experience</label>
+                                    <input type="number" class="form-control" id="yearsExperience" min="0" max="50" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="languages" class="form-label">Languages (select all that apply)</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="English" id="english" checked>
+                                                <label class="form-check-label" for="english">English</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="French" id="french">
+                                                <label class="form-check-label" for="french">French</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="German" id="german">
+                                                <label class="form-check-label" for="german">German</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Spanish" id="spanish">
+                                                <label class="form-check-label" for="spanish">Spanish</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Mandarin" id="mandarin">
+                                                <label class="form-check-label" for="mandarin">Mandarin</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Japanese" id="japanese">
+                                                <label class="form-check-label" for="japanese">Japanese</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="skills" class="form-label">Key Skills</label>
+                                    <input type="text" class="form-control" id="skills" 
+                                           placeholder="e.g., Python, Machine Learning, Project Management" 
+                                           data-bs-toggle="tooltip" 
+                                           title="Enter skills separated by commas">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h6>Job and Offer Details</h6>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="hasJobOffer">
+                                        <label class="form-check-label" for="hasJobOffer">
+                                            I have a job offer
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3" id="salarySection" style="display: none;">
+                                    <label for="offeredSalary" class="form-label">Offered Salary (USD)</label>
+                                    <input type="number" class="form-control" id="offeredSalary" placeholder="e.g., 120000">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="maritalStatus" class="form-label">Marital Status</label>
+                                    <select class="form-select" id="maritalStatus">
+                                        <option value="single">Single</option>
+                                        <option value="married">Married</option>
+                                        <option value="divorced">Divorced</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="hasChildren">
+                                        <label class="form-check-label" for="hasChildren">
+                                            I have children
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="targetCountries" class="form-label">Target Countries</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="United States" id="usa" checked>
+                                                <label class="form-check-label" for="usa">United States</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="United Kingdom" id="uk">
+                                                <label class="form-check-label" for="uk">United Kingdom</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Canada" id="canada">
+                                                <label class="form-check-label" for="canada">Canada</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Germany" id="germanyVisa">
+                                                <label class="form-check-label" for="germanyVisa">Germany</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Australia" id="australia">
+                                                <label class="form-check-label" for="australia">Australia</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="Netherlands" id="netherlands">
+                                                <label class="form-check-label" for="netherlands">Netherlands</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-search me-2"></i>Check Visa Eligibility
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Section -->
+    <div class="row mt-4" id="resultsSection" style="display: none;">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Visa Eligibility Results</h5>
+                </div>
+                <div class="card-body">
+                    <div id="visaResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Show/hide salary section based on job offer checkbox
+document.getElementById('hasJobOffer').addEventListener('change', function() {
+    const salarySection = document.getElementById('salarySection');
+    salarySection.style.display = this.checked ? 'block' : 'none';
+});
+
+// Visa Eligibility Form
+document.getElementById('visaEligibilityForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Collect form data
+    const profile = {
+        education: document.getElementById('education').value,
+        years_experience: parseInt(document.getElementById('yearsExperience').value),
+        languages: Array.from(document.querySelectorAll('input[id$="nglish"], input[id="french"], input[id="german"], input[id="spanish"], input[id="mandarin"], input[id="japanese"]:checked')).map(cb => cb.value),
+        skills: document.getElementById('skills').value.split(',').map(s => s.trim()).filter(s => s),
+        has_job_offer: document.getElementById('hasJobOffer').checked,
+        offered_salary: document.getElementById('hasJobOffer').checked ? parseInt(document.getElementById('offeredSalary').value) || 0 : 0,
+        marital_status: document.getElementById('maritalStatus').value,
+        has_children: document.getElementById('hasChildren').checked
+    };
+    
+    // Get selected target countries
+    const targetCountries = Array.from(document.querySelectorAll('input[value="United States"], input[value="United Kingdom"], input[value="Canada"], input[value="Germany"], input[value="Australia"], input[value="Netherlands"]:checked')).map(cb => cb.value);
+    
+    if (targetCountries.length === 0) {
+        alert('Please select at least one target country');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Checking Eligibility...';
+    submitBtn.disabled = true;
+    
+    fetch('/api/visa-eligibility', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            profile: profile,
+            target_countries: targetCountries
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+            return;
+        }
+        
+        displayVisaResults(data.results);
+        document.getElementById('resultsSection').style.display = 'block';
+        
+        // Scroll to results
+        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to check visa eligibility');
+    })
+    .finally(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+});
+
+function displayVisaResults(results) {
+    const container = document.getElementById('visaResults');
+    
+    if (results.length === 0) {
+        container.innerHTML = '<div class="alert alert-warning">No visa eligibility data available for the selected countries.</div>';
+        return;
+    }
+    
+    let html = '<div class="row">';
+    
+    results.forEach(result => {
+        let statusClass = 'success';
+        if (result.eligibility_score < 70) statusClass = 'warning';
+        if (result.eligibility_score < 50) statusClass = 'danger';
+        
+        html += '<div class="col-md-6 mb-4">';
+        html += '<div class="card border-' + statusClass + '">';
+        html += '<div class="card-header bg-' + statusClass + ' text-white">';
+        html += `<h6 class="mb-0">${result.visa_type}</h6>`;
+        html += `<div class="d-flex justify-content-between align-items-center">`;
+        html += `<span>${result.status}</span>`;
+        html += `<span class="badge bg-light text-dark">${result.eligibility_score.toFixed(1)}%</span>`;
+        html += `</div>`;
+        html += '</div>';
+        html += '<div class="card-body">';
+        
+        // Timeline and cost
+        html += '<div class="row mb-3">';
+        html += `<div class="col-6"><small class="text-muted">Timeline:</small><br><strong>${result.estimated_timeline}</strong></div>`;
+        html += `<div class="col-6"><small class="text-muted">Est. Cost:</small><br><strong>$${result.estimated_cost.toLocaleString()}</strong></div>`;
+        html += '</div>';
+        
+        // Requirements met
+        if (result.requirements_met.length > 0) {
+            html += '<div class="mb-3">';
+            html += '<small class="text-success"><i class="fas fa-check"></i> Requirements Met:</small>';
+            html += '<ul class="small mb-0">';
+            result.requirements_met.slice(0, 3).forEach(req => {
+                html += `<li class="text-success">${req}</li>`;
+            });
+            html += '</ul>';
+            html += '</div>';
+        }
+        
+        // Requirements missing
+        if (result.requirements_missing.length > 0) {
+            html += '<div class="mb-3">';
+            html += '<small class="text-warning"><i class="fas fa-exclamation-triangle"></i> Requirements Missing:</small>';
+            html += '<ul class="small mb-0">';
+            result.requirements_missing.slice(0, 3).forEach(req => {
+                html += `<li class="text-warning">${req}</li>`;
+            });
+            html += '</ul>';
+            html += '</div>';
+        }
+        
+        // Next steps
+        if (result.next_steps.length > 0) {
+            html += '<div class="mb-0">';
+            html += '<small class="text-info"><i class="fas fa-arrow-right"></i> Next Steps:</small>';
+            html += '<ul class="small mb-0">';
+            result.next_steps.slice(0, 2).forEach(step => {
+                html += `<li>${step}</li>`;
+            });
+            html += '</ul>';
+            html += '</div>';
+        }
+        
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    });
+    
+    html += '</div>';
+    
+    // Add summary
+    const bestOption = results[0];
+    html += `<div class="alert alert-info mt-3">`;
+    html += `<h6>Recommendation</h6>`;
+    html += `<p class="mb-0"><strong>${bestOption.visa_type}</strong> appears to be your best option with ${bestOption.eligibility_score.toFixed(1)}% eligibility score. `;
+    html += `Estimated timeline: ${bestOption.estimated_timeline}, Cost: $${bestOption.estimated_cost.toLocaleString()}</p>`;
+    html += `</div>`;
+    
+    container.innerHTML = html;
+}
+
+// Initialize tooltips
+document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+{% endblock %}
