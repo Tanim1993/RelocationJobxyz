@@ -164,30 +164,79 @@
                         <i class="fas fa-search me-1"></i>Find Jobs
                     </a>
                     
-                    <a class="nav-btn" href="{{ url_for('enhanced.salary_intelligence') }}">
+                    <a class="nav-btn" href="{{ url_for('ai_tools_2024.salary_intelligence') }}">
                         <i class="fas fa-chart-line me-1"></i>Salary Intelligence
                     </a>
                     
-                    <a class="nav-btn" href="{{ url_for('enhanced.visa_navigator') }}">
+                    <a class="nav-btn" href="{{ url_for('ai_tools_2024.visa_navigator') }}">
                         <i class="fas fa-passport me-1"></i>Visa Navigator
                     </a>
                     
-                    <a class="nav-btn" href="{{ url_for('enhanced.cultural_intelligence') }}">
+                    <a class="nav-btn" href="{{ url_for('ai_tools_2024.cultural_intelligence') }}">
                         <i class="fas fa-users me-1"></i>Cultural Fit
                     </a>
                     
+                    <!-- NEW AI TOOLS DROPDOWN -->
+                    <div class="nav-item dropdown">
+                        <a class="nav-btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-robot me-1"></i>AI Tools <i class="fas fa-chevron-down ms-1"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><h6 class="dropdown-header">Career Intelligence</h6></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ai_tools_2024.career_path_predictor') }}">
+                                <i class="fas fa-route me-2"></i>Career Path Predictor
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ai_tools_2024.resume_localizer') }}">
+                                <i class="fas fa-file-alt me-2"></i>Resume Localizer
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ai_tools_2024.language_proficiency_predictor') }}">
+                                <i class="fas fa-language me-2"></i>Language Proficiency
+                            </a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Relocation & Housing</h6></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ai_tools_2024.housing_market_intelligence') }}">
+                                <i class="fas fa-home me-2"></i>Housing Market Intel
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ai_tools_2024.tax_optimizer') }}">
+                                <i class="fas fa-calculator me-2"></i>Tax Optimizer
+                            </a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Policy & Compliance</h6></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ai_tools_2024.immigration_policy_tracker') }}">
+                                <i class="fas fa-gavel me-2"></i>Policy Tracker
+                            </a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Remote Work & Culture</h6></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ai_tools_2024.remote_work_compatibility') }}">
+                                <i class="fas fa-laptop me-2"></i>Remote Work Scorer
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ai_tools_2024.cultural_mentor_matching') }}">
+                                <i class="fas fa-handshake me-2"></i>Mentor Matching
+                            </a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Benefits & Comparison</h6></li>
+                            <li><a class="dropdown-item" href="{{ url_for('ai_tools_2024.global_benefits_comparison') }}">
+                                <i class="fas fa-balance-scale me-2"></i>Benefits Comparison
+                            </a></li>
+                        </ul>
+                    </div>
+                    
                     {% if current_user.is_authenticated %}
                         {% if current_user.user_type == 'job_seeker' %}
-                        <a class="nav-btn" href="{{ url_for('enhanced.relocation_calculator') }}">
+                        <a class="nav-btn" href="{{ url_for('ai_tools_2024.relocation_calculator') }}">
                             <i class="fas fa-calculator me-1"></i>Relocation Cost
                         </a>
-                        <a class="nav-btn" href="{{ url_for('enhanced.interview_prep') }}">
+                        <a class="nav-btn" href="{{ url_for('ai_tools_2024.interview_prep') }}">
                             <i class="fas fa-microphone me-1"></i>Interview Prep
                         </a>
                         {% endif %}
                         
                         {% if current_user.user_type == 'employer' %}
-                        <a class="nav-btn" href="{{ url_for('enhanced.ats_dashboard') }}">
+                        <a class="nav-btn" href="{{ url_for('ai_tools_2024.ats_dashboard') }}">
                             <i class="fas fa-briefcase me-1"></i>Free ATS
                         </a>
                         {% endif %}

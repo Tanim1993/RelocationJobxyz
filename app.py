@@ -30,7 +30,7 @@ db.init_app(app)
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'auth.login'
+login_manager.login_view = 'auth.login'  # type: ignore
 login_manager.login_message = 'Please log in to access this page.'
 login_manager.login_message_category = 'info'
 
@@ -55,13 +55,13 @@ with app.app_context():
     from ats_clean import ats
     from salary_tools import salary_tools
     from dashboard import dashboard_bp
-    from routes_enhanced import enhanced_bp
+    from routes_enhanced_simplified import enhanced_bp
     
     app.register_blueprint(auth)
     app.register_blueprint(ats)
     app.register_blueprint(salary_tools)
     app.register_blueprint(dashboard_bp)
-    # app.register_blueprint(enhanced_bp)  # Temporarily commented out
+    app.register_blueprint(enhanced_bp)
     
     # Create all tables
     db.create_all()

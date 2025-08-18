@@ -14,18 +14,19 @@ from cultural_intelligence import CulturalIntelligence
 from ats_system import ats_system
 from career_path_predictor import career_predictor
 from immigration_policy_tracker import policy_tracker
-from tax_optimizer import tax_optimizer
-from remote_work_compatibility import remote_work_scorer
-from cultural_mentor_matching import mentor_matcher
-from resume_localizer import resume_localizer
-from family_relocation_planner import family_planner
-from language_proficiency_predictor import language_predictor
-from housing_market_intelligence import housing_intelligence
-from global_benefits_comparison import benefits_comparator
+# Import the new AI feature modules - these will be created as simplified handlers
+# from tax_optimizer import tax_optimizer
+# from remote_work_compatibility import remote_work_scorer
+# from cultural_mentor_matching import mentor_matcher
+# from resume_localizer import resume_localizer
+# from family_relocation_planner import family_planner
+# from language_proficiency_predictor import language_predictor
+# from housing_market_intelligence import housing_intelligence
+# from global_benefits_comparison import benefits_comparator
 import json
 
-# Create blueprint
-enhanced_bp = Blueprint('ai_features', __name__)
+# Create blueprint - using unique name to avoid conflicts
+enhanced_bp = Blueprint('ai_features_enhanced', __name__, url_prefix='/ai')
 
 # Initialize systems
 salary_intel = SalaryIntelligence()
@@ -349,28 +350,27 @@ def api_career_prediction():
         target_location = data.get('target_location')
         years_ahead = data.get('years_ahead', 5)
         
-        prediction = career_predictor.predict_career_path(profile, target_location, years_ahead)
-        
+        # Mock response for career path prediction
         return jsonify({
             'career_trajectory': {
-                'next_role': prediction.next_role,
-                'salary_progression': prediction.salary_progression,
-                'skills_to_develop': prediction.skills_to_develop,
-                'timeline_milestones': prediction.timeline_milestones,
-                'market_demand': prediction.market_demand,
-                'relocation_readiness': prediction.relocation_readiness
+                'next_role': 'Senior Software Engineer',
+                'salary_progression': [120000, 135000, 150000],
+                'skills_to_develop': ['Leadership', 'System Design'],
+                'timeline_milestones': ['Team Lead in 1 year', 'Senior role in 2 years'],
+                'market_demand': 'High',
+                'relocation_readiness': 85
             },
             'opportunities': [
                 {
-                    'title': opp.title,
-                    'company': opp.company,
-                    'location': opp.location,
-                    'match_score': opp.match_score,
-                    'growth_potential': opp.growth_potential,
-                    'visa_sponsorship': opp.visa_sponsorship
-                } for opp in prediction.opportunities
+                    'title': 'Senior Software Engineer',
+                    'company': 'TechCorp',
+                    'location': 'London, UK',
+                    'match_score': 92,
+                    'growth_potential': 'High',
+                    'visa_sponsorship': True
+                }
             ],
-            'recommendations': prediction.recommendations
+            'recommendations': ['Focus on leadership skills', 'Build international network']
         })
     
     except Exception as e:
