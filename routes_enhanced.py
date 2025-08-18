@@ -12,6 +12,16 @@ from salary_intelligence import SalaryIntelligence
 from visa_navigator import VisaNavigator, VisaType
 from cultural_intelligence import CulturalIntelligence
 from ats_system import ats_system
+from career_path_predictor import career_predictor
+from immigration_policy_tracker import policy_tracker
+from tax_optimizer import tax_optimizer
+from remote_work_compatibility import remote_work_scorer
+from cultural_mentor_matching import mentor_matcher
+from resume_localizer import resume_localizer
+from family_relocation_planner import family_planner
+from language_proficiency_predictor import language_predictor
+from housing_market_intelligence import housing_intelligence
+from global_benefits_comparison import benefits_comparator
 import json
 
 # Create blueprint
