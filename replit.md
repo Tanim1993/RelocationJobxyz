@@ -1,6 +1,6 @@
 # Overview
 
-A comprehensive international job platform with Monster.com-style design featuring 16 advanced AI-powered tools for global professionals. The platform combines job search functionality with specialized AI tools for language learning, cultural adaptation, and career development. Currently features two major AI tools: Language Proficiency Predictor with personalized learning plans and Interactive Language Learning Roadmap with full gamification system including XP, levels, achievement badges, daily challenges, and competitive leaderboards.
+A comprehensive international job platform with Monster.com-style design featuring AI-powered tools for global professionals. The platform combines job search functionality with practical AI tools for language learning, cultural adaptation, and career development. Currently features working AI tools: Language Proficiency Predictor, Interactive Language Learning Roadmap with gamification, Cultural Intelligence Analyzer, and Career Path Predictor with personalized guidance.
 
 # User Preferences
 
@@ -31,9 +31,9 @@ Preferred communication style: Simple, everyday language.
 ## AI Tools System
 - **Language Proficiency Predictor**: Comprehensive assessment form generating personalized 3-phase learning plans with weekly schedules, milestones, and resources
 - **Interactive Language Learning Roadmap**: Full gamification system with XP tracking, achievement badges, daily challenges, milestone progression, and competitive leaderboards
-- **Cultural Intelligence Analyzer**: Advanced cross-cultural adaptation assessment with intelligent scoring algorithms and personalized cultural adaptation profiles
-- **Salary Intelligence System**: Data-driven salary benchmarking, cost of living analysis, and personalized negotiation strategies with market insights
-- **Modular Architecture**: Each AI tool implemented as separate blueprint with dedicated templates and API endpoints
+- **Cultural Intelligence Analyzer**: Cross-cultural adaptation assessment with intelligent scoring and personalized cultural adaptation profiles
+- **Career Path Predictor**: Simplified career guidance tool providing next steps, long-term vision, and actionable advice based on current role and goals
+- **Modular Architecture**: Each AI tool implemented as separate blueprint with focused functionality and clear user interfaces
 
 ## Email Generation System
 - **Template Engine**: Generates personalized email content based on job details and available relocation benefits
