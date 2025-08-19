@@ -754,6 +754,364 @@ def generate_comprehensive_learning_plan(user_data):
         'assessment_plan': assessment_plan
     }
 
+@enhanced_bp.route('/language-learning-roadmap')
+def language_learning_roadmap():
+    """Interactive Language Learning Roadmap with gamification"""
+    
+    # Mock user stats - in real app, this would come from database
+    user_stats = {
+        'current_level': 'B1 Intermediate',
+        'total_xp': 2450,
+        'streak_days': 12,
+        'badges_earned': 8,
+        'level_progress': 75
+    }
+    
+    # Learning path options
+    learning_paths = [
+        {
+            'id': 'business_english',
+            'name': 'Business English',
+            'description': 'Master professional communication for international careers',
+            'icon': 'fas fa-briefcase',
+            'duration': '12 weeks',
+            'difficulty': 'Intermediate',
+            'is_current': True
+        },
+        {
+            'id': 'conversation_fluency',
+            'name': 'Conversation Fluency',
+            'description': 'Build confidence in everyday conversations',
+            'icon': 'fas fa-comments',
+            'duration': '8 weeks',
+            'difficulty': 'Beginner',
+            'is_current': False
+        },
+        {
+            'id': 'academic_english',
+            'name': 'Academic English',
+            'description': 'Prepare for academic success and professional certifications',
+            'icon': 'fas fa-graduation-cap',
+            'duration': '16 weeks',
+            'difficulty': 'Advanced',
+            'is_current': False
+        }
+    ]
+    
+    # Roadmap phases with milestones
+    roadmap_phases = [
+        {
+            'id': 'foundation',
+            'name': 'Foundation Building',
+            'progress': 100,
+            'is_completed': True,
+            'is_current': False,
+            'milestones': [
+                {
+                    'id': 'vocab_basics',
+                    'name': 'Core Vocabulary',
+                    'description': 'Master 500 essential business terms',
+                    'xp_reward': 100,
+                    'is_completed': True,
+                    'is_available': True
+                },
+                {
+                    'id': 'grammar_fundamentals',
+                    'name': 'Grammar Foundations',
+                    'description': 'Perfect tense usage and sentence structure',
+                    'xp_reward': 150,
+                    'is_completed': True,
+                    'is_available': True
+                },
+                {
+                    'id': 'pronunciation_basics',
+                    'name': 'Pronunciation Practice',
+                    'description': 'Clear speech and accent reduction',
+                    'xp_reward': 125,
+                    'is_completed': True,
+                    'is_available': True
+                },
+                {
+                    'id': 'listening_skills',
+                    'name': 'Active Listening',
+                    'description': 'Understand various accents and speeds',
+                    'xp_reward': 100,
+                    'is_completed': True,
+                    'is_available': True
+                }
+            ]
+        },
+        {
+            'id': 'application',
+            'name': 'Practical Application',
+            'progress': 60,
+            'is_completed': False,
+            'is_current': True,
+            'milestones': [
+                {
+                    'id': 'email_writing',
+                    'name': 'Professional Emails',
+                    'description': 'Write effective business correspondence',
+                    'xp_reward': 200,
+                    'is_completed': True,
+                    'is_available': True
+                },
+                {
+                    'id': 'meeting_participation',
+                    'name': 'Meeting Skills',
+                    'description': 'Participate confidently in meetings',
+                    'xp_reward': 250,
+                    'is_completed': False,
+                    'is_available': True
+                },
+                {
+                    'id': 'presentation_skills',
+                    'name': 'Presentation Mastery',
+                    'description': 'Deliver engaging presentations',
+                    'xp_reward': 300,
+                    'is_completed': False,
+                    'is_available': True
+                },
+                {
+                    'id': 'negotiation_language',
+                    'name': 'Negotiation Tactics',
+                    'description': 'Master persuasive communication',
+                    'xp_reward': 350,
+                    'is_completed': False,
+                    'is_available': False
+                }
+            ]
+        },
+        {
+            'id': 'mastery',
+            'name': 'Professional Mastery',
+            'progress': 0,
+            'is_completed': False,
+            'is_current': False,
+            'milestones': [
+                {
+                    'id': 'interview_excellence',
+                    'name': 'Interview Excellence',
+                    'description': 'Ace job interviews with confidence',
+                    'xp_reward': 400,
+                    'is_completed': False,
+                    'is_available': False
+                },
+                {
+                    'id': 'cultural_fluency',
+                    'name': 'Cultural Intelligence',
+                    'description': 'Navigate cultural nuances effectively',
+                    'xp_reward': 450,
+                    'is_completed': False,
+                    'is_available': False
+                },
+                {
+                    'id': 'leadership_communication',
+                    'name': 'Leadership Voice',
+                    'description': 'Communicate with authority and empathy',
+                    'xp_reward': 500,
+                    'is_completed': False,
+                    'is_available': False
+                },
+                {
+                    'id': 'certification_prep',
+                    'name': 'Certification Ready',
+                    'description': 'Prepare for professional language exams',
+                    'xp_reward': 600,
+                    'is_completed': False,
+                    'is_available': False
+                }
+            ]
+        }
+    ]
+    
+    # Achievement badges
+    achievement_badges = [
+        {
+            'id': 'first_week',
+            'name': 'First Steps',
+            'description': 'Complete your first week of learning',
+            'icon': 'fas fa-baby',
+            'is_earned': True,
+            'earned_date': '2 weeks ago'
+        },
+        {
+            'id': 'streak_master',
+            'name': 'Streak Master',
+            'description': 'Maintain a 7-day learning streak',
+            'icon': 'fas fa-fire',
+            'is_earned': True,
+            'earned_date': '1 week ago'
+        },
+        {
+            'id': 'vocab_champion',
+            'name': 'Vocabulary Champion',
+            'description': 'Learn 1000 new words',
+            'icon': 'fas fa-book',
+            'is_earned': True,
+            'earned_date': '3 days ago'
+        },
+        {
+            'id': 'grammar_guru',
+            'name': 'Grammar Guru',
+            'description': 'Perfect grammar in 50 exercises',
+            'icon': 'fas fa-spell-check',
+            'is_earned': False,
+            'requirement': '42/50 exercises'
+        },
+        {
+            'id': 'speaking_star',
+            'name': 'Speaking Star',
+            'description': 'Complete 20 speaking challenges',
+            'icon': 'fas fa-microphone',
+            'is_earned': False,
+            'requirement': '15/20 challenges'
+        },
+        {
+            'id': 'culture_explorer',
+            'name': 'Culture Explorer',
+            'description': 'Explore cultural contexts in depth',
+            'icon': 'fas fa-globe',
+            'is_earned': False,
+            'requirement': 'Complete cultural module'
+        }
+    ]
+    
+    # Daily challenges
+    daily_challenges = [
+        {
+            'id': 'daily_vocab',
+            'name': 'Word of the Day',
+            'description': 'Learn 5 new vocabulary words',
+            'progress': 80,
+            'current': 4,
+            'target': 5,
+            'xp_reward': 25,
+            'is_completed': False
+        },
+        {
+            'id': 'listening_practice',
+            'name': 'Listening Challenge',
+            'description': 'Complete 15 minutes of listening practice',
+            'progress': 100,
+            'current': 15,
+            'target': 15,
+            'xp_reward': 30,
+            'is_completed': True
+        },
+        {
+            'id': 'speaking_drill',
+            'name': 'Speaking Exercise',
+            'description': 'Practice pronunciation for 10 minutes',
+            'progress': 60,
+            'current': 6,
+            'target': 10,
+            'xp_reward': 35,
+            'is_completed': False
+        }
+    ]
+    
+    # Leaderboard
+    leaderboard = [
+        {
+            'rank': 1,
+            'name': 'Sarah Chen',
+            'level': 'B2',
+            'weekly_xp': 450,
+            'streak': 15,
+            'badges': 12,
+            'is_current_user': False
+        },
+        {
+            'rank': 2,
+            'name': 'Alex Rodriguez',
+            'level': 'B1',
+            'weekly_xp': 380,
+            'streak': 8,
+            'badges': 9,
+            'is_current_user': False
+        },
+        {
+            'rank': 3,
+            'name': 'You',
+            'level': 'B1',
+            'weekly_xp': 320,
+            'streak': 12,
+            'badges': 8,
+            'is_current_user': True
+        },
+        {
+            'rank': 4,
+            'name': 'Maria Silva',
+            'level': 'A2',
+            'weekly_xp': 280,
+            'streak': 5,
+            'badges': 6,
+            'is_current_user': False
+        },
+        {
+            'rank': 5,
+            'name': 'David Kim',
+            'level': 'B1',
+            'weekly_xp': 250,
+            'streak': 3,
+            'badges': 7,
+            'is_current_user': False
+        }
+    ]
+    
+    return render_template('enhanced/language_learning_roadmap.html',
+                         user_stats=user_stats,
+                         learning_paths=learning_paths,
+                         roadmap_phases=roadmap_phases,
+                         achievement_badges=achievement_badges,
+                         daily_challenges=daily_challenges,
+                         leaderboard=leaderboard)
+
+@enhanced_bp.route('/api/select-learning-path', methods=['POST'])
+def api_select_learning_path():
+    """API endpoint to select a learning path"""
+    data = request.get_json()
+    path_id = data.get('path_id')
+    
+    # In real implementation, update user's selected path in database
+    return jsonify({'success': True, 'path_id': path_id})
+
+@enhanced_bp.route('/api/milestone/<milestone_id>')
+def api_milestone_details(milestone_id):
+    """API endpoint to get milestone details"""
+    
+    # Mock milestone data - in real app, fetch from database
+    milestone_data = {
+        'id': milestone_id,
+        'name': 'Professional Email Writing',
+        'description': 'Master the art of professional email communication',
+        'icon': 'fas fa-envelope',
+        'xp_reward': 200,
+        'estimated_time': '2-3 hours',
+        'difficulty': 'Intermediate',
+        'is_available': True,
+        'objectives': [
+            'Write clear and concise business emails',
+            'Use appropriate formal language and tone',
+            'Structure emails for maximum impact',
+            'Handle difficult situations diplomatically'
+        ],
+        'activities': [
+            'Email template practice',
+            'Tone analysis exercises',
+            'Real-world scenario simulations',
+            'Peer review and feedback'
+        ]
+    }
+    
+    return jsonify(milestone_data)
+
+@enhanced_bp.route('/milestone/<milestone_id>/learn')
+def milestone_learning_content(milestone_id):
+    """Learning content page for a specific milestone"""
+    return render_template('enhanced/milestone_learning.html', milestone_id=milestone_id)
+
 @enhanced_bp.route('/global-benefits-comparison')
 @login_required
 def global_benefits_comparison():

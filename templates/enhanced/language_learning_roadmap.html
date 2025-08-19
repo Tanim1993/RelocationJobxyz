@@ -1,0 +1,619 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <!-- Header -->
+        <div class="col-12">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold text-primary">
+                    <i class="fas fa-map-marked-alt me-3"></i>Interactive Language Learning Roadmap
+                </h1>
+                <p class="lead text-muted">
+                    Your personalized journey to language mastery with gamified achievements
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Progress Overview -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-gradient-primary text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h3><i class="fas fa-user-circle me-2"></i>{{ current_user.username if current_user.is_authenticated else 'Language Learner' }}</h3>
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-3">
+                                    <div class="text-center">
+                                        <div class="h4 mb-0">{{ user_stats.current_level }}</div>
+                                        <small>Current Level</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-center">
+                                        <div class="h4 mb-0">{{ user_stats.total_xp }}</div>
+                                        <small>Total XP</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-center">
+                                        <div class="h4 mb-0">{{ user_stats.streak_days }}</div>
+                                        <small>Day Streak</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-center">
+                                        <div class="h4 mb-0">{{ user_stats.badges_earned }}</div>
+                                        <small>Badges</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="position-relative d-inline-block">
+                                <svg width="120" height="120">
+                                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="8"/>
+                                    <circle cx="60" cy="60" r="50" fill="none" stroke="white" stroke-width="8" 
+                                            stroke-dasharray="{{ (user_stats.level_progress / 100) * 314 }} 314" 
+                                            stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                                </svg>
+                                <div class="position-absolute top-50 start-50 translate-middle text-center">
+                                    <div class="h5 mb-0">{{ user_stats.level_progress }}%</div>
+                                    <small>to next level</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Path Selection -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="fas fa-route me-2"></i>Choose Your Learning Path</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        {% for path in learning_paths %}
+                        <div class="col-md-4">
+                            <div class="card h-100 {% if path.is_current %}border-primary{% endif %} path-card" 
+                                 data-path="{{ path.id }}">
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <i class="{{ path.icon }} fa-3x text-primary"></i>
+                                    </div>
+                                    <h6 class="card-title">{{ path.name }}</h6>
+                                    <p class="card-text text-muted">{{ path.description }}</p>
+                                    <div class="row text-center mt-3">
+                                        <div class="col-6">
+                                            <small class="text-muted">Duration</small>
+                                            <div class="fw-bold">{{ path.duration }}</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="text-muted">Difficulty</small>
+                                            <div class="fw-bold">{{ path.difficulty }}</div>
+                                        </div>
+                                    </div>
+                                    {% if path.is_current %}
+                                    <span class="badge bg-primary mt-2">Current Path</span>
+                                    {% else %}
+                                    <button class="btn btn-outline-primary btn-sm mt-2" onclick="selectPath('{{ path.id }}')">
+                                        Select Path
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Roadmap -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="fas fa-map me-2"></i>Your Learning Journey</h5>
+                </div>
+                <div class="card-body">
+                    <div class="roadmap-container">
+                        {% for phase in roadmap_phases %}
+                        <div class="roadmap-phase {% if phase.is_completed %}completed{% elif phase.is_current %}current{% endif %}" 
+                             data-phase="{{ phase.id }}">
+                            <div class="phase-header">
+                                <div class="phase-icon">
+                                    {% if phase.is_completed %}
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    {% elif phase.is_current %}
+                                    <i class="fas fa-play-circle text-primary"></i>
+                                    {% else %}
+                                    <i class="fas fa-lock text-muted"></i>
+                                    {% endif %}
+                                </div>
+                                <h6 class="phase-title">{{ phase.name }}</h6>
+                                <div class="phase-progress">
+                                    <div class="progress" style="height: 6px;">
+                                        <div class="progress-bar" style="width: {{ phase.progress }}%"></div>
+                                    </div>
+                                    <small class="text-muted">{{ phase.progress }}% Complete</small>
+                                </div>
+                            </div>
+                            
+                            <div class="phase-content">
+                                <div class="row g-2">
+                                    {% for milestone in phase.milestones %}
+                                    <div class="col-md-6">
+                                        <div class="milestone-card {% if milestone.is_completed %}completed{% elif milestone.is_available %}available{% else %}locked{% endif %}"
+                                             onclick="openMilestone('{{ milestone.id }}')">
+                                            <div class="milestone-icon">
+                                                {% if milestone.is_completed %}
+                                                <i class="fas fa-medal text-warning"></i>
+                                                {% elif milestone.is_available %}
+                                                <i class="fas fa-flag text-primary"></i>
+                                                {% else %}
+                                                <i class="fas fa-lock text-muted"></i>
+                                                {% endif %}
+                                            </div>
+                                            <div class="milestone-info">
+                                                <h6 class="milestone-title">{{ milestone.name }}</h6>
+                                                <p class="milestone-desc">{{ milestone.description }}</p>
+                                                <div class="milestone-reward">
+                                                    <i class="fas fa-star text-warning me-1"></i>{{ milestone.xp_reward }} XP
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements & Badges -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="fas fa-trophy me-2"></i>Achievements & Badges</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        {% for badge in achievement_badges %}
+                        <div class="col-md-4 col-sm-6">
+                            <div class="badge-card {% if badge.is_earned %}earned{% endif %}" 
+                                 title="{{ badge.description }}">
+                                <div class="badge-icon">
+                                    <i class="{{ badge.icon }} {% if badge.is_earned %}text-warning{% else %}text-muted{% endif %}"></i>
+                                </div>
+                                <h6 class="badge-name">{{ badge.name }}</h6>
+                                {% if badge.is_earned %}
+                                <small class="text-success">Earned {{ badge.earned_date }}</small>
+                                {% else %}
+                                <small class="text-muted">{{ badge.requirement }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Daily Challenges -->
+        <div class="col-lg-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="fas fa-fire me-2"></i>Daily Challenges</h5>
+                </div>
+                <div class="card-body">
+                    {% for challenge in daily_challenges %}
+                    <div class="challenge-item {% if challenge.is_completed %}completed{% endif %} mb-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <h6 class="challenge-title">{{ challenge.name }}</h6>
+                                <p class="challenge-desc text-muted">{{ challenge.description }}</p>
+                                <div class="challenge-progress">
+                                    <div class="progress mb-1" style="height: 4px;">
+                                        <div class="progress-bar" style="width: {{ challenge.progress }}%"></div>
+                                    </div>
+                                    <small class="text-muted">{{ challenge.current }}/{{ challenge.target }}</small>
+                                </div>
+                            </div>
+                            <div class="challenge-reward ms-2">
+                                {% if challenge.is_completed %}
+                                <i class="fas fa-check-circle text-success"></i>
+                                {% else %}
+                                <span class="badge bg-primary">+{{ challenge.xp_reward }} XP</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><i class="fas fa-crown me-2"></i>Weekly Leaderboard</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Learner</th>
+                                    <th>Level</th>
+                                    <th>XP This Week</th>
+                                    <th>Streak</th>
+                                    <th>Badges</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for learner in leaderboard %}
+                                <tr {% if learner.is_current_user %}class="table-primary"{% endif %}>
+                                    <td>
+                                        {% if learner.rank <= 3 %}
+                                        <i class="fas fa-medal text-warning"></i>
+                                        {% endif %}
+                                        #{{ learner.rank }}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-sm bg-primary text-white rounded-circle me-2 d-flex align-items-center justify-content-center">
+                                                {{ learner.name[0].upper() }}
+                                            </div>
+                                            {{ learner.name }}
+                                            {% if learner.is_current_user %}
+                                            <span class="badge bg-primary ms-2">You</span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>{{ learner.level }}</td>
+                                    <td>{{ learner.weekly_xp }}</td>
+                                    <td>
+                                        <i class="fas fa-fire text-danger me-1"></i>{{ learner.streak }}
+                                    </td>
+                                    <td>{{ learner.badges }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Milestone Detail Modal -->
+<div class="modal fade" id="milestoneModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Milestone Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="milestoneContent">
+                <!-- Dynamic content loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.roadmap-container {
+    position: relative;
+    padding: 20px 0;
+}
+
+.roadmap-phase {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.roadmap-phase.completed {
+    border-color: #28a745;
+    background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
+}
+
+.roadmap-phase.current {
+    border-color: #007bff;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8efff 100%);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+}
+
+.phase-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.phase-icon {
+    font-size: 1.5rem;
+}
+
+.phase-title {
+    margin: 0;
+    flex-grow: 1;
+}
+
+.phase-progress {
+    min-width: 120px;
+    text-align: right;
+}
+
+.milestone-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 8px;
+}
+
+.milestone-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.milestone-card.completed {
+    background: #f8f9fa;
+    border-color: #28a745;
+}
+
+.milestone-card.available {
+    border-color: #007bff;
+    background: #f8f9ff;
+}
+
+.milestone-card.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.milestone-icon {
+    font-size: 1.2rem;
+}
+
+.milestone-info {
+    flex-grow: 1;
+}
+
+.milestone-title {
+    margin: 0 0 4px 0;
+    font-size: 0.9rem;
+}
+
+.milestone-desc {
+    margin: 0 0 4px 0;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.milestone-reward {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.badge-card {
+    text-align: center;
+    padding: 15px;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.badge-card.earned {
+    border-color: #ffc107;
+    background: linear-gradient(135deg, #fff9e6 0%, #ffeaa7 100%);
+    transform: scale(1.02);
+}
+
+.badge-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.badge-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.badge-name {
+    margin: 0 0 4px 0;
+    font-size: 0.9rem;
+}
+
+.challenge-item {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.challenge-item.completed {
+    background: #f8f9fa;
+    border-color: #28a745;
+}
+
+.challenge-title {
+    margin: 0 0 4px 0;
+    font-size: 0.9rem;
+}
+
+.challenge-desc {
+    margin: 0 0 8px 0;
+    font-size: 0.8rem;
+}
+
+.path-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.path-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.avatar-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .roadmap-phase {
+        padding: 15px;
+    }
+    
+    .phase-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .milestone-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+}
+</style>
+
+<script>
+function selectPath(pathId) {
+    // AJAX call to update user's learning path
+    fetch('/ai-tools/api/select-learning-path', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({path_id: pathId})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+
+function openMilestone(milestoneId) {
+    // Load milestone details
+    fetch(`/ai-tools/api/milestone/${milestoneId}`)
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('milestoneContent').innerHTML = `
+            <div class="text-center mb-4">
+                <i class="${data.icon} fa-3x text-primary mb-3"></i>
+                <h4>${data.name}</h4>
+                <p class="text-muted">${data.description}</p>
+            </div>
+            
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <h6>Learning Objectives:</h6>
+                    <ul class="list-unstyled">
+                        ${data.objectives.map(obj => `<li><i class="fas fa-check text-success me-2"></i>${obj}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Activities:</h6>
+                    <ul class="list-unstyled">
+                        ${data.activities.map(act => `<li><i class="fas fa-play text-primary me-2"></i>${act}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="row g-3 mt-3">
+                <div class="col-md-4 text-center">
+                    <div class="bg-light p-3 rounded">
+                        <h6>XP Reward</h6>
+                        <div class="h4 text-warning"><i class="fas fa-star me-1"></i>${data.xp_reward}</div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="bg-light p-3 rounded">
+                        <h6>Estimated Time</h6>
+                        <div class="h4 text-info"><i class="fas fa-clock me-1"></i>${data.estimated_time}</div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="bg-light p-3 rounded">
+                        <h6>Difficulty</h6>
+                        <div class="h4 text-primary"><i class="fas fa-chart-line me-1"></i>${data.difficulty}</div>
+                    </div>
+                </div>
+            </div>
+            
+            ${data.is_available ? `
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary btn-lg" onclick="startMilestone('${data.id}')">
+                        <i class="fas fa-play me-2"></i>Start Milestone
+                    </button>
+                </div>
+            ` : ''}
+        `;
+        
+        new bootstrap.Modal(document.getElementById('milestoneModal')).show();
+    });
+}
+
+function startMilestone(milestoneId) {
+    // Navigate to milestone learning content
+    window.location.href = `/ai-tools/milestone/${milestoneId}/learn`;
+}
+
+// Update XP and progress animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate progress bars
+    document.querySelectorAll('.progress-bar').forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+            bar.style.transition = 'width 1s ease-in-out';
+            bar.style.width = width;
+        }, 100);
+    });
+    
+    // Add particle effects for completed milestones
+    document.querySelectorAll('.milestone-card.completed').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            // Add sparkle effect
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+        });
+    });
+});
+</script>
+{% endblock %}

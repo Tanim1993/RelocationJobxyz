@@ -1,0 +1,494 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <!-- Header -->
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 text-primary">
+                        <i class="fas fa-envelope me-2"></i>Professional Email Writing
+                    </h1>
+                    <p class="text-muted mb-0">Master the art of professional email communication</p>
+                </div>
+                <div class="text-end">
+                    <div class="badge bg-warning text-dark fs-6 mb-1">
+                        <i class="fas fa-star me-1"></i>200 XP Reward
+                    </div>
+                    <br>
+                    <a href="/ai-tools/language-learning-roadmap" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Roadmap
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0">Learning Progress</h6>
+                        <span class="text-muted">Step 1 of 4</span>
+                    </div>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar" role="progressbar" style="width: 25%" id="learningProgress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Content -->
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Step 1: Introduction -->
+            <div class="learning-step active" id="step1">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-play-circle me-2"></i>Step 1: Email Structure Fundamentals
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Key Components of Professional Emails:</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <strong>Subject Line:</strong> Clear and specific
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <strong>Greeting:</strong> Professional and appropriate
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <strong>Body:</strong> Structured and concise
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <strong>Closing:</strong> Polite and actionable
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="bg-light p-3 rounded">
+                                    <h6 class="text-primary">Example Structure:</h6>
+                                    <div class="email-example">
+                                        <div class="mb-2">
+                                            <strong>Subject:</strong> Project Update - Q4 Marketing Campaign
+                                        </div>
+                                        <div class="mb-2">
+                                            <strong>Dear Mr. Johnson,</strong>
+                                        </div>
+                                        <div class="mb-2">
+                                            I hope this email finds you well. I am writing to provide an update on our Q4 marketing campaign progress.
+                                        </div>
+                                        <div class="mb-2">
+                                            [Main content here...]
+                                        </div>
+                                        <div>
+                                            <strong>Best regards,<br>Sarah Chen</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary" onclick="nextStep(2)">
+                                Continue to Practice <i class="fas fa-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Interactive Practice -->
+            <div class="learning-step" id="step2" style="display: none;">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-edit me-2"></i>Step 2: Interactive Email Builder
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-4">Build a professional email using the scenario below:</p>
+                        
+                        <div class="alert alert-info">
+                            <strong>Scenario:</strong> You need to request a meeting with your manager to discuss a promotion opportunity. The meeting should be scheduled for next week.
+                        </div>
+                        
+                        <form id="emailBuilder">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Subject Line:</label>
+                                <input type="text" class="form-control" id="emailSubject" placeholder="Enter a clear, professional subject line">
+                                <div class="form-text">Tip: Be specific and actionable</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Greeting:</label>
+                                <select class="form-select" id="emailGreeting">
+                                    <option value="">Choose appropriate greeting</option>
+                                    <option value="dear">Dear [Manager's Name],</option>
+                                    <option value="hello">Hello [Manager's Name],</option>
+                                    <option value="hi">Hi [Manager's Name],</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Email Body:</label>
+                                <textarea class="form-control" id="emailBody" rows="6" placeholder="Write your professional email content here..."></textarea>
+                                <div class="form-text">Remember: Be clear, concise, and professional</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Closing:</label>
+                                <select class="form-select" id="emailClosing">
+                                    <option value="">Choose appropriate closing</option>
+                                    <option value="best">Best regards,</option>
+                                    <option value="sincerely">Sincerely,</option>
+                                    <option value="thank">Thank you,</option>
+                                </select>
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <button class="btn btn-success" onclick="checkEmail()">
+                                <i class="fas fa-check me-1"></i>Check My Email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Feedback & Improvement -->
+            <div class="learning-step" id="step3" style="display: none;">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-thumbs-up me-2"></i>Step 3: Feedback & Improvements
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="emailFeedback">
+                            <!-- Dynamic feedback content will be loaded here -->
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary" onclick="nextStep(4)">
+                                Continue to Assessment <i class="fas fa-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Knowledge Check -->
+            <div class="learning-step" id="step4" style="display: none;">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-clipboard-check me-2"></i>Step 4: Knowledge Assessment
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-4">Test your understanding with these quick questions:</p>
+                        
+                        <div id="assessmentQuestions">
+                            <div class="question-card mb-4">
+                                <h6>Question 1: What makes a subject line effective?</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" value="a" id="q1a">
+                                    <label class="form-check-label" for="q1a">It should be as long as possible</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" value="b" id="q1b">
+                                    <label class="form-check-label" for="q1b">It should be clear and specific</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" value="c" id="q1c">
+                                    <label class="form-check-label" for="q1c">It should use only informal language</label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-card mb-4">
+                                <h6>Question 2: When requesting a meeting, you should:</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" value="a" id="q2a">
+                                    <label class="form-check-label" for="q2a">Provide several time options</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" value="b" id="q2b">
+                                    <label class="form-check-label" for="q2b">Demand a specific time</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" value="c" id="q2c">
+                                    <label class="form-check-label" for="q2c">Not mention the purpose</label>
+                                </div>
+                            </div>
+                            
+                            <div class="question-card mb-4">
+                                <h6>Question 3: Professional email tone should be:</h6>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" value="a" id="q3a">
+                                    <label class="form-check-label" for="q3a">Casual and friendly</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" value="b" id="q3b">
+                                    <label class="form-check-label" for="q3b">Formal but approachable</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" value="c" id="q3c">
+                                    <label class="form-check-label" for="q3c">Very rigid and cold</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button class="btn btn-success btn-lg" onclick="completeAssessment()">
+                                <i class="fas fa-trophy me-1"></i>Complete Milestone
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Learning Tips -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0"><i class="fas fa-lightbulb me-2"></i>Learning Tips</h6>
+                </div>
+                <div class="card-body">
+                    <div class="tip-item mb-3">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-star text-warning me-2 mt-1"></i>
+                            <div>
+                                <strong>Keep it concise:</strong> Business emails should be clear and to the point.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tip-item mb-3">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-star text-warning me-2 mt-1"></i>
+                            <div>
+                                <strong>Use active voice:</strong> Makes your writing more direct and engaging.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tip-item mb-3">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-star text-warning me-2 mt-1"></i>
+                            <div>
+                                <strong>Proofread carefully:</strong> Errors can undermine your professionalism.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Common Phrases -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0"><i class="fas fa-quote-left me-2"></i>Useful Phrases</h6>
+                </div>
+                <div class="card-body">
+                    <div class="phrase-category mb-3">
+                        <h6 class="text-primary">Opening:</h6>
+                        <ul class="list-unstyled">
+                            <li>• I hope this email finds you well</li>
+                            <li>• I am writing to inquire about...</li>
+                            <li>• Thank you for your email</li>
+                        </ul>
+                    </div>
+                    <div class="phrase-category mb-3">
+                        <h6 class="text-primary">Requests:</h6>
+                        <ul class="list-unstyled">
+                            <li>• I would appreciate if you could...</li>
+                            <li>• Could you please...</li>
+                            <li>• I would like to request...</li>
+                        </ul>
+                    </div>
+                    <div class="phrase-category">
+                        <h6 class="text-primary">Closing:</h6>
+                        <ul class="list-unstyled">
+                            <li>• Thank you for your consideration</li>
+                            <li>• I look forward to hearing from you</li>
+                            <li>• Please let me know if you need anything</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Tracker -->
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title mb-0"><i class="fas fa-chart-line me-2"></i>Session Progress</h6>
+                </div>
+                <div class="card-body">
+                    <div class="progress-item mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Email Structure</span>
+                            <span class="text-success"><i class="fas fa-check"></i></span>
+                        </div>
+                    </div>
+                    <div class="progress-item mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Practice Exercise</span>
+                            <span class="text-muted">In Progress</span>
+                        </div>
+                    </div>
+                    <div class="progress-item mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span>Feedback Review</span>
+                            <span class="text-muted">Pending</span>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="d-flex justify-content-between">
+                            <span>Assessment</span>
+                            <span class="text-muted">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.learning-step {
+    transition: all 0.3s ease;
+}
+
+.email-example {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.question-card {
+    padding: 20px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+.tip-item {
+    font-size: 0.9rem;
+}
+
+.phrase-category ul li {
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+}
+
+.progress-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.progress-item:last-child {
+    border-bottom: none;
+}
+</style>
+
+<script>
+let currentStep = 1;
+const totalSteps = 4;
+
+function nextStep(stepNumber) {
+    // Hide current step
+    document.getElementById(`step${currentStep}`).style.display = 'none';
+    
+    // Show next step
+    document.getElementById(`step${stepNumber}`).style.display = 'block';
+    
+    // Update progress
+    currentStep = stepNumber;
+    updateProgress();
+}
+
+function updateProgress() {
+    const progressPercent = (currentStep / totalSteps) * 100;
+    document.getElementById('learningProgress').style.width = progressPercent + '%';
+}
+
+function checkEmail() {
+    const subject = document.getElementById('emailSubject').value;
+    const greeting = document.getElementById('emailGreeting').value;
+    const body = document.getElementById('emailBody').value;
+    const closing = document.getElementById('emailClosing').value;
+    
+    // Generate feedback based on user input
+    let feedback = '<div class="alert alert-success"><h6>Great work! Here\'s your feedback:</h6></div>';
+    
+    // Subject line feedback
+    if (subject.length > 10 && subject.toLowerCase().includes('meeting')) {
+        feedback += '<div class="feedback-item mb-3"><i class="fas fa-check-circle text-success me-2"></i><strong>Subject Line:</strong> Excellent! Clear and specific.</div>';
+    } else {
+        feedback += '<div class="feedback-item mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i><strong>Subject Line:</strong> Consider being more specific about the meeting purpose.</div>';
+    }
+    
+    // Greeting feedback
+    if (greeting === 'dear') {
+        feedback += '<div class="feedback-item mb-3"><i class="fas fa-check-circle text-success me-2"></i><strong>Greeting:</strong> Perfect formal greeting choice.</div>';
+    } else {
+        feedback += '<div class="feedback-item mb-3"><i class="fas fa-info-circle text-info me-2"></i><strong>Greeting:</strong> "Dear" is typically most appropriate for formal requests.</div>';
+    }
+    
+    // Body feedback
+    if (body.length > 50) {
+        feedback += '<div class="feedback-item mb-3"><i class="fas fa-check-circle text-success me-2"></i><strong>Email Body:</strong> Good length and detail.</div>';
+    } else {
+        feedback += '<div class="feedback-item mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i><strong>Email Body:</strong> Consider adding more context about the promotion discussion.</div>';
+    }
+    
+    // Closing feedback
+    if (closing === 'best' || closing === 'thank') {
+        feedback += '<div class="feedback-item mb-3"><i class="fas fa-check-circle text-success me-2"></i><strong>Closing:</strong> Professional and appropriate choice.</div>';
+    }
+    
+    feedback += '<div class="mt-4"><div class="alert alert-info"><strong>Tip:</strong> Always review your email before sending to ensure clarity and professionalism.</div></div>';
+    
+    document.getElementById('emailFeedback').innerHTML = feedback;
+    nextStep(3);
+}
+
+function completeAssessment() {
+    // Check answers
+    const q1 = document.querySelector('input[name="q1"]:checked')?.value;
+    const q2 = document.querySelector('input[name="q2"]:checked')?.value;
+    const q3 = document.querySelector('input[name="q3"]:checked')?.value;
+    
+    let score = 0;
+    if (q1 === 'b') score++;
+    if (q2 === 'a') score++;
+    if (q3 === 'b') score++;
+    
+    const percentage = (score / 3) * 100;
+    
+    // Show completion modal or redirect
+    alert(`Congratulations! You scored ${score}/3 (${percentage.toFixed(0)}%) and earned 200 XP!`);
+    
+    // In real app, this would update the user's progress in the database
+    setTimeout(() => {
+        window.location.href = '/ai-tools/language-learning-roadmap';
+    }, 2000);
+}
+
+// Initialize progress
+updateProgress();
+</script>
+{% endblock %}
