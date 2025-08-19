@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script src="{{ url_for('static', filename='js/ai-tools-fix.js') }}"></script>
 <div class="container py-4">
     {% if not assessment_complete %}
     <!-- Assessment Form -->
