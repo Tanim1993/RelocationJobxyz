@@ -117,16 +117,36 @@
 document.getElementById('careerForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Get form data
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    // Generate career path
-    generateCareerPath(data);
+    try {
+        console.log('Career form submitted');
+        
+        // Get form data
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+        
+        console.log('Form data:', data);
+        
+        // Validate required fields
+        if (!data.current_role || !data.experience || !data.industry || !data.goal) {
+            showError('Please fill in all required fields');
+            return;
+        }
+        
+        // Generate career path
+        generateCareerPath(data);
+        
+    } catch (error) {
+        console.error('Career form error:', error);
+        showError('Something went wrong. Please try again.');
+        logButtonError('career-path-predictor', 'form-submission', error.message);
+    }
 });
 
 function generateCareerPath(data) {
-    const prediction = predictCareerPath(data);
+    try {
+        console.log('Generating career path for:', data);
+        const prediction = predictCareerPath(data);
+        console.log('Generated prediction:', prediction);
     
     const resultsHTML = `
         <div class="row">
@@ -211,6 +231,12 @@ function generateCareerPath(data) {
     
     // Scroll to results
     document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+    
+    } catch (error) {
+        console.error('Career path generation error:', error);
+        showError('Failed to generate career path. Please try again.');
+        logButtonError('career-path-predictor', 'path-generation', error.message);
+    }
 }
 
 function predictCareerPath(data) {
@@ -313,5 +339,74 @@ function getCareerPredictions() {
         }
     };
 }
+
+// Error handling and logging functions
+function showError(message) {
+    // Remove existing error alerts
+    const existingAlerts = document.querySelectorAll('.alert-danger');
+    existingAlerts.forEach(alert => alert.remove());
+    
+    // Create new error alert
+    const errorAlert = document.createElement('div');
+    errorAlert.className = 'alert alert-danger alert-dismissible fade show mt-3';
+    errorAlert.innerHTML = `
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Error:</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Insert after form
+    const form = document.getElementById('careerForm');
+    form.parentNode.insertBefore(errorAlert, form.nextSibling);
+    
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+        if (errorAlert.parentNode) {
+            errorAlert.remove();
+        }
+    }, 5000);
+}
+
+function logButtonError(toolName, action, errorMessage) {
+    const errorData = {
+        timestamp: new Date().toISOString(),
+        tool: toolName,
+        action: action,
+        error: errorMessage,
+        userAgent: navigator.userAgent,
+        url: window.location.href
+    };
+    
+    console.error('Button Error Log:', errorData);
+    
+    // Store in localStorage for debugging
+    const errorLog = JSON.parse(localStorage.getItem('buttonErrorLog') || '[]');
+    errorLog.push(errorData);
+    
+    // Keep only last 50 errors
+    if (errorLog.length > 50) {
+        errorLog.splice(0, errorLog.length - 50);
+    }
+    
+    localStorage.setItem('buttonErrorLog', JSON.stringify(errorLog));
+    
+    // Also send to console for immediate debugging
+    console.table(errorData);
+}
+
+// Global error handler for all buttons
+document.addEventListener('click', function(e) {
+    if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        const button = e.target.tagName === 'BUTTON' ? e.target : e.target.closest('button');
+        
+        // Add click logging for debugging
+        console.log('Button clicked:', {
+            id: button.id,
+            className: button.className,
+            innerText: button.innerText.trim(),
+            type: button.type
+        });
+    }
+});
 </script>
 {% endblock %}

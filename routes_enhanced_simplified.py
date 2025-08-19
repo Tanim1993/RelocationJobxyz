@@ -1122,6 +1122,11 @@ def career_guidance_tool():
     """Career Path Predictor for personalized career guidance"""
     return render_template('enhanced/career_path_predictor.html')
 
+@enhanced_bp.route('/error-tracker')
+def error_tracker():
+    """Error tracking dashboard for debugging non-functional buttons"""
+    return render_template('enhanced/error_tracker.html')
+
 @enhanced_bp.route('/global-benefits-comparison')
 @login_required
 def global_benefits_comparison():
