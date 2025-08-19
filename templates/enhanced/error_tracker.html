@@ -129,21 +129,14 @@ function exportErrorLog() {
 function testAllButtons() {
     const buttons = document.querySelectorAll('button');
     let buttonCount = 0;
-    let workingCount = 0;
     
     buttons.forEach(button => {
         if (button.type !== 'submit' && !button.onclick && !button.hasAttribute('data-bs-dismiss')) {
             buttonCount++;
-            
-            // Test if button has any event listeners
-            const events = getEventListeners ? getEventListeners(button) : {};
-            if (Object.keys(events).length > 0) {
-                workingCount++;
-            }
         }
     });
     
-    showSuccess(`Found ${buttonCount} buttons, ${workingCount} have event listeners`);
+    showSuccess(`Found ${buttonCount} buttons to test`);
 }
 
 function refreshErrors() {
