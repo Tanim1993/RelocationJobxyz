@@ -1112,6 +1112,11 @@ def milestone_learning_content(milestone_id):
     """Learning content page for a specific milestone"""
     return render_template('enhanced/milestone_learning.html', milestone_id=milestone_id)
 
+@enhanced_bp.route('/cultural-intelligence-analyzer')
+def cultural_intelligence_analyzer():
+    """Cultural Intelligence Analyzer for cross-cultural adaptation"""
+    return render_template('enhanced/cultural_intelligence.html')
+
 @enhanced_bp.route('/global-benefits-comparison')
 @login_required
 def global_benefits_comparison():

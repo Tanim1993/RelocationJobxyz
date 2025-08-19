@@ -1,6 +1,6 @@
 # Overview
 
-A Flask-based web application designed to help job seekers find international relocation opportunities. The platform focuses specifically on jobs that offer visa sponsorship, relocation packages, and other international support benefits. It integrates with external job APIs to fetch real job listings, stores them in a local database, and provides personalized email templates for job applications emphasizing relocation readiness.
+A comprehensive international job platform with Monster.com-style design featuring 16 advanced AI-powered tools for global professionals. The platform combines job search functionality with specialized AI tools for language learning, cultural adaptation, and career development. Currently features two major AI tools: Language Proficiency Predictor with personalized learning plans and Interactive Language Learning Roadmap with full gamification system including XP, levels, achievement badges, daily challenges, and competitive leaderboards.
 
 # User Preferences
 
@@ -24,8 +24,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Frontend Architecture
 - **Server-side Rendering**: Traditional Flask templating with Jinja2 for dynamic content generation
-- **Bootstrap Framework**: Uses Bootstrap 5 with dark theme for responsive UI components
+- **Bootstrap Framework**: Uses Bootstrap 5 with Replit agent dark theme for responsive UI components
+- **Interactive UI Components**: Advanced JavaScript for gamification features, progress tracking, modal interactions, and real-time feedback
 - **Progressive Enhancement**: JavaScript adds interactive features while maintaining basic functionality without it
+
+## AI Tools System
+- **Language Proficiency Predictor**: Comprehensive assessment form generating personalized 3-phase learning plans with weekly schedules, milestones, and resources
+- **Interactive Language Learning Roadmap**: Full gamification system with XP tracking, achievement badges, daily challenges, milestone progression, and competitive leaderboards
+- **Modular Architecture**: Each AI tool implemented as separate blueprint with dedicated templates and API endpoints
 
 ## Email Generation System
 - **Template Engine**: Generates personalized email content based on job details and available relocation benefits
