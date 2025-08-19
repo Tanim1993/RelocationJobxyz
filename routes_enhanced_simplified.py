@@ -1127,6 +1127,11 @@ def error_tracker():
     """Error tracking dashboard for debugging non-functional buttons"""
     return render_template('enhanced/error_tracker.html')
 
+@enhanced_bp.route('/salary-intelligence-system')
+def salary_intelligence_system():
+    """Comprehensive salary intelligence and eligibility checker"""
+    return render_template('enhanced/salary_intelligence_system.html')
+
 @enhanced_bp.route('/global-benefits-comparison')
 @login_required
 def global_benefits_comparison():

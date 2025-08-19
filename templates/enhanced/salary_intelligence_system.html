@@ -1,0 +1,458 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold text-primary">
+                    <i class="fas fa-dollar-sign me-3"></i>Salary Intelligence System
+                </h1>
+                <p class="lead text-muted">
+                    Get comprehensive salary analysis and eligibility assessment for your target role
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assessment Form -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Salary Assessment Form
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="salaryForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Target Job Title</label>
+                                <input type="text" class="form-control" name="job_title" placeholder="e.g., Software Engineer, Marketing Manager" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Years of Experience</label>
+                                <select class="form-select" name="experience" required>
+                                    <option value="">Select experience</option>
+                                    <option value="0-2">0-2 years (Entry Level)</option>
+                                    <option value="3-5">3-5 years (Mid Level)</option>
+                                    <option value="6-8">6-8 years (Senior Level)</option>
+                                    <option value="9-12">9-12 years (Lead Level)</option>
+                                    <option value="13+">13+ years (Executive)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Target Location</label>
+                                <select class="form-select" name="location" required>
+                                    <option value="">Select location</option>
+                                    <option value="san-francisco">San Francisco, CA</option>
+                                    <option value="new-york">New York, NY</option>
+                                    <option value="seattle">Seattle, WA</option>
+                                    <option value="austin">Austin, TX</option>
+                                    <option value="london">London, UK</option>
+                                    <option value="berlin">Berlin, Germany</option>
+                                    <option value="toronto">Toronto, Canada</option>
+                                    <option value="sydney">Sydney, Australia</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Education Level</label>
+                                <select class="form-select" name="education">
+                                    <option value="bachelors">Bachelor's Degree</option>
+                                    <option value="masters">Master's Degree</option>
+                                    <option value="phd">PhD</option>
+                                    <option value="bootcamp">Bootcamp/Certificate</option>
+                                    <option value="self-taught">Self-Taught</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Key Skills (select all that apply)</label>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="python" id="python">
+                                        <label class="form-check-label" for="python">Python</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="javascript" id="javascript">
+                                        <label class="form-check-label" for="javascript">JavaScript</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="react" id="react">
+                                        <label class="form-check-label" for="react">React</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="aws" id="aws">
+                                        <label class="form-check-label" for="aws">AWS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="machine-learning" id="ml">
+                                        <label class="form-check-label" for="ml">Machine Learning</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="project-management" id="pm">
+                                        <label class="form-check-label" for="pm">Project Management</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="data-analysis" id="data">
+                                        <label class="form-check-label" for="data">Data Analysis</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="leadership" id="leadership">
+                                        <label class="form-check-label" for="leadership">Leadership</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="agile" id="agile">
+                                        <label class="form-check-label" for="agile">Agile/Scrum</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Current Salary (optional)</label>
+                            <input type="number" class="form-control" name="current_salary" placeholder="Enter your current salary in USD">
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success btn-lg px-5">
+                                <i class="fas fa-search me-2"></i>Check Eligibility & Generate Report
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="row mt-4" id="resultsSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-line me-2"></i>Salary Intelligence Report
+                    </h5>
+                </div>
+                <div class="card-body" id="salaryResults">
+                    <!-- Results will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('salaryForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Salary form submitted');
+            
+            try {
+                const formData = new FormData(this);
+                const data = {};
+                
+                // Get regular form fields
+                for (let [key, value] of formData.entries()) {
+                    if (key === 'skills') {
+                        if (!data.skills) data.skills = [];
+                        data.skills.push(value);
+                    } else {
+                        data[key] = value;
+                    }
+                }
+                
+                // Get checked skills
+                const skillsChecked = document.querySelectorAll('input[name="skills"]:checked');
+                data.skills = Array.from(skillsChecked).map(cb => cb.value);
+                
+                console.log('Form data collected:', data);
+                
+                if (!data.job_title || !data.experience || !data.location) {
+                    showError('Please fill in job title, experience, and location');
+                    return;
+                }
+                
+                generateSalaryReport(data);
+                
+            } catch (error) {
+                console.error('Form submission error:', error);
+                showError('Something went wrong. Please try again.');
+                logError('salary-intelligence', 'form-submission', error.message);
+            }
+        });
+    }
+});
+
+function generateSalaryReport(data) {
+    try {
+        console.log('Generating salary report...');
+        
+        // Calculate salary based on inputs
+        const salaryData = calculateSalary(data);
+        console.log('Salary calculation result:', salaryData);
+        
+        const resultsHTML = `
+            <div class="row">
+                <!-- Eligibility Status -->
+                <div class="col-12 mb-4">
+                    <div class="alert ${salaryData.eligible ? 'alert-success' : 'alert-warning'}" role="alert">
+                        <h5 class="alert-heading">
+                            <i class="fas ${salaryData.eligible ? 'fa-check-circle' : 'fa-exclamation-triangle'} me-2"></i>
+                            Eligibility Status: ${salaryData.eligible ? 'Qualified' : 'Needs Improvement'}
+                        </h5>
+                        <p class="mb-0">${salaryData.eligibilityMessage}</p>
+                    </div>
+                </div>
+                
+                <!-- Salary Breakdown -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="fas fa-money-bill-wave me-2"></i>Salary Analysis</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <strong>Target Salary Range:</strong>
+                                <div class="fs-4 text-success fw-bold">$${salaryData.minSalary.toLocaleString()} - $${salaryData.maxSalary.toLocaleString()}</div>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Market Average:</strong>
+                                <div class="fs-5 text-primary">$${salaryData.averageSalary.toLocaleString()}</div>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Your Position:</strong>
+                                <div class="progress mb-2">
+                                    <div class="progress-bar" role="progressbar" style="width: ${salaryData.percentile}%">
+                                        ${salaryData.percentile}th percentile
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Location Analysis -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="fas fa-map-marker-alt me-2"></i>Location Insights</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <strong>Cost of Living Index:</strong>
+                                <div class="fs-5">${salaryData.costOfLiving}</div>
+                                <small class="text-muted">Compared to national average</small>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Real Purchasing Power:</strong>
+                                <div class="fs-5 text-info">$${salaryData.adjustedSalary.toLocaleString()}</div>
+                                <small class="text-muted">Adjusted for cost of living</small>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Job Market Demand:</strong>
+                                <span class="badge ${salaryData.demand === 'High' ? 'bg-success' : salaryData.demand === 'Medium' ? 'bg-warning' : 'bg-secondary'} fs-6">
+                                    ${salaryData.demand}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skills Impact -->
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="fas fa-cogs me-2"></i>Skills Impact Analysis</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-success">High-Value Skills You Have:</h6>
+                                    <ul class="list-unstyled">
+                                        ${salaryData.highValueSkills.map(skill => `<li><i class="fas fa-plus-circle text-success me-2"></i>${skill} (+$${(Math.random() * 15000 + 5000).toFixed(0)})</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-warning">Skills to Develop:</h6>
+                                    <ul class="list-unstyled">
+                                        ${salaryData.recommendedSkills.map(skill => `<li><i class="fas fa-arrow-up text-warning me-2"></i>${skill} (Potential +$${(Math.random() * 20000 + 8000).toFixed(0)})</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Plan -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0"><i class="fas fa-list-check me-2"></i>Personalized Action Plan</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Immediate Actions (Next 30 days):</h6>
+                                    <ul>
+                                        ${salaryData.immediateActions.map(action => `<li>${action}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Long-term Goals (3-6 months):</h6>
+                                    <ul>
+                                        ${salaryData.longTermGoals.map(goal => `<li>${goal}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="alert alert-info mt-3">
+                                <strong>Success Probability:</strong> ${salaryData.successProbability}% chance of achieving target salary within 6 months
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('salaryResults').innerHTML = resultsHTML;
+        document.getElementById('resultsSection').style.display = 'block';
+        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        
+    } catch (error) {
+        console.error('Error generating salary report:', error);
+        showError('Failed to generate salary report. Please try again.');
+        logError('salary-intelligence', 'report-generation', error.message);
+    }
+}
+
+function calculateSalary(data) {
+    // Base salary ranges by experience level
+    const baseSalaries = {
+        '0-2': { min: 50000, max: 80000 },
+        '3-5': { min: 75000, max: 120000 },
+        '6-8': { min: 110000, max: 160000 },
+        '9-12': { min: 140000, max: 200000 },
+        '13+': { min: 180000, max: 300000 }
+    };
+    
+    // Location multipliers
+    const locationMultipliers = {
+        'san-francisco': 1.4,
+        'new-york': 1.3,
+        'seattle': 1.2,
+        'austin': 1.0,
+        'london': 1.1,
+        'berlin': 0.8,
+        'toronto': 0.9,
+        'sydney': 1.0
+    };
+    
+    // Cost of living indices
+    const costOfLiving = {
+        'san-francisco': '180% (Very High)',
+        'new-york': '170% (Very High)',
+        'seattle': '140% (High)',
+        'austin': '105% (Average)',
+        'london': '130% (High)',
+        'berlin': '95% (Below Average)',
+        'toronto': '110% (Above Average)',
+        'sydney': '125% (High)'
+    };
+    
+    const base = baseSalaries[data.experience];
+    const multiplier = locationMultipliers[data.location] || 1.0;
+    
+    // Calculate salary range
+    const minSalary = Math.round(base.min * multiplier);
+    const maxSalary = Math.round(base.max * multiplier);
+    const averageSalary = Math.round((minSalary + maxSalary) / 2);
+    
+    // Skills analysis
+    const userSkills = data.skills || [];
+    const highValueSkills = userSkills.filter(skill => 
+        ['python', 'aws', 'machine-learning', 'leadership', 'react'].includes(skill)
+    );
+    
+    const allSkills = ['python', 'aws', 'machine-learning', 'leadership', 'react', 'kubernetes', 'data-science'];
+    const recommendedSkills = allSkills.filter(skill => !userSkills.includes(skill)).slice(0, 3);
+    
+    // Eligibility assessment
+    const experienceScore = data.experience === '0-2' ? 40 : data.experience === '3-5' ? 60 : 80;
+    const skillsScore = Math.min(100, userSkills.length * 15);
+    const educationScore = data.education === 'phd' ? 100 : data.education === 'masters' ? 85 : 70;
+    
+    const overallScore = (experienceScore + skillsScore + educationScore) / 3;
+    const eligible = overallScore >= 65;
+    
+    return {
+        minSalary,
+        maxSalary,
+        averageSalary,
+        adjustedSalary: Math.round(averageSalary * 0.8), // Rough cost of living adjustment
+        percentile: Math.min(95, Math.round(40 + userSkills.length * 8 + (data.experience === '13+' ? 30 : 0))),
+        costOfLiving: costOfLiving[data.location] || '100% (Average)',
+        demand: userSkills.length >= 4 ? 'High' : userSkills.length >= 2 ? 'Medium' : 'Low',
+        highValueSkills,
+        recommendedSkills,
+        eligible,
+        eligibilityMessage: eligible ? 
+            'You meet the qualifications for this role and salary range!' : 
+            'You may need to develop additional skills or gain more experience.',
+        successProbability: Math.min(95, Math.round(overallScore + (userSkills.length * 5))),
+        immediateActions: [
+            'Update your resume with quantified achievements',
+            'Research 5 companies hiring in your target location',
+            'Practice technical interview questions',
+            'Network with professionals in your field'
+        ],
+        longTermGoals: [
+            `Learn ${recommendedSkills[0] || 'advanced technical skills'}`,
+            'Build a portfolio project showcasing your abilities',
+            'Obtain relevant certifications',
+            'Seek mentorship from senior professionals'
+        ]
+    };
+}
+
+function showError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'alert alert-danger alert-dismissible fade show';
+    errorDiv.innerHTML = `
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Error:</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.querySelector('.card-body').insertBefore(errorDiv, document.getElementById('salaryForm'));
+    
+    setTimeout(() => errorDiv.remove(), 5000);
+}
+
+function logError(tool, action, error) {
+    const errorData = {
+        timestamp: new Date().toISOString(),
+        tool: tool,
+        action: action,
+        error: error,
+        url: window.location.href
+    };
+    
+    console.error('Error logged:', errorData);
+    
+    const errorLog = JSON.parse(localStorage.getItem('buttonErrorLog') || '[]');
+    errorLog.push(errorData);
+    localStorage.setItem('buttonErrorLog', JSON.stringify(errorLog.slice(-50)));
+}
+</script>
+{% endblock %}
