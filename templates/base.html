@@ -21,7 +21,6 @@
     <style>
         /* Theme-aware navigation styles */
         .nav-btn {
-            color: white !important;
             text-decoration: none !important;
             padding: 8px 16px;
             margin: 0 4px;
@@ -34,9 +33,25 @@
             background: transparent;
         }
         
-        .nav-btn:hover {
+        /* Dark theme navigation */
+        [data-bs-theme="dark"] .nav-btn {
+            color: white !important;
+        }
+        
+        [data-bs-theme="dark"] .nav-btn:hover {
             background: rgba(255,255,255,0.15) !important;
             color: white !important;
+            transform: translateY(-1px);
+        }
+        
+        /* Light theme navigation */
+        [data-bs-theme="light"] .nav-btn {
+            color: #495057 !important;
+        }
+        
+        [data-bs-theme="light"] .nav-btn:hover {
+            background: rgba(0,0,0,0.05) !important;
+            color: #212529 !important;
             transform: translateY(-1px);
         }
         
@@ -51,25 +66,49 @@
             transition: all 0.3s ease;
         }
         
-        .btn-login {
+        /* Dark theme auth buttons */
+        [data-bs-theme="dark"] .btn-login {
             color: white !important;
             border: 1px solid rgba(255,255,255,0.3);
             background: transparent;
         }
         
-        .btn-login:hover {
+        [data-bs-theme="dark"] .btn-login:hover {
             background: rgba(255,255,255,0.1);
             border-color: white;
         }
         
-        .btn-signup {
+        [data-bs-theme="dark"] .btn-signup {
             background: white !important;
             color: #663399 !important;
             border: 1px solid white;
         }
         
-        .btn-signup:hover {
+        [data-bs-theme="dark"] .btn-signup:hover {
             background: rgba(255,255,255,0.9) !important;
+            transform: translateY(-1px);
+        }
+        
+        /* Light theme auth buttons */
+        [data-bs-theme="light"] .btn-login {
+            color: #663399 !important;
+            border: 1px solid #663399;
+            background: transparent;
+        }
+        
+        [data-bs-theme="light"] .btn-login:hover {
+            background: #663399;
+            color: white !important;
+        }
+        
+        [data-bs-theme="light"] .btn-signup {
+            background: #663399 !important;
+            color: white !important;
+            border: 1px solid #663399;
+        }
+        
+        [data-bs-theme="light"] .btn-signup:hover {
+            background: #5a2d7a !important;
             transform: translateY(-1px);
         }
         
@@ -141,6 +180,35 @@
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
             color: white;
+        }
+        
+        /* Dropdown menu styling */
+        .dropdown-menu {
+            background: var(--bs-body-bg);
+            border: 1px solid var(--bs-border-color);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .dropdown-item {
+            color: var(--bs-body-color);
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-item:hover {
+            background: var(--bs-primary);
+            color: white;
+        }
+        
+        .dropdown-header {
+            color: var(--bs-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .dropdown-divider {
+            border-color: var(--bs-border-color);
         }
     </style>
 </head>
