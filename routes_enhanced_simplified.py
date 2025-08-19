@@ -1117,6 +1117,11 @@ def cultural_intelligence_analyzer():
     """Cultural Intelligence Analyzer for cross-cultural adaptation"""
     return render_template('enhanced/cultural_intelligence.html')
 
+@enhanced_bp.route('/salary-intelligence-system')
+def salary_intelligence_system():
+    """Salary Intelligence System for compensation analysis and negotiation"""
+    return render_template('enhanced/salary_intelligence.html')
+
 @enhanced_bp.route('/global-benefits-comparison')
 @login_required
 def global_benefits_comparison():

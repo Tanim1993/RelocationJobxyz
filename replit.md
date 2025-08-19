@@ -31,6 +31,8 @@ Preferred communication style: Simple, everyday language.
 ## AI Tools System
 - **Language Proficiency Predictor**: Comprehensive assessment form generating personalized 3-phase learning plans with weekly schedules, milestones, and resources
 - **Interactive Language Learning Roadmap**: Full gamification system with XP tracking, achievement badges, daily challenges, milestone progression, and competitive leaderboards
+- **Cultural Intelligence Analyzer**: Advanced cross-cultural adaptation assessment with intelligent scoring algorithms and personalized cultural adaptation profiles
+- **Salary Intelligence System**: Data-driven salary benchmarking, cost of living analysis, and personalized negotiation strategies with market insights
 - **Modular Architecture**: Each AI tool implemented as separate blueprint with dedicated templates and API endpoints
 
 ## Email Generation System

@@ -1,319 +1,924 @@
 {% extends "base.html" %}
 
-{% block title %}Salary Intelligence - Global Compensation Analysis{% endblock %}
-
 {% block content %}
-<div class="container mt-4">
+<div class="container py-4">
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">
-                        <i class="fas fa-chart-line me-2"></i>Global Salary Intelligence
-                    </h4>
-                    <p class="text-muted mb-0">Compare salaries across countries with cost of living adjustments</p>
+        <!-- Header -->
+        <div class="col-12">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold text-primary">
+                    <i class="fas fa-chart-line me-3"></i>Salary Intelligence System
+                </h1>
+                <p class="lead text-muted">
+                    Get data-driven salary insights and master negotiation strategies for global opportunities
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis Form -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-calculator me-2"></i>Salary Analysis & Benchmarking
+                    </h5>
                 </div>
                 <div class="card-body">
-                    <!-- Salary Comparison Form -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <form id="salaryComparisonForm">
-                                <div class="mb-3">
-                                    <label for="jobTitle" class="form-label">Job Title</label>
-                                    <select class="form-select" id="jobTitle" required>
-                                        <option value="">Select a job title</option>
-                                        <option value="Software Engineer">Software Engineer</option>
-                                        <option value="Data Scientist">Data Scientist</option>
-                                        <option value="Product Manager">Product Manager</option>
-                                        <option value="DevOps Engineer">DevOps Engineer</option>
-                                        <option value="UX Designer">UX Designer</option>
-                                        <option value="Marketing Manager">Marketing Manager</option>
+                    <form id="salaryAnalysisForm">
+                        <!-- Job Information -->
+                        <div class="mb-4">
+                            <h6 class="text-primary border-bottom pb-2">Position Details</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Job Title</label>
+                                    <input type="text" class="form-control" name="job_title" placeholder="e.g., Software Engineer, Product Manager" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Industry</label>
+                                    <select class="form-select" name="industry" required>
+                                        <option value="">Select industry</option>
+                                        <option value="technology">Technology</option>
+                                        <option value="finance">Finance & Banking</option>
+                                        <option value="healthcare">Healthcare</option>
+                                        <option value="consulting">Consulting</option>
+                                        <option value="education">Education</option>
+                                        <option value="manufacturing">Manufacturing</option>
+                                        <option value="retail">Retail</option>
+                                        <option value="media">Media & Entertainment</option>
+                                        <option value="energy">Energy</option>
+                                        <option value="government">Government</option>
+                                        <option value="non-profit">Non-profit</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="experienceLevel" class="form-label">Experience Level</label>
-                                    <select class="form-select" id="experienceLevel" required>
+                                <div class="col-md-6">
+                                    <label class="form-label">Experience Level</label>
+                                    <select class="form-select" name="experience_level" required>
                                         <option value="">Select experience level</option>
-                                        <option value="Entry">Entry Level (0-2 years)</option>
-                                        <option value="Mid">Mid Level (3-5 years)</option>
-                                        <option value="Senior">Senior Level (6-10 years)</option>
-                                        <option value="Lead">Lead Level (10+ years)</option>
+                                        <option value="entry">Entry Level (0-2 years)</option>
+                                        <option value="junior">Junior (2-4 years)</option>
+                                        <option value="mid">Mid-Level (4-7 years)</option>
+                                        <option value="senior">Senior (7-10 years)</option>
+                                        <option value="lead">Lead/Principal (10-15 years)</option>
+                                        <option value="executive">Executive (15+ years)</option>
                                     </select>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="locations" class="form-label">Locations to Compare</label>
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                <div class="col-md-6">
+                                    <label class="form-label">Company Size</label>
+                                    <select class="form-select" name="company_size">
+                                        <option value="startup">Startup (1-50 employees)</option>
+                                        <option value="small">Small (51-200 employees)</option>
+                                        <option value="medium">Medium (201-1000 employees)</option>
+                                        <option value="large">Large (1001-5000 employees)</option>
+                                        <option value="enterprise">Enterprise (5000+ employees)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Location Analysis -->
+                        <div class="mb-4">
+                            <h6 class="text-primary border-bottom pb-2">Location Comparison</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Current Location</label>
+                                    <select class="form-select" name="current_location" required>
+                                        <option value="">Select current location</option>
+                                        <option value="us-sf">San Francisco, US</option>
+                                        <option value="us-nyc">New York City, US</option>
+                                        <option value="us-la">Los Angeles, US</option>
+                                        <option value="us-seattle">Seattle, US</option>
+                                        <option value="us-austin">Austin, US</option>
+                                        <option value="uk-london">London, UK</option>
+                                        <option value="de-berlin">Berlin, Germany</option>
+                                        <option value="de-munich">Munich, Germany</option>
+                                        <option value="fr-paris">Paris, France</option>
+                                        <option value="ca-toronto">Toronto, Canada</option>
+                                        <option value="ca-vancouver">Vancouver, Canada</option>
+                                        <option value="au-sydney">Sydney, Australia</option>
+                                        <option value="jp-tokyo">Tokyo, Japan</option>
+                                        <option value="sg-singapore">Singapore</option>
+                                        <option value="in-bangalore">Bangalore, India</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Target Location</label>
+                                    <select class="form-select" name="target_location" required>
+                                        <option value="">Select target location</option>
+                                        <option value="us-sf">San Francisco, US</option>
+                                        <option value="us-nyc">New York City, US</option>
+                                        <option value="us-la">Los Angeles, US</option>
+                                        <option value="us-seattle">Seattle, US</option>
+                                        <option value="us-austin">Austin, US</option>
+                                        <option value="uk-london">London, UK</option>
+                                        <option value="de-berlin">Berlin, Germany</option>
+                                        <option value="de-munich">Munich, Germany</option>
+                                        <option value="fr-paris">Paris, France</option>
+                                        <option value="ca-toronto">Toronto, Canada</option>
+                                        <option value="ca-vancouver">Vancouver, Canada</option>
+                                        <option value="au-sydney">Sydney, Australia</option>
+                                        <option value="jp-tokyo">Tokyo, Japan</option>
+                                        <option value="sg-singapore">Singapore</option>
+                                        <option value="in-bangalore">Bangalore, India</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Current Salary (Optional)</label>
+                                    <div class="input-group">
+                                        <select class="form-select" name="current_currency" style="max-width: 100px;">
+                                            <option value="USD">USD</option>
+                                            <option value="EUR">EUR</option>
+                                            <option value="GBP">GBP</option>
+                                            <option value="CAD">CAD</option>
+                                            <option value="AUD">AUD</option>
+                                            <option value="JPY">JPY</option>
+                                            <option value="SGD">SGD</option>
+                                            <option value="INR">INR</option>
+                                        </select>
+                                        <input type="number" class="form-control" name="current_salary" placeholder="Annual salary">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Remote Work Preference</label>
+                                    <select class="form-select" name="remote_preference">
+                                        <option value="onsite">On-site only</option>
+                                        <option value="hybrid">Hybrid (2-3 days office)</option>
+                                        <option value="remote">Fully remote</option>
+                                        <option value="flexible">Flexible arrangement</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skills & Specializations -->
+                        <div class="mb-4">
+                            <h6 class="text-primary border-bottom pb-2">Skills & Qualifications</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Education Level</label>
+                                    <select class="form-select" name="education">
+                                        <option value="high_school">High School</option>
+                                        <option value="associate">Associate Degree</option>
+                                        <option value="bachelor">Bachelor's Degree</option>
+                                        <option value="master">Master's Degree</option>
+                                        <option value="phd">PhD/Doctorate</option>
+                                        <option value="bootcamp">Coding Bootcamp</option>
+                                        <option value="self_taught">Self-taught</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Certifications</label>
+                                    <select class="form-select" name="certifications">
+                                        <option value="none">No certifications</option>
+                                        <option value="basic">1-2 relevant certifications</option>
+                                        <option value="moderate">3-5 certifications</option>
+                                        <option value="extensive">6+ certifications</option>
+                                        <option value="expert">Industry expert certifications</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Key Skills (select all that apply)</label>
+                                    <div class="row g-2">
+                                        <div class="col-md-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="New York, NY" id="ny" checked>
-                                                <label class="form-check-label" for="ny">New York, NY</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="San Francisco, CA" id="sf" checked>
-                                                <label class="form-check-label" for="sf">San Francisco, CA</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="London, UK" id="london" checked>
-                                                <label class="form-check-label" for="london">London, UK</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Berlin, Germany" id="berlin">
-                                                <label class="form-check-label" for="berlin">Berlin, Germany</label>
+                                                <input class="form-check-input" type="checkbox" name="skills" value="leadership" id="skill1">
+                                                <label class="form-check-label" for="skill1">Leadership</label>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Toronto, Canada" id="toronto">
-                                                <label class="form-check-label" for="toronto">Toronto, Canada</label>
+                                                <input class="form-check-input" type="checkbox" name="skills" value="project_management" id="skill2">
+                                                <label class="form-check-label" for="skill2">Project Management</label>
                                             </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Singapore" id="singapore">
-                                                <label class="form-check-label" for="singapore">Singapore</label>
+                                                <input class="form-check-input" type="checkbox" name="skills" value="technical_expertise" id="skill3">
+                                                <label class="form-check-label" for="skill3">Technical Expertise</label>
                                             </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Sydney, Australia" id="sydney">
-                                                <label class="form-check-label" for="sydney">Sydney, Australia</label>
+                                                <input class="form-check-input" type="checkbox" name="skills" value="data_analysis" id="skill4">
+                                                <label class="form-check-label" for="skill4">Data Analysis</label>
                                             </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="Dubai, UAE" id="dubai">
-                                                <label class="form-check-label" for="dubai">Dubai, UAE</label>
+                                                <input class="form-check-input" type="checkbox" name="skills" value="sales" id="skill5">
+                                                <label class="form-check-label" for="skill5">Sales & Business Development</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="skills" value="multilingual" id="skill6">
+                                                <label class="form-check-label" for="skill6">Multilingual</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-calculator me-2"></i>Compare Salaries
-                                </button>
-                            </form>
+                            </div>
                         </div>
-                        
-                        <div class="col-md-6">
-                            <!-- Negotiation Insights Form -->
-                            <div class="card">
-                                <div class="card-header">
-                                    <h6 class="mb-0">Salary Negotiation Assistant</h6>
+
+                        <!-- Negotiation Preferences -->
+                        <div class="mb-4">
+                            <h6 class="text-primary border-bottom pb-2">Negotiation Focus</h6>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Primary Priority</label>
+                                    <select class="form-select" name="priority">
+                                        <option value="salary">Maximum base salary</option>
+                                        <option value="total_comp">Total compensation package</option>
+                                        <option value="equity">Equity and stock options</option>
+                                        <option value="benefits">Benefits and perks</option>
+                                        <option value="work_life">Work-life balance</option>
+                                        <option value="growth">Career growth opportunities</option>
+                                    </select>
                                 </div>
-                                <div class="card-body">
-                                    <form id="negotiationForm">
-                                        <div class="mb-3">
-                                            <label for="currentOffer" class="form-label">Current Offer ($)</label>
-                                            <input type="number" class="form-control" id="currentOffer" placeholder="e.g., 120000">
+                                <div class="col-md-6">
+                                    <label class="form-label">Negotiation Experience</label>
+                                    <select class="form-select" name="negotiation_experience">
+                                        <option value="none">No experience</option>
+                                        <option value="basic">Basic (1-2 negotiations)</option>
+                                        <option value="moderate">Moderate (3-5 negotiations)</option>
+                                        <option value="experienced">Experienced (6+ negotiations)</option>
+                                        <option value="expert">Expert negotiator</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Specific Negotiation Goals (select all that apply)</label>
+                                    <div class="row g-2">
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="goals" value="relocation_package" id="goal1">
+                                                <label class="form-check-label" for="goal1">Relocation Package</label>
+                                            </div>
                                         </div>
-                                        
-                                        <div class="mb-3">
-                                            <label for="offerLocation" class="form-label">Job Location</label>
-                                            <select class="form-select" id="offerLocation">
-                                                <option value="New York, NY">New York, NY</option>
-                                                <option value="San Francisco, CA">San Francisco, CA</option>
-                                                <option value="London, UK">London, UK</option>
-                                                <option value="Berlin, Germany">Berlin, Germany</option>
-                                                <option value="Toronto, Canada">Toronto, Canada</option>
-                                                <option value="Singapore">Singapore</option>
-                                                <option value="Sydney, Australia">Sydney, Australia</option>
-                                                <option value="Dubai, UAE">Dubai, UAE</option>
-                                            </select>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="goals" value="visa_sponsorship" id="goal2">
+                                                <label class="form-check-label" for="goal2">Visa Sponsorship</label>
+                                            </div>
                                         </div>
-                                        
-                                        <button type="submit" class="btn btn-success">
-                                            <i class="fas fa-handshake me-2"></i>Get Negotiation Tips
-                                        </button>
-                                    </form>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="goals" value="signing_bonus" id="goal3">
+                                                <label class="form-check-label" for="goal3">Signing Bonus</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="goals" value="flexible_schedule" id="goal4">
+                                                <label class="form-check-label" for="goal4">Flexible Schedule</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="goals" value="professional_development" id="goal5">
+                                                <label class="form-check-label" for="goal5">Professional Development</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="goals" value="equity_acceleration" id="goal6">
+                                                <label class="form-check-label" for="goal6">Equity Acceleration</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-chart-bar me-2"></i>Generate Salary Intelligence Report
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Results Section -->
+
+    <!-- Results Section (initially hidden) -->
     <div class="row mt-4" id="resultsSection" style="display: none;">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Salary Comparison Results</h5>
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Your Salary Intelligence Report
+                    </h5>
                 </div>
-                <div class="card-body">
-                    <div id="salaryResults"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Negotiation Results -->
-    <div class="row mt-4" id="negotiationSection" style="display: none;">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Negotiation Insights</h5>
-                </div>
-                <div class="card-body">
-                    <div id="negotiationResults"></div>
+                <div class="card-body" id="resultsContent">
+                    <!-- Dynamic results will be inserted here -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block scripts %}
 <script>
-// Salary Comparison
-document.getElementById('salaryComparisonForm').addEventListener('submit', function(e) {
+document.getElementById('salaryAnalysisForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const jobTitle = document.getElementById('jobTitle').value;
-    const experienceLevel = document.getElementById('experienceLevel').value;
+    // Collect form data
+    const formData = new FormData(this);
+    const data = {};
     
-    // Get selected locations
-    const locationCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    const locations = Array.from(locationCheckboxes).map(cb => cb.value);
-    
-    if (locations.length === 0) {
-        alert('Please select at least one location');
-        return;
+    // Convert FormData to regular object
+    for (let [key, value] of formData.entries()) {
+        if (data[key]) {
+            if (Array.isArray(data[key])) {
+                data[key].push(value);
+            } else {
+                data[key] = [data[key], value];
+            }
+        } else {
+            data[key] = value;
+        }
     }
     
-    fetch('/api/salary-comparison', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            job_title: jobTitle,
-            experience_level: experienceLevel,
-            locations: locations
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            alert('Error: ' + data.error);
-            return;
-        }
-        
-        displaySalaryResults(data.results);
-        document.getElementById('resultsSection').style.display = 'block';
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to get salary comparison');
+    // Handle checkboxes separately
+    const skills = [];
+    document.querySelectorAll('input[name="skills"]:checked').forEach(cb => {
+        skills.push(cb.value);
     });
+    data.skills = skills;
+    
+    const goals = [];
+    document.querySelectorAll('input[name="goals"]:checked').forEach(cb => {
+        goals.push(cb.value);
+    });
+    data.goals = goals;
+    
+    // Generate results
+    generateSalaryReport(data);
 });
 
-// Negotiation Insights
-document.getElementById('negotiationForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+function generateSalaryReport(data) {
+    // Calculate salary ranges and recommendations
+    const analysis = calculateSalaryAnalysis(data);
     
-    const jobTitle = document.getElementById('jobTitle').value;
-    const experienceLevel = document.getElementById('experienceLevel').value;
-    const currentOffer = document.getElementById('currentOffer').value;
-    const location = document.getElementById('offerLocation').value;
-    
-    if (!jobTitle || !experienceLevel || !currentOffer) {
-        alert('Please fill in all required fields first');
-        return;
-    }
-    
-    fetch('/api/negotiation-insights', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            job_title: jobTitle,
-            experience_level: experienceLevel,
-            location: location,
-            current_offer: parseFloat(currentOffer)
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            alert('Error: ' + data.error);
-            return;
-        }
+    // Generate report content
+    const reportHTML = `
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h6><i class="fas fa-info-circle me-2"></i>Salary Intelligence Analysis Results</h6>
+                    <p class="mb-0">Based on your profile and market data, here's your comprehensive salary analysis and negotiation strategy.</p>
+                </div>
+            </div>
+        </div>
         
-        displayNegotiationResults(data);
-        document.getElementById('negotiationSection').style.display = 'block';
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to get negotiation insights');
-    });
-});
-
-function displaySalaryResults(results) {
-    const container = document.getElementById('salaryResults');
+        <!-- Salary Benchmarking -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0"><i class="fas fa-dollar-sign me-2"></i>Current Location Benchmark</h6>
+                    </div>
+                    <div class="card-body">
+                        ${generateLocationBenchmark(data, analysis.current_market)}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0"><i class="fas fa-map-marker-alt me-2"></i>Target Location Benchmark</h6>
+                    </div>
+                    <div class="card-body">
+                        ${generateLocationBenchmark(data, analysis.target_market)}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Salary Comparison Chart -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0"><i class="fas fa-chart-bar me-2"></i>Salary Range Comparison</h6>
+                    </div>
+                    <div class="card-body">
+                        ${generateSalaryChart(analysis)}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cost of Living Analysis -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0"><i class="fas fa-home me-2"></i>Cost of Living Impact</h6>
+                    </div>
+                    <div class="card-body">
+                        ${generateCostOfLivingAnalysis(analysis)}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0"><i class="fas fa-piggy-bank me-2"></i>Purchasing Power Analysis</h6>
+                    </div>
+                    <div class="card-body">
+                        ${generatePurchasingPowerAnalysis(analysis)}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Negotiation Strategy -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0"><i class="fas fa-handshake me-2"></i>Personalized Negotiation Strategy</h6>
+                    </div>
+                    <div class="card-body">
+                        ${generateNegotiationStrategy(data, analysis)}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Plan -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="card-title mb-0"><i class="fas fa-clipboard-list me-2"></i>Negotiation Action Plan</h6>
+                    </div>
+                    <div class="card-body">
+                        ${generateActionPlan(data, analysis)}
+                    </div>
+                </card>
+            </div>
+        </div>
+    `;
     
-    let html = '<div class="table-responsive"><table class="table table-striped">';
-    html += '<thead><tr>';
-    html += '<th>Location</th><th>Gross Salary</th><th>Net Salary</th><th>Purchasing Power</th><th>Cost of Living</th><th>Tax Rate</th>';
-    html += '</tr></thead><tbody>';
+    document.getElementById('resultsContent').innerHTML = reportHTML;
+    document.getElementById('resultsSection').style.display = 'block';
     
-    results.forEach(result => {
-        html += '<tr>';
-        html += `<td><strong>${result.location}</strong></td>`;
-        html += `<td>$${result.base_salary.toLocaleString()}</td>`;
-        html += `<td>$${result.net_salary.toLocaleString()}</td>`;
-        html += `<td>$${result.purchasing_power.toLocaleString()}</td>`;
-        html += `<td>${result.cost_of_living_index}%</td>`;
-        html += `<td>${(result.tax_rate * 100).toFixed(1)}%</td>`;
-        html += '</tr>';
-    });
-    
-    html += '</tbody></table></div>';
-    
-    // Add summary
-    const bestLocation = results[0];
-    html += `<div class="alert alert-info mt-3">`;
-    html += `<strong>Best Value:</strong> ${bestLocation.location} offers the highest purchasing power of $${bestLocation.purchasing_power.toLocaleString()}`;
-    html += `</div>`;
-    
-    container.innerHTML = html;
+    // Scroll to results
+    document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
 }
 
-function displayNegotiationResults(data) {
-    const container = document.getElementById('negotiationResults');
+function calculateSalaryAnalysis(data) {
+    // Base salary data by location and experience
+    const salaryData = getSalaryData(data.target_location, data.experience_level, data.industry);
+    const currentSalaryData = getSalaryData(data.current_location, data.experience_level, data.industry);
     
-    let html = '<div class="row">';
+    // Apply modifiers based on skills, education, etc.
+    const modifiers = calculateModifiers(data);
     
-    // Current offer analysis
-    html += '<div class="col-md-6">';
-    html += '<h6>Offer Analysis</h6>';
-    html += `<p><strong>Current Offer:</strong> $${data.current_offer.toLocaleString()}</p>`;
-    html += `<p><strong>Market Average:</strong> $${data.market_average.toLocaleString()}</p>`;
-    html += `<p><strong>Percentile:</strong> ${data.percentile.toFixed(1)}%</p>`;
-    html += `<div class="alert alert-${data.percentile >= 75 ? 'success' : 'warning'}">`;
-    html += `<strong>${data.recommendation}</strong>`;
-    html += `</div>`;
-    html += '</div>';
+    return {
+        current_market: {
+            percentile_25: Math.round(currentSalaryData.base * modifiers.current * 0.75),
+            percentile_50: Math.round(currentSalaryData.base * modifiers.current),
+            percentile_75: Math.round(currentSalaryData.base * modifiers.current * 1.25),
+            percentile_90: Math.round(currentSalaryData.base * modifiers.current * 1.5),
+            currency: getCurrency(data.current_location),
+            total_comp_multiplier: currentSalaryData.total_comp_multiplier
+        },
+        target_market: {
+            percentile_25: Math.round(salaryData.base * modifiers.target * 0.75),
+            percentile_50: Math.round(salaryData.base * modifiers.target),
+            percentile_75: Math.round(salaryData.base * modifiers.target * 1.25),
+            percentile_90: Math.round(salaryData.base * modifiers.target * 1.5),
+            currency: getCurrency(data.target_location),
+            total_comp_multiplier: salaryData.total_comp_multiplier
+        },
+        cost_of_living_ratio: getCostOfLivingRatio(data.current_location, data.target_location),
+        negotiation_leverage: calculateNegotiationLeverage(data, modifiers)
+    };
+}
+
+function getSalaryData(location, experience, industry) {
+    const baseSalaries = {
+        'us-sf': { base: 180000, total_comp_multiplier: 1.8 },
+        'us-nyc': { base: 160000, total_comp_multiplier: 1.6 },
+        'us-seattle': { base: 150000, total_comp_multiplier: 1.7 },
+        'uk-london': { base: 75000, total_comp_multiplier: 1.3 },
+        'de-berlin': { base: 65000, total_comp_multiplier: 1.2 },
+        'ca-toronto': { base: 95000, total_comp_multiplier: 1.4 },
+        'au-sydney': { base: 110000, total_comp_multiplier: 1.3 },
+        'sg-singapore': { base: 85000, total_comp_multiplier: 1.4 }
+    };
     
-    // Negotiation ranges
-    html += '<div class="col-md-6">';
-    html += '<h6>Negotiation Ranges</h6>';
-    html += `<p><strong>Conservative:</strong> $${data.negotiation_range.conservative.toLocaleString()}</p>`;
-    html += `<p><strong>Target:</strong> $${data.negotiation_range.target.toLocaleString()}</p>`;
-    html += `<p><strong>Aggressive:</strong> $${data.negotiation_range.aggressive.toLocaleString()}</p>`;
-    html += '</div>';
+    const experienceMultipliers = {
+        'entry': 0.7,
+        'junior': 0.85,
+        'mid': 1.0,
+        'senior': 1.3,
+        'lead': 1.6,
+        'executive': 2.2
+    };
     
-    html += '</div>';
+    const industryMultipliers = {
+        'technology': 1.2,
+        'finance': 1.3,
+        'consulting': 1.1,
+        'healthcare': 0.9,
+        'education': 0.7,
+        'other': 1.0
+    };
     
-    // Supporting points
-    if (data.supporting_points.length > 0) {
-        html += '<h6 class="mt-3">Supporting Points for Negotiation</h6>';
-        html += '<ul>';
-        data.supporting_points.forEach(point => {
-            html += `<li>${point}</li>`;
-        });
-        html += '</ul>';
-    }
+    const locationData = baseSalaries[location] || { base: 80000, total_comp_multiplier: 1.2 };
+    const expMultiplier = experienceMultipliers[experience] || 1.0;
+    const indMultiplier = industryMultipliers[industry] || 1.0;
     
-    container.innerHTML = html;
+    return {
+        base: locationData.base * expMultiplier * indMultiplier,
+        total_comp_multiplier: locationData.total_comp_multiplier
+    };
+}
+
+function calculateModifiers(data) {
+    let currentModifier = 1.0;
+    let targetModifier = 1.0;
+    
+    // Education boost
+    const educationBoost = {
+        'high_school': 0.9,
+        'associate': 0.95,
+        'bachelor': 1.0,
+        'master': 1.15,
+        'phd': 1.3,
+        'bootcamp': 1.05,
+        'self_taught': 0.95
+    };
+    const eduBoost = educationBoost[data.education] || 1.0;
+    currentModifier *= eduBoost;
+    targetModifier *= eduBoost;
+    
+    // Certification boost
+    const certBoost = {
+        'none': 1.0,
+        'basic': 1.05,
+        'moderate': 1.1,
+        'extensive': 1.15,
+        'expert': 1.2
+    };
+    const certMultiplier = certBoost[data.certifications] || 1.0;
+    currentModifier *= certMultiplier;
+    targetModifier *= certMultiplier;
+    
+    // Skills boost
+    const skillsBoost = data.skills.length * 0.03; // 3% per skill
+    currentModifier *= (1 + skillsBoost);
+    targetModifier *= (1 + skillsBoost);
+    
+    return {
+        current: currentModifier,
+        target: targetModifier
+    };
+}
+
+function getCurrency(location) {
+    const currencies = {
+        'us-sf': 'USD', 'us-nyc': 'USD', 'us-seattle': 'USD', 'us-la': 'USD', 'us-austin': 'USD',
+        'uk-london': 'GBP',
+        'de-berlin': 'EUR', 'de-munich': 'EUR', 'fr-paris': 'EUR',
+        'ca-toronto': 'CAD', 'ca-vancouver': 'CAD',
+        'au-sydney': 'AUD',
+        'jp-tokyo': 'JPY',
+        'sg-singapore': 'SGD',
+        'in-bangalore': 'INR'
+    };
+    return currencies[location] || 'USD';
+}
+
+function getCostOfLivingRatio(currentLocation, targetLocation) {
+    const costIndices = {
+        'us-sf': 100,
+        'us-nyc': 85,
+        'us-seattle': 75,
+        'uk-london': 70,
+        'de-berlin': 45,
+        'ca-toronto': 55,
+        'au-sydney': 65,
+        'sg-singapore': 60
+    };
+    
+    const currentCost = costIndices[currentLocation] || 50;
+    const targetCost = costIndices[targetLocation] || 50;
+    
+    return targetCost / currentCost;
+}
+
+function calculateNegotiationLeverage(data, modifiers) {
+    let leverage = 50; // Base leverage score
+    
+    // Experience boost
+    const expBoost = {
+        'entry': -10,
+        'junior': -5,
+        'mid': 0,
+        'senior': 10,
+        'lead': 20,
+        'executive': 30
+    };
+    leverage += expBoost[data.experience_level] || 0;
+    
+    // Skills boost
+    leverage += data.skills.length * 3;
+    
+    // Negotiation experience
+    const negExpBoost = {
+        'none': -15,
+        'basic': -5,
+        'moderate': 5,
+        'experienced': 15,
+        'expert': 25
+    };
+    leverage += negExpBoost[data.negotiation_experience] || 0;
+    
+    return Math.max(10, Math.min(90, leverage));
+}
+
+function generateLocationBenchmark(data, market) {
+    return `
+        <div class="salary-range mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-bold">25th Percentile:</span>
+                <span class="badge bg-light text-dark">${market.currency} ${market.percentile_25.toLocaleString()}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-bold">Median (50th):</span>
+                <span class="badge bg-primary">${market.currency} ${market.percentile_50.toLocaleString()}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-bold">75th Percentile:</span>
+                <span class="badge bg-success">${market.currency} ${market.percentile_75.toLocaleString()}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="fw-bold">90th Percentile:</span>
+                <span class="badge bg-warning text-dark">${market.currency} ${market.percentile_90.toLocaleString()}</span>
+            </div>
+            <div class="total-comp-estimate">
+                <small class="text-muted">
+                    <strong>Total Compensation Estimate:</strong><br>
+                    ${market.currency} ${Math.round(market.percentile_50 * market.total_comp_multiplier).toLocaleString()} 
+                    (including equity, bonuses, benefits)
+                </small>
+            </div>
+        </div>
+    `;
+}
+
+function generateSalaryChart(analysis) {
+    return `
+        <div class="salary-comparison">
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-center mb-3">Current Location Range</h6>
+                    <div class="salary-bar mb-2">
+                        <div class="progress">
+                            <div class="progress-bar bg-info" style="width: 25%">25th</div>
+                            <div class="progress-bar bg-primary" style="width: 25%">50th</div>
+                            <div class="progress-bar bg-success" style="width: 25%">75th</div>
+                            <div class="progress-bar bg-warning" style="width: 25%">90th</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between small">
+                        <span>${analysis.current_market.currency} ${(analysis.current_market.percentile_25/1000).toFixed(0)}k</span>
+                        <span>${analysis.current_market.currency} ${(analysis.current_market.percentile_90/1000).toFixed(0)}k</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-center mb-3">Target Location Range</h6>
+                    <div class="salary-bar mb-2">
+                        <div class="progress">
+                            <div class="progress-bar bg-info" style="width: 25%">25th</div>
+                            <div class="progress-bar bg-primary" style="width: 25%">50th</div>
+                            <div class="progress-bar bg-success" style="width: 25%">75th</div>
+                            <div class="progress-bar bg-warning" style="width: 25%">90th</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between small">
+                        <span>${analysis.target_market.currency} ${(analysis.target_market.percentile_25/1000).toFixed(0)}k</span>
+                        <span>${analysis.target_market.currency} ${(analysis.target_market.percentile_90/1000).toFixed(0)}k</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function generateCostOfLivingAnalysis(analysis) {
+    const ratio = analysis.cost_of_living_ratio;
+    const impact = ratio > 1.1 ? 'higher' : ratio < 0.9 ? 'lower' : 'similar';
+    const percentage = Math.abs((ratio - 1) * 100).toFixed(0);
+    
+    return `
+        <div class="col-analysis">
+            <div class="ratio-display text-center mb-3">
+                <div class="ratio-circle mx-auto" style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #007bff, #28a745); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem;">
+                    ${(ratio * 100).toFixed(0)}%
+                </div>
+                <small class="text-muted mt-2 d-block">Cost of Living Ratio</small>
+            </div>
+            <p class="text-center">
+                Cost of living in your target location is <strong>${percentage}% ${impact}</strong> than your current location.
+            </p>
+            <div class="impact-details">
+                <small class="text-muted">
+                    <strong>Key Impact Areas:</strong><br>
+                    • Housing: ${ratio > 1 ? 'More expensive' : 'Less expensive'}<br>
+                    • Transportation: ${ratio > 1.1 ? 'Significantly higher' : 'Comparable'}<br>
+                    • Food & Dining: ${ratio > 1 ? 'Higher costs' : 'Lower costs'}<br>
+                    • Utilities: ${ratio > 1 ? 'Above current' : 'Below current'}
+                </small>
+            </div>
+        </div>
+    `;
+}
+
+function generatePurchasingPowerAnalysis(analysis) {
+    const salaryRatio = analysis.target_market.percentile_50 / analysis.current_market.percentile_50;
+    const realPurchasingPower = salaryRatio / analysis.cost_of_living_ratio;
+    const improvement = realPurchasingPower > 1.1 ? 'increase' : realPurchasingPower < 0.9 ? 'decrease' : 'remain similar';
+    
+    return `
+        <div class="purchasing-power">
+            <div class="power-meter text-center mb-3">
+                <div class="meter-value" style="font-size: 2rem; font-weight: bold; color: ${realPurchasingPower > 1 ? '#28a745' : realPurchasingPower < 0.9 ? '#dc3545' : '#ffc107'};">
+                    ${(realPurchasingPower * 100).toFixed(0)}%
+                </div>
+                <small class="text-muted">Relative Purchasing Power</small>
+            </div>
+            <p class="text-center">
+                Your purchasing power would <strong>${improvement}</strong> by <strong>${Math.abs((realPurchasingPower - 1) * 100).toFixed(0)}%</strong> in the target location.
+            </p>
+            <div class="power-breakdown">
+                <small class="text-muted">
+                    <strong>Breakdown:</strong><br>
+                    • Salary increase: ${((salaryRatio - 1) * 100).toFixed(0)}%<br>
+                    • Cost adjustment: ${((analysis.cost_of_living_ratio - 1) * 100).toFixed(0)}%<br>
+                    • Net impact: ${((realPurchasingPower - 1) * 100).toFixed(0)}%
+                </small>
+            </div>
+        </div>
+    `;
+}
+
+function generateNegotiationStrategy(data, analysis) {
+    const leverage = analysis.negotiation_leverage;
+    const strategy = leverage > 70 ? 'aggressive' : leverage > 40 ? 'balanced' : 'cautious';
+    
+    return `
+        <div class="negotiation-strategy">
+            <div class="leverage-score mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-bold">Your Negotiation Leverage:</span>
+                    <span class="badge bg-${leverage > 70 ? 'success' : leverage > 40 ? 'warning' : 'info'} fs-6">${leverage}/100</span>
+                </div>
+                <div class="progress mt-2">
+                    <div class="progress-bar bg-${leverage > 70 ? 'success' : leverage > 40 ? 'warning' : 'info'}" style="width: ${leverage}%"></div>
+                </div>
+            </div>
+            
+            <div class="strategy-recommendation mb-3">
+                <h6 class="text-primary">Recommended Approach: ${strategy.charAt(0).toUpperCase() + strategy.slice(1)}</h6>
+                ${getStrategyDescription(strategy, data)}
+            </div>
+            
+            <div class="negotiation-targets">
+                <h6 class="text-primary">Target Ranges for Negotiation:</h6>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-arrow-right text-success me-2"></i><strong>Conservative Target:</strong> ${analysis.target_market.currency} ${analysis.target_market.percentile_50.toLocaleString()}</li>
+                    <li><i class="fas fa-arrow-right text-warning me-2"></i><strong>Realistic Target:</strong> ${analysis.target_market.currency} ${analysis.target_market.percentile_75.toLocaleString()}</li>
+                    <li><i class="fas fa-arrow-right text-danger me-2"></i><strong>Aggressive Target:</strong> ${analysis.target_market.currency} ${analysis.target_market.percentile_90.toLocaleString()}</li>
+                </ul>
+            </div>
+        </div>
+    `;
+}
+
+function getStrategyDescription(strategy, data) {
+    const descriptions = {
+        'aggressive': 'You have strong leverage. Aim for the 75th-90th percentile range. Emphasize your unique skills and experience. Be confident in your asks.',
+        'balanced': 'You have moderate leverage. Target the 50th-75th percentile range. Build a strong case for your value proposition. Be prepared to negotiate on multiple fronts.',
+        'cautious': 'Focus on building rapport first. Target around the median range. Emphasize your potential and growth mindset. Consider non-salary benefits as negotiation points.'
+    };
+    
+    return `<p>${descriptions[strategy]}</p>`;
+}
+
+function generateActionPlan(data, analysis) {
+    return `
+        <div class="action-plan">
+            <div class="phase-plan mb-4">
+                <h6 class="text-primary">Phase 1: Preparation (Before Application)</h6>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-clipboard-check text-success me-2"></i>Research specific companies and their compensation philosophies</li>
+                    <li><i class="fas fa-clipboard-check text-success me-2"></i>Document your achievements with quantifiable metrics</li>
+                    <li><i class="fas fa-clipboard-check text-success me-2"></i>Practice salary negotiation conversations</li>
+                    <li><i class="fas fa-clipboard-check text-success me-2"></i>Prepare questions about total compensation package</li>
+                </ul>
+            </div>
+            
+            <div class="phase-plan mb-4">
+                <h6 class="text-primary">Phase 2: Interview & Initial Offer</h6>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-calendar-plus text-primary me-2"></i>Delay salary discussions until after demonstrating value</li>
+                    <li><i class="fas fa-calendar-plus text-primary me-2"></i>Ask about the complete compensation package</li>
+                    <li><i class="fas fa-calendar-plus text-primary me-2"></i>Request time to review the offer thoroughly</li>
+                    <li><i class="fas fa-calendar-plus text-primary me-2"></i>Understand the rationale behind their offer</li>
+                </ul>
+            </div>
+            
+            <div class="phase-plan mb-4">
+                <h6 class="text-primary">Phase 3: Negotiation</h6>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-handshake text-warning me-2"></i>Present your counter-offer with supporting data</li>
+                    <li><i class="fas fa-handshake text-warning me-2"></i>Negotiate multiple components: salary, equity, benefits, perks</li>
+                    <li><i class="fas fa-handshake text-warning me-2"></i>Be prepared to justify your ask with market data</li>
+                    <li><i class="fas fa-handshake text-warning me-2"></i>Consider creative solutions that benefit both parties</li>
+                </ul>
+            </div>
+            
+            <div class="key-phrases">
+                <h6 class="text-primary">Key Negotiation Phrases:</h6>
+                <div class="phrases-grid">
+                    <div class="phrase-card p-2 border rounded mb-2">
+                        <small><em>"Based on my research and experience, I was expecting something closer to..."</em></small>
+                    </div>
+                    <div class="phrase-card p-2 border rounded mb-2">
+                        <small><em>"I'm excited about this opportunity. Can we discuss the total compensation package?"</em></small>
+                    </div>
+                    <div class="phrase-card p-2 border rounded mb-2">
+                        <small><em>"Given my [specific skills/experience], I believe a salary of X would be appropriate because..."</em></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 }
 </script>
+
+<style>
+.salary-bar .progress {
+    height: 30px;
+}
+
+.salary-bar .progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.ratio-circle {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.power-meter {
+    position: relative;
+}
+
+.meter-value {
+    animation: countUp 2s ease-out;
+}
+
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.leverage-score .progress {
+    height: 12px;
+}
+
+.phrases-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.phrase-card {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6 !important;
+}
+
+.phase-plan ul li {
+    padding: 5px 0;
+}
+</style>
 {% endblock %}
