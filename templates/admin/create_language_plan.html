@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3"><i class="fas fa-plus text-primary me-2"></i>Create Language Learning Plan</h1>
+                <a href="{{ url_for('language_admin.manage_plans') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Back to Plans
+                </a>
+            </div>
+            
+            <!-- Form -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Plan Configuration</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <!-- Basic Information -->
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label for="name" class="form-label">Plan Name *</label>
+                                <input type="text" class="form-control" id="name" name="name" required
+                                       placeholder="e.g., Business English for Professionals">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="difficulty_level" class="form-label">Difficulty Level *</label>
+                                <select class="form-select" id="difficulty_level" name="difficulty_level" required>
+                                    <option value="1">Beginner (1)</option>
+                                    <option value="2" selected>Elementary (2)</option>
+                                    <option value="3">Intermediate (3)</option>
+                                    <option value="4">Advanced (4)</option>
+                                    <option value="5">Expert (5)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"
+                                      placeholder="Detailed description of the learning plan objectives and target audience"></textarea>
+                        </div>
+                        
+                        <!-- Language Configuration -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="target_language" class="form-label">Target Language *</label>
+                                <select class="form-select" id="target_language" name="target_language" required>
+                                    <option value="">Select Language</option>
+                                    <option value="English">English</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="French">French</option>
+                                    <option value="German">German</option>
+                                    <option value="Italian">Italian</option>
+                                    <option value="Portuguese">Portuguese</option>
+                                    <option value="Chinese">Chinese</option>
+                                    <option value="Japanese">Japanese</option>
+                                    <option value="Korean">Korean</option>
+                                    <option value="Dutch">Dutch</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="source_language" class="form-label">Source Language</label>
+                                <input type="text" class="form-control" id="source_language" name="source_language" 
+                                       value="English" placeholder="Student's native language">
+                            </div>
+                        </div>
+                        
+                        <!-- Proficiency Levels -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="required_proficiency" class="form-label">Required Level *</label>
+                                <select class="form-select" id="required_proficiency" name="required_proficiency" required>
+                                    {% for level in proficiency_levels %}
+                                    <option value="{{ level.value }}">{{ level.value.title() }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-text">Minimum proficiency level to start this plan</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="target_proficiency" class="form-label">Target Level *</label>
+                                <select class="form-select" id="target_proficiency" name="target_proficiency" required>
+                                    {% for level in proficiency_levels %}
+                                    <option value="{{ level.value }}" {% if level.value == 'intermediate' %}selected{% endif %}>
+                                        {{ level.value.title() }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-text">Proficiency level students will achieve</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Learning Goals -->
+                        <div class="mb-3">
+                            <label class="form-label">Learning Goals *</label>
+                            <div class="row">
+                                {% for goal in learning_goals %}
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="learning_goals" 
+                                               value="{{ goal.value }}" id="goal_{{ loop.index }}">
+                                        <label class="form-check-label" for="goal_{{ loop.index }}">
+                                            {{ goal.value.replace('_', ' ').title() }}
+                                        </label>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-text">Select all goals this plan addresses</div>
+                        </div>
+                        
+                        <!-- Time Requirements -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="recommended_hours_per_week" class="form-label">Hours per Week *</label>
+                                <input type="number" class="form-control" id="recommended_hours_per_week" 
+                                       name="recommended_hours_per_week" min="1" max="40" value="5" required>
+                                <div class="form-text">Recommended study time per week</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="estimated_completion_weeks" class="form-label">Completion Time (weeks) *</label>
+                                <input type="number" class="form-control" id="estimated_completion_weeks" 
+                                       name="estimated_completion_weeks" min="2" max="104" value="12" required>
+                                <div class="form-text">Expected completion time in weeks</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('language_admin.manage_plans') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-1"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>Create Plan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Help Card -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="card-title mb-0"><i class="fas fa-info-circle me-2"></i>Plan Creation Tips</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li><strong>Plan Name:</strong> Use descriptive names that indicate the target audience and goals</li>
+                        <li><strong>Learning Goals:</strong> Select all goals the plan will address - this helps with student matching</li>
+                        <li><strong>Time Estimates:</strong> Be realistic with time requirements - students prefer achievable goals</li>
+                        <li><strong>Difficulty Level:</strong> Consider the complexity of materials and exercises you'll include</li>
+                        <li><strong>Next Steps:</strong> After creating the plan, you'll add modules and lessons in the plan editor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-calculate completion time based on difficulty and hours
+document.getElementById('difficulty_level').addEventListener('change', updateEstimatedTime);
+document.getElementById('recommended_hours_per_week').addEventListener('input', updateEstimatedTime);
+
+function updateEstimatedTime() {
+    const difficulty = parseInt(document.getElementById('difficulty_level').value);
+    const hoursPerWeek = parseInt(document.getElementById('recommended_hours_per_week').value);
+    
+    if (hoursPerWeek > 0) {
+        // Base hours needed: 60 hours for level 1, 120 for level 5
+        const baseHours = 40 + (difficulty * 20);
+        const estimatedWeeks = Math.ceil(baseHours / hoursPerWeek);
+        
+        document.getElementById('estimated_completion_weeks').value = Math.max(2, estimatedWeeks);
+    }
+}
+
+// Initialize with default values
+updateEstimatedTime();
+</script>
+{% endblock %}

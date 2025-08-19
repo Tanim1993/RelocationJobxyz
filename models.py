@@ -67,6 +67,9 @@ class User(UserMixin, db.Model):
     company_size = db.Column(db.String(20))
     industry = db.Column(db.String(50))
     
+    # Admin access
+    is_admin = db.Column(Boolean, default=False)
+    
     created_at = db.Column(DateTime, default=datetime.utcnow)
     last_login = db.Column(DateTime)
     

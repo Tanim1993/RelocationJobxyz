@@ -383,10 +383,35 @@ def api_resume_localization():
         'interview_prep_notes': ['Research company culture', 'Prepare STAR examples']
     })
 
-@enhanced_bp.route('/language-proficiency-predictor')
-@login_required
+@enhanced_bp.route('/language-proficiency-predictor', methods=['GET', 'POST'])
 def language_proficiency_predictor():
-    """Language Proficiency Predictor"""
+    """Language Proficiency Predictor with comprehensive assessment and learning plans"""
+    if request.method == 'POST':
+        # Process the assessment form
+        user_data = {
+            'target_language': request.form.get('target_language'),
+            'current_level': request.form.get('current_level'),
+            'business_experience': {
+                'meetings': 'business_meetings' in request.form,
+                'presentations': 'presentations' in request.form,
+                'technical_writing': 'technical_writing' in request.form,
+                'client_interaction': 'client_interaction' in request.form,
+                'leadership': 'leadership' in request.form,
+                'negotiations': 'negotiations' in request.form,
+            },
+            'certifications': request.form.get('certifications', ''),
+            'study_hours': request.form.get('study_hours'),
+            'learning_goals': request.form.getlist('learning_goals')
+        }
+        
+        # Generate personalized learning plan
+        learning_plan = generate_comprehensive_learning_plan(user_data)
+        
+        return render_template('enhanced/language_proficiency_predictor.html', 
+                             assessment_complete=True, 
+                             learning_plan=learning_plan,
+                             user_data=user_data)
+    
     return render_template('enhanced/language_proficiency_predictor.html')
 
 @enhanced_bp.route('/api/language-assessment', methods=['POST'])
@@ -472,6 +497,262 @@ def api_housing_analysis():
             'Legal representation required'
         ]
     })
+
+def generate_comprehensive_learning_plan(user_data):
+    """Generate a complete personalized learning plan"""
+    
+    # Determine plan intensity and duration
+    study_hours = int(user_data['study_hours'].split('-')[0]) if user_data['study_hours'] else 5
+    current_level = user_data['current_level']
+    
+    # Calculate learning path
+    level_progression = {
+        'beginner': ['Elementary', 'Pre-Intermediate', 'Intermediate'],
+        'elementary': ['Pre-Intermediate', 'Intermediate', 'Upper-Intermediate'],
+        'intermediate': ['Upper-Intermediate', 'Advanced', 'Proficient'],
+        'upper-intermediate': ['Advanced', 'Proficient', 'Expert'],
+        'advanced': ['Proficient', 'Expert', 'Native-like'],
+        'proficient': ['Expert', 'Native-like', 'Professional Mastery']
+    }
+    
+    progression = level_progression.get(current_level, ['Intermediate', 'Advanced'])
+    
+    # Determine focus areas based on goals and experience
+    focus_areas = []
+    if 'job_interviews' in user_data['learning_goals']:
+        focus_areas.append('Interview Communication')
+    if 'workplace_communication' in user_data['learning_goals']:
+        focus_areas.append('Professional Communication')
+    if 'business_presentations' in user_data['learning_goals']:
+        focus_areas.append('Presentation Skills')
+    if 'technical_communication' in user_data['learning_goals']:
+        focus_areas.append('Technical Writing')
+    if 'cultural_integration' in user_data['learning_goals']:
+        focus_areas.append('Cultural Intelligence')
+    if 'certification_preparation' in user_data['learning_goals']:
+        focus_areas.append('Test Preparation')
+    
+    # Generate comprehensive syllabus
+    syllabus = {
+        'Phase 1: Foundation Building (Weeks 1-4)': {
+            'Module 1: Professional Vocabulary Development': {
+                'lessons': [
+                    'Essential Business Terms and Phrases',
+                    'Industry-Specific Vocabulary',
+                    'Formal vs. Informal Language Register',
+                    'Professional Email Vocabulary'
+                ],
+                'activities': [
+                    'Daily vocabulary building exercises (50 new words/week)',
+                    'Context-based usage practice',
+                    'Professional terminology quizzes',
+                    'Real-world application exercises'
+                ],
+                'assessment': 'Weekly vocabulary tests and usage assessments'
+            },
+            'Module 2: Grammar for Professional Communication': {
+                'lessons': [
+                    'Complex Sentence Structures',
+                    'Conditional and Subjunctive Mood',
+                    'Passive Voice in Business Context',
+                    'Modal Verbs for Professional Situations'
+                ],
+                'activities': [
+                    'Grammar exercises with business scenarios',
+                    'Sentence transformation practice',
+                    'Error correction workshops',
+                    'Professional writing grammar checks'
+                ],
+                'assessment': 'Grammar competency test and writing samples'
+            }
+        },
+        'Phase 2: Skill Development (Weeks 5-8)': {
+            'Module 3: Workplace Communication': {
+                'lessons': [
+                    'Meeting Participation and Leadership',
+                    'Presentation Delivery Techniques',
+                    'Negotiation Language and Strategies',
+                    'Cross-Cultural Communication'
+                ],
+                'activities': [
+                    'Role-play business meetings',
+                    'Presentation practice sessions',
+                    'Negotiation simulations',
+                    'Cultural sensitivity workshops'
+                ],
+                'assessment': 'Live communication assessments and peer feedback'
+            },
+            'Module 4: Professional Writing': {
+                'lessons': [
+                    'Business Email Writing',
+                    'Report and Proposal Writing',
+                    'Technical Documentation',
+                    'Executive Summary Creation'
+                ],
+                'activities': [
+                    'Email writing workshops',
+                    'Report writing projects',
+                    'Technical writing exercises',
+                    'Summary writing practice'
+                ],
+                'assessment': 'Portfolio of professional writing samples'
+            }
+        },
+        'Phase 3: Advanced Application (Weeks 9-12)': {
+            'Module 5: Interview and Career Communication': {
+                'lessons': [
+                    'Job Interview Strategies and Practice',
+                    'Salary Negotiation Communication',
+                    'Professional Networking Language',
+                    'Career Development Conversations'
+                ],
+                'activities': [
+                    'Mock interview sessions',
+                    'Networking event simulations',
+                    'Salary negotiation role-plays',
+                    'Career goal articulation practice'
+                ],
+                'assessment': 'Comprehensive interview evaluation and feedback'
+            },
+            'Module 6: Cultural Intelligence and Integration': {
+                'lessons': [
+                    'Workplace Culture Understanding',
+                    'Business Etiquette and Protocol',
+                    'Social Integration Strategies',
+                    'Professional Relationship Building'
+                ],
+                'activities': [
+                    'Cultural scenario analysis',
+                    'Etiquette practice sessions',
+                    'Social interaction workshops',
+                    'Mentorship conversation practice'
+                ],
+                'assessment': 'Cultural competency evaluation and integration plan'
+            }
+        }
+    }
+    
+    # Generate weekly schedule based on study hours
+    if study_hours >= 10:
+        weekly_schedule = {
+            'Monday': 'Vocabulary Building (1.5 hrs) + Grammar Practice (1 hr)',
+            'Tuesday': 'Speaking Practice (1.5 hrs) + Listening Exercises (1 hr)',
+            'Wednesday': 'Writing Workshop (2 hrs) + Reading Comprehension (0.5 hr)',
+            'Thursday': 'Business Communication Practice (2 hrs)',
+            'Friday': 'Review and Assessment (1.5 hrs) + Cultural Studies (1 hr)',
+            'Weekend': 'Immersion Activities (2 hrs) - Movies, Podcasts, News'
+        }
+    elif study_hours >= 5:
+        weekly_schedule = {
+            'Monday': 'Vocabulary and Grammar (1.5 hrs)',
+            'Tuesday': 'Speaking and Listening Practice (1.5 hrs)',
+            'Wednesday': 'Writing Skills Development (1 hr)',
+            'Thursday': 'Business Communication (1 hr)',
+            'Friday': 'Review and Assessment (1 hr)',
+            'Weekend': 'Immersion Activities (1 hr) - Optional'
+        }
+    else:
+        weekly_schedule = {
+            'Monday': 'Vocabulary Building (45 min)',
+            'Wednesday': 'Grammar and Speaking (45 min)',
+            'Friday': 'Writing and Review (90 min)',
+            'Weekend': 'Immersion Practice (30 min) - Optional'
+        }
+    
+    # Generate learning milestones
+    milestones = [
+        {
+            'week': 4,
+            'milestone': 'Foundation Completion',
+            'goals': [
+                'Master 200+ professional vocabulary words',
+                'Demonstrate complex grammar usage in writing',
+                'Complete basic business communication assessment'
+            ]
+        },
+        {
+            'week': 8,
+            'milestone': 'Skill Development Achievement',
+            'goals': [
+                'Lead a 10-minute business meeting',
+                'Write professional emails and reports',
+                'Successfully negotiate a basic business scenario'
+            ]
+        },
+        {
+            'week': 12,
+            'milestone': 'Professional Proficiency',
+            'goals': [
+                'Pass mock job interview with confidence',
+                'Demonstrate cultural intelligence in workplace scenarios',
+                'Create and deliver professional presentation'
+            ]
+        }
+    ]
+    
+    # Generate learning resources
+    resources = {
+        'Core Learning Materials': [
+            f'Professional {user_data["target_language"]} Grammar Workbook',
+            f'Business {user_data["target_language"]} Vocabulary Builder',
+            f'{user_data["target_language"]} for International Business Communication',
+            'Cross-Cultural Business Communication Guide'
+        ],
+        'Digital Resources': [
+            f'{user_data["target_language"]} Business Podcast Library (50+ episodes)',
+            'Interactive Grammar and Vocabulary Apps',
+            'Business Communication Video Course',
+            'Virtual Reality Conversation Practice'
+        ],
+        'Practice Platforms': [
+            'AI-Powered Speaking Practice Tool',
+            'Business Writing Feedback System',
+            'Mock Interview Simulation Platform',
+            'Cultural Intelligence Assessment Tool'
+        ],
+        'Community Support': [
+            'Weekly Study Group Sessions',
+            'Language Exchange Partner Matching',
+            'Professional Mentor Network Access',
+            'Peer Review and Feedback Groups'
+        ]
+    }
+    
+    # Generate assessment plan
+    assessment_plan = {
+        'Weekly Assessments': [
+            'Vocabulary and Grammar Quizzes',
+            'Speaking Fluency Evaluations',
+            'Writing Sample Reviews',
+            'Listening Comprehension Tests'
+        ],
+        'Monthly Evaluations': [
+            'Comprehensive Language Proficiency Test',
+            'Business Communication Simulation',
+            'Cultural Intelligence Assessment',
+            'Progress Review and Goal Adjustment'
+        ],
+        'Final Certification': [
+            'Comprehensive Professional Language Assessment',
+            'Mock Job Interview Evaluation',
+            'Business Presentation Portfolio Review',
+            'Cultural Integration Competency Test'
+        ]
+    }
+    
+    return {
+        'target_language': user_data['target_language'],
+        'current_level': current_level,
+        'target_levels': progression,
+        'study_commitment': f"{study_hours} hours/week",
+        'estimated_duration': f"{len(progression) * 12} weeks",
+        'focus_areas': focus_areas,
+        'syllabus': syllabus,
+        'weekly_schedule': weekly_schedule,
+        'milestones': milestones,
+        'resources': resources,
+        'assessment_plan': assessment_plan
+    }
 
 @enhanced_bp.route('/global-benefits-comparison')
 @login_required

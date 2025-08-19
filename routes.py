@@ -218,9 +218,11 @@ def toggle_theme():
         'theme': new_theme
     })
 
-# Register enhanced features blueprint
-try:
-    from routes_enhanced import enhanced_bp
-    app.register_blueprint(enhanced_bp)
-except ImportError:
-    print("Enhanced features not available")
+# Enhanced features blueprint registered in app.py
+
+# Register language admin blueprint - will be added later
+# try:
+#     from language_admin import language_admin_bp
+#     app.register_blueprint(language_admin_bp)
+# except ImportError:
+#     print("Language admin features not available")

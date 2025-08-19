@@ -61,7 +61,7 @@ with app.app_context():
     app.register_blueprint(ats)
     app.register_blueprint(salary_tools)
     app.register_blueprint(dashboard_bp)
-    app.register_blueprint(enhanced_bp)
+    app.register_blueprint(enhanced_bp, url_prefix='/ai-tools')
     
     # Create all tables
     db.create_all()

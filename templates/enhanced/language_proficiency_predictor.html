@@ -1,395 +1,470 @@
 {% extends "base.html" %}
 
-{% block title %}Language Proficiency Predictor{% endblock %}
-
 {% block content %}
-<div class="container my-5">
-    <div class="row">
-        <div class="col-lg-10 mx-auto">
-            <div class="text-center mb-5">
-                <h1 class="display-4 fw-bold text-primary">Language Proficiency Predictor</h1>
-                <p class="lead text-muted">Assess your language skills and get a personalized improvement plan for international opportunities</p>
+<div class="container py-4">
+    {% if not assessment_complete %}
+    <!-- Assessment Form -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold text-primary">
+                    <i class="fas fa-language me-3"></i>Language Proficiency Predictor
+                </h1>
+                <p class="lead text-muted">
+                    Complete our comprehensive assessment to receive a personalized learning plan
+                </p>
             </div>
 
-            <div class="card shadow-lg border-0">
+            <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-language me-2"></i>Language Assessment</h5>
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-clipboard-list me-2"></i>Professional Language Assessment
+                    </h3>
                 </div>
-                <div class="card-body p-4">
-                    <form id="languageAssessmentForm">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="targetCountry" class="form-label">Target Country</label>
-                                <select class="form-select" id="targetCountry" required>
-                                    <option value="">Select target country</option>
-                                    <option value="United States">United States</option>
-                                    <option value="United Kingdom">United Kingdom</option>
-                                    <option value="Canada">Canada</option>
-                                    <option value="Australia">Australia</option>
-                                    <option value="Germany">Germany</option>
-                                    <option value="France">France</option>
-                                    <option value="Spain">Spain</option>
-                                    <option value="Netherlands">Netherlands</option>
-                                    <option value="Japan">Japan</option>
+                <div class="card-body">
+                    <form method="POST" id="assessmentForm">
+                        <!-- Basic Information -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="target_language" class="form-label fw-bold">Target Language *</label>
+                                <select class="form-select" id="target_language" name="target_language" required>
+                                    <option value="">Select Language</option>
+                                    <option value="English">English</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="French">French</option>
+                                    <option value="German">German</option>
+                                    <option value="Italian">Italian</option>
+                                    <option value="Portuguese">Portuguese</option>
+                                    <option value="Chinese">Chinese (Mandarin)</option>
+                                    <option value="Japanese">Japanese</option>
+                                    <option value="Korean">Korean</option>
+                                    <option value="Dutch">Dutch</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="targetRole" class="form-label">Target Role</label>
-                                <input type="text" class="form-control" id="targetRole" required placeholder="Software Engineer">
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <h6>Current Language Skills</h6>
-                            <div class="row">
-                                <div class="col-md-3 mb-2">
-                                    <label class="form-label">Speaking</label>
-                                    <select class="form-select" id="speaking">
-                                        <option value="beginner">Beginner</option>
-                                        <option value="elementary">Elementary</option>
-                                        <option value="intermediate">Intermediate</option>
-                                        <option value="upper_intermediate">Upper Intermediate</option>
-                                        <option value="advanced">Advanced</option>
-                                        <option value="native">Native</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-2">
-                                    <label class="form-label">Listening</label>
-                                    <select class="form-select" id="listening">
-                                        <option value="beginner">Beginner</option>
-                                        <option value="elementary">Elementary</option>
-                                        <option value="intermediate">Intermediate</option>
-                                        <option value="upper_intermediate">Upper Intermediate</option>
-                                        <option value="advanced">Advanced</option>
-                                        <option value="native">Native</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-2">
-                                    <label class="form-label">Reading</label>
-                                    <select class="form-select" id="reading">
-                                        <option value="beginner">Beginner</option>
-                                        <option value="elementary">Elementary</option>
-                                        <option value="intermediate">Intermediate</option>
-                                        <option value="upper_intermediate">Upper Intermediate</option>
-                                        <option value="advanced">Advanced</option>
-                                        <option value="native">Native</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 mb-2">
-                                    <label class="form-label">Writing</label>
-                                    <select class="form-select" id="writing">
-                                        <option value="beginner">Beginner</option>
-                                        <option value="elementary">Elementary</option>
-                                        <option value="intermediate">Intermediate</option>
-                                        <option value="upper_intermediate">Upper Intermediate</option>
-                                        <option value="advanced">Advanced</option>
-                                        <option value="native">Native</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <h6>Professional Language Experience</h6>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="businessMeetings">
-                                        <label class="form-check-label" for="businessMeetings">Participated in business meetings</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="presentations">
-                                        <label class="form-check-label" for="presentations">Given presentations</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="technicalWriting">
-                                        <label class="form-check-label" for="technicalWriting">Technical writing/documentation</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="clientInteraction">
-                                        <label class="form-check-label" for="clientInteraction">Client/customer interaction</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="teamLeadership">
-                                        <label class="form-check-label" for="teamLeadership">Team leadership/management</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="negotiations">
-                                        <label class="form-check-label" for="negotiations">Contract negotiations</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="certifications" class="form-label">Language Certifications (if any)</label>
-                                <input type="text" class="form-control" id="certifications" placeholder="TOEFL 110, IELTS 8.0, etc.">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="studyTime" class="form-label">Available Study Time (hours/week)</label>
-                                <select class="form-select" id="studyTime">
-                                    <option value="1-3">1-3 hours</option>
-                                    <option value="4-7">4-7 hours</option>
-                                    <option value="8-15">8-15 hours</option>
-                                    <option value="15+">15+ hours</option>
+                            <div class="col-md-6">
+                                <label for="current_level" class="form-label fw-bold">Current Proficiency Level *</label>
+                                <select class="form-select" id="current_level" name="current_level" required>
+                                    <option value="">Select Level</option>
+                                    <option value="beginner">Beginner (A1)</option>
+                                    <option value="elementary">Elementary (A2)</option>
+                                    <option value="intermediate">Intermediate (B1)</option>
+                                    <option value="upper-intermediate">Upper-Intermediate (B2)</option>
+                                    <option value="advanced">Advanced (C1)</option>
+                                    <option value="proficient">Proficient (C2)</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="learningGoals" class="form-label">Primary Learning Goals (Select all that apply)</label>
-                            <div class="row">
+                        <!-- Professional Language Experience -->
+                        <div class="mb-4">
+                            <h5 class="text-primary mb-3"><i class="fas fa-briefcase me-2"></i>Professional Language Experience</h5>
+                            <p class="text-muted mb-3">Select all that apply to your professional experience:</p>
+                            
+                            <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="job_interviews" id="interviews">
-                                        <label class="form-check-label" for="interviews">Job interviews</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="workplace_communication" id="workplace">
-                                        <label class="form-check-label" for="workplace">Workplace communication</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="business_presentations" id="bizPresentations">
-                                        <label class="form-check-label" for="bizPresentations">Business presentations</label>
+                                        <input class="form-check-input" type="checkbox" name="business_meetings" id="business_meetings">
+                                        <label class="form-check-label" for="business_meetings">
+                                            <i class="fas fa-users me-2"></i>Participated in business meetings
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="technical_communication" id="technical">
-                                        <label class="form-check-label" for="technical">Technical communication</label>
+                                        <input class="form-check-input" type="checkbox" name="presentations" id="presentations">
+                                        <label class="form-check-label" for="presentations">
+                                            <i class="fas fa-presentation me-2"></i>Given presentations
+                                        </label>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="cultural_integration" id="cultural">
-                                        <label class="form-check-label" for="cultural">Cultural integration</label>
+                                        <input class="form-check-input" type="checkbox" name="technical_writing" id="technical_writing">
+                                        <label class="form-check-label" for="technical_writing">
+                                            <i class="fas fa-file-alt me-2"></i>Technical writing/documentation
+                                        </label>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="certification_prep" id="certPrep">
-                                        <label class="form-check-label" for="certPrep">Certification preparation</label>
+                                        <input class="form-check-input" type="checkbox" name="client_interaction" id="client_interaction">
+                                        <label class="form-check-label" for="client_interaction">
+                                            <i class="fas fa-handshake me-2"></i>Client/customer interaction
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="leadership" id="leadership">
+                                        <label class="form-check-label" for="leadership">
+                                            <i class="fas fa-crown me-2"></i>Team leadership/management
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="negotiations" id="negotiations">
+                                        <label class="form-check-label" for="negotiations">
+                                            <i class="fas fa-balance-scale me-2"></i>Contract negotiations
+                                        </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Language Certifications -->
+                        <div class="mb-4">
+                            <h5 class="text-primary mb-3"><i class="fas fa-certificate me-2"></i>Language Certifications</h5>
+                            <label for="certifications" class="form-label">List any language certifications (if any)</label>
+                            <input type="text" class="form-control" id="certifications" name="certifications" 
+                                   placeholder="e.g., TOEFL 110, IELTS 8.0, DELE B2, etc.">
+                            <div class="form-text">Include test names and scores if applicable</div>
+                        </div>
+
+                        <!-- Study Time Commitment -->
+                        <div class="mb-4">
+                            <h5 class="text-primary mb-3"><i class="fas fa-clock me-2"></i>Available Study Time</h5>
+                            <label for="study_hours" class="form-label">Hours per week you can dedicate to language learning *</label>
+                            <select class="form-select" id="study_hours" name="study_hours" required>
+                                <option value="">Select Time Commitment</option>
+                                <option value="1-3 hours">1-3 hours (Light commitment)</option>
+                                <option value="4-6 hours">4-6 hours (Moderate commitment)</option>
+                                <option value="7-10 hours">7-10 hours (Intensive commitment)</option>
+                                <option value="10+ hours">10+ hours (Immersive commitment)</option>
+                            </select>
+                        </div>
+
+                        <!-- Learning Goals -->
+                        <div class="mb-4">
+                            <h5 class="text-primary mb-3"><i class="fas fa-target me-2"></i>Primary Learning Goals</h5>
+                            <p class="text-muted mb-3">Select all that apply to your language learning objectives:</p>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="learning_goals" value="job_interviews" id="goal_interviews">
+                                        <label class="form-check-label" for="goal_interviews">
+                                            <i class="fas fa-user-tie me-2"></i>Job interviews
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="learning_goals" value="workplace_communication" id="goal_workplace">
+                                        <label class="form-check-label" for="goal_workplace">
+                                            <i class="fas fa-building me-2"></i>Workplace communication
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="learning_goals" value="business_presentations" id="goal_presentations">
+                                        <label class="form-check-label" for="goal_presentations">
+                                            <i class="fas fa-chart-line me-2"></i>Business presentations
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="learning_goals" value="technical_communication" id="goal_technical">
+                                        <label class="form-check-label" for="goal_technical">
+                                            <i class="fas fa-cogs me-2"></i>Technical communication
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="learning_goals" value="cultural_integration" id="goal_cultural">
+                                        <label class="form-check-label" for="goal_cultural">
+                                            <i class="fas fa-globe me-2"></i>Cultural integration
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="learning_goals" value="certification_preparation" id="goal_certification">
+                                        <label class="form-check-label" for="goal_certification">
+                                            <i class="fas fa-award me-2"></i>Certification preparation
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-lg px-5">
-                                <i class="fas fa-chart-line me-2"></i>Assess & Get Plan
+                                <i class="fas fa-magic me-2"></i>Generate My Learning Plan
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Results Section -->
-            <div id="resultsSection" class="mt-5" style="display: none;">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header bg-info text-white">
-                                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Assessment Results</h5>
-                            </div>
-                            <div class="card-body" id="assessmentResults">
-                                <!-- Assessment results will be populated here -->
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header bg-success text-white">
-                                <h5 class="mb-0"><i class="fas fa-road me-2"></i>Improvement Plan</h5>
-                            </div>
-                            <div class="card-body" id="improvementPlan">
-                                <!-- Improvement plan will be populated here -->
-                            </div>
-                        </div>
-                    </div>
+    {% else %}
+    <!-- Learning Plan Results -->
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-4">
+                <h1 class="display-6 fw-bold text-success">
+                    <i class="fas fa-check-circle me-3"></i>Your Personalized Learning Plan
+                </h1>
+                <p class="lead text-muted">
+                    Comprehensive {{ learning_plan.target_language }} learning path designed for your goals
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plan Overview -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-language fa-2x mb-2"></i>
+                    <h5>{{ learning_plan.target_language }}</h5>
+                    <p class="mb-0">Target Language</p>
                 </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-line fa-2x mb-2"></i>
+                    <h5>{{ learning_plan.current_level|title }}</h5>
+                    <p class="mb-0">Current Level</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-clock fa-2x mb-2"></i>
+                    <h5>{{ learning_plan.study_commitment }}</h5>
+                    <p class="mb-0">Study Time</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-3">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar fa-2x mb-2"></i>
+                    <h5>{{ learning_plan.estimated_duration }}</h5>
+                    <p class="mb-0">Duration</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header bg-warning text-dark">
-                                <h5 class="mb-0"><i class="fas fa-certificate me-2"></i>Certification Recommendations</h5>
-                            </div>
-                            <div class="card-body" id="certificationRecs">
-                                <!-- Certification recommendations will be populated here -->
-                            </div>
+    <!-- Focus Areas -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h4 class="card-title mb-0"><i class="fas fa-bullseye me-2"></i>Your Focus Areas</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        {% for area in learning_plan.focus_areas %}
+                        <div class="col-md-4">
+                            <span class="badge bg-primary p-2 w-100">
+                                <i class="fas fa-star me-1"></i>{{ area }}
+                            </span>
                         </div>
-                    </div>
-                    
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header bg-secondary text-white">
-                                <h5 class="mb-0"><i class="fas fa-globe me-2"></i>Cultural Language Tips</h5>
-                            </div>
-                            <div class="card-body" id="culturalTips">
-                                <!-- Cultural tips will be populated here -->
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Comprehensive Syllabus -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0"><i class="fas fa-book me-2"></i>Complete Learning Syllabus</h4>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="syllabusAccordion">
+                        {% for phase_name, phase_content in learning_plan.syllabus.items() %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ loop.index }}">
+                                <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#collapse{{ loop.index }}" aria-expanded="{% if loop.first %}true{% else %}false{% endif %}">
+                                    <strong>{{ phase_name }}</strong>
+                                </button>
+                            </h2>
+                            <div id="collapse{{ loop.index }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}" 
+                                 data-bs-parent="#syllabusAccordion">
+                                <div class="accordion-body">
+                                    {% for module_name, module_content in phase_content.items() %}
+                                    <div class="mb-4">
+                                        <h5 class="text-success"><i class="fas fa-puzzle-piece me-2"></i>{{ module_name }}</h5>
+                                        
+                                        <!-- Lessons -->
+                                        <div class="mb-3">
+                                            <h6 class="text-primary mb-2">📚 Lessons:</h6>
+                                            <ul class="list-group list-group-flush">
+                                                {% for lesson in module_content.lessons %}
+                                                <li class="list-group-item d-flex align-items-center">
+                                                    <i class="fas fa-play-circle text-primary me-2"></i>{{ lesson }}
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        
+                                        <!-- Activities -->
+                                        <div class="mb-3">
+                                            <h6 class="text-info mb-2">🎯 Activities:</h6>
+                                            <ul class="list-group list-group-flush">
+                                                {% for activity in module_content.activities %}
+                                                <li class="list-group-item d-flex align-items-center">
+                                                    <i class="fas fa-tasks text-info me-2"></i>{{ activity }}
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        
+                                        <!-- Assessment -->
+                                        <div class="alert alert-light mb-3">
+                                            <h6 class="text-warning mb-1"><i class="fas fa-clipboard-check me-2"></i>Assessment:</h6>
+                                            <p class="mb-0">{{ module_content.assessment }}</p>
+                                        </div>
+                                    </div>
+                                    {% if not loop.last %}<hr>{% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly Schedule and Milestones -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0"><i class="fas fa-calendar-week me-2"></i>Weekly Study Schedule</h5>
+                </div>
+                <div class="card-body">
+                    {% for day, schedule in learning_plan.weekly_schedule.items() %}
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                        <strong>{{ day }}:</strong>
+                        <span class="text-muted">{{ schedule }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Learning Milestones -->
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="card-title mb-0"><i class="fas fa-trophy me-2"></i>Learning Milestones</h5>
+                </div>
+                <div class="card-body">
+                    {% for milestone in learning_plan.milestones %}
+                    <div class="mb-3">
+                        <h6 class="text-primary">Week {{ milestone.week }}: {{ milestone.milestone }}</h6>
+                        <ul class="list-unstyled ms-3">
+                            {% for goal in milestone.goals %}
+                            <li><i class="fas fa-check-circle text-success me-2"></i>{{ goal }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Resources -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title mb-0"><i class="fas fa-tools me-2"></i>Learning Resources & Support</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for category, resources in learning_plan.resources.items() %}
+                        <div class="col-lg-6 mb-3">
+                            <h5 class="text-primary">{{ category }}</h5>
+                            <ul class="list-group list-group-flush">
+                                {% for resource in resources %}
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-book text-success me-2"></i>{{ resource }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assessment Plan -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="card-title mb-0"><i class="fas fa-chart-bar me-2"></i>Assessment & Progress Tracking</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for assessment_type, assessments in learning_plan.assessment_plan.items() %}
+                        <div class="col-lg-4 mb-3">
+                            <h5 class="text-primary">{{ assessment_type }}</h5>
+                            <ul class="list-group list-group-flush">
+                                {% for assessment in assessments %}
+                                <li class="list-group-item d-flex align-items-center">
+                                    <i class="fas fa-clipboard-check text-warning me-2"></i>{{ assessment }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="btn-group" role="group">
+                <a href="{{ url_for('enhanced.language_proficiency_predictor') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-redo me-1"></i>Take Assessment Again
+                </a>
+                <button class="btn btn-success" onclick="window.print()">
+                    <i class="fas fa-download me-1"></i>Save Learning Plan
+                </button>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard.dashboard') }}" class="btn btn-primary">
+                    <i class="fas fa-tachometer-alt me-1"></i>Go to Dashboard
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
-<script>
-document.getElementById('languageAssessmentForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const professionalExperience = [
-        'businessMeetings', 'presentations', 'technicalWriting',
-        'clientInteraction', 'teamLeadership', 'negotiations'
-    ].filter(id => document.getElementById(id).checked);
-    
-    const learningGoals = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
-        .map(cb => cb.value)
-        .filter(value => ['job_interviews', 'workplace_communication', 'business_presentations', 
-                         'technical_communication', 'cultural_integration', 'certification_prep'].includes(value));
-    
-    const formData = {
-        current_skills: {
-            speaking: document.getElementById('speaking').value,
-            listening: document.getElementById('listening').value,
-            reading: document.getElementById('reading').value,
-            writing: document.getElementById('writing').value,
-            professional_experience: professionalExperience,
-            certifications: document.getElementById('certifications').value,
-            study_time_available: document.getElementById('studyTime').value,
-            learning_goals: learningGoals
-        },
-        target_country: document.getElementById('targetCountry').value,
-        target_role: document.getElementById('targetRole').value
-    };
-    
-    try {
-        const response = await fetch('/api/language-assessment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-            displayResults(data);
-        } else {
-            alert('Error: ' + data.error);
-        }
-    } catch (error) {
-        alert('Error: ' + error.message);
-    }
-});
-
-function displayResults(data) {
-    // Display assessment results
-    const assessmentResults = document.getElementById('assessmentResults');
-    const currentLevel = getLevel(data.current_level);
-    const requiredLevel = getLevel(data.required_level);
-    
-    assessmentResults.innerHTML = `
-        <div class="mb-3">
-            <h6><i class="fas fa-user me-2"></i>Current Level</h6>
-            <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-primary fs-6">${currentLevel}</span>
-                <span class="text-muted">${data.current_level}/100</span>
-            </div>
-            <div class="progress mt-1">
-                <div class="progress-bar" style="width: ${data.current_level}%"></div>
-            </div>
-        </div>
-        
-        <div class="mb-3">
-            <h6><i class="fas fa-target me-2"></i>Required Level</h6>
-            <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-success fs-6">${requiredLevel}</span>
-                <span class="text-muted">${data.required_level}/100</span>
-            </div>
-            <div class="progress mt-1">
-                <div class="progress-bar bg-success" style="width: ${data.required_level}%"></div>
-            </div>
-        </div>
-        
-        <div class="mb-3">
-            <h6><i class="fas fa-chart-line me-2"></i>Gap Analysis</h6>
-            <div class="alert alert-${data.gap_analysis.gap > 0 ? 'warning' : 'success'} mb-0">
-                ${data.gap_analysis.gap > 0 ? 
-                    `You need to improve by ${data.gap_analysis.gap} points to meet the requirement.` :
-                    'Congratulations! You already meet the language requirements.'
-                }
-                <br><small>${data.gap_analysis.details}</small>
-            </div>
-        </div>
-    `;
-    
-    // Display improvement plan
-    const improvementPlan = document.getElementById('improvementPlan');
-    const plan = data.improvement_plan;
-    
-    improvementPlan.innerHTML = `
-        <div class="mb-3">
-            <h6><i class="fas fa-clock me-2"></i>Timeline</h6>
-            <p><strong>${plan.duration}</strong> at <strong>${plan.study_hours_per_week} hours/week</strong></p>
-        </div>
-        
-        <div class="mb-3">
-            <h6><i class="fas fa-book me-2"></i>Recommended Resources</h6>
-            <ul class="list-unstyled">
-                ${plan.recommended_resources.map(resource => `
-                    <li><i class="fas fa-check text-success me-2"></i>${resource}</li>
-                `).join('')}
-            </ul>
-        </div>
-        
-        <div class="mb-3">
-            <h6><i class="fas fa-milestone me-2"></i>Key Milestones</h6>
-            <div class="timeline">
-                ${plan.milestones.map((milestone, index) => `
-                    <div class="border-start border-2 border-primary ps-3 pb-2">
-                        <strong>Month ${index + 1}:</strong> ${milestone}
-                    </div>
-                `).join('')}
-            </div>
-        </div>
-    `;
-    
-    // Display certification recommendations
-    const certificationRecs = document.getElementById('certificationRecs');
-    certificationRecs.innerHTML = data.certification_recommendations.map(cert => `
-        <div class="border-bottom pb-2 mb-2">
-            <h6 class="mb-1">${cert.name}</h6>
-            <p class="small text-muted mb-1">${cert.description}</p>
-            <div class="d-flex justify-content-between">
-                <span class="badge bg-info">Level: ${cert.level}</span>
-                <span class="text-muted small">Est. ${cert.preparation_time}</span>
-            </div>
-        </div>
-    `).join('');
-    
-    // Display cultural tips
-    const culturalTips = document.getElementById('culturalTips');
-    culturalTips.innerHTML = data.cultural_language_tips.map(tip => `
-        <div class="alert alert-light border-start border-secondary border-4 mb-2 py-2">
-            <i class="fas fa-lightbulb text-warning me-2"></i>${tip}
-        </div>
-    `).join('');
-    
-    document.getElementById('resultsSection').style.display = 'block';
-    document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+<style>
+@media print {
+    .btn-group, .navbar, .footer { display: none !important; }
+    .card { border: 1px solid #ddd !important; box-shadow: none !important; }
 }
-
-function getLevel(score) {
-    if (score >= 90) return 'Native/Near-Native';
-    if (score >= 75) return 'Advanced';
-    if (score >= 60) return 'Upper Intermediate';
-    if (score >= 45) return 'Intermediate';
-    if (score >= 30) return 'Elementary';
-    return 'Beginner';
-}
-</script>
+</style>
 {% endblock %}
