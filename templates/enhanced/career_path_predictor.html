@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script src="{{ url_for('static', filename='js/ai-tools-fix.js') }}"></script>
 <div class="container py-4">
     <div class="row">
         <!-- Header -->
@@ -419,19 +420,7 @@ function logButtonError(toolName, action, errorMessage) {
     console.table(errorData);
 }
 
-// Global error handler for all buttons
-document.addEventListener('click', function(e) {
-    if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
-        const button = e.target.tagName === 'BUTTON' ? e.target : e.target.closest('button');
-        
-        // Add click logging for debugging
-        console.log('Button clicked:', {
-            id: button.id,
-            className: button.className,
-            innerText: button.innerText.trim(),
-            type: button.type
-        });
-    }
-});
+// Remove duplicate global handler since it's in ai-tools-fix.js
+console.log('Career path predictor script loaded');
 </script>
 {% endblock %}

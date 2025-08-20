@@ -30,10 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fix Career Path Predictor (if exists)
     const careerForm = document.getElementById('careerForm');
     if (careerForm) {
+        console.log('Career form found, setting up event listener');
         careerForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            console.log('Career form submitted');
-            generateCareerPath();
+            console.log('Career form submitted via global handler');
+            generateCareerPathFromForm();
         });
     }
     
@@ -510,10 +511,208 @@ function showMessage(message, type = 'info') {
     console.log(`${type.toUpperCase()}: ${message}`);
 }
 
-// Career Path Functions (if needed)
+// Career Path Functions
+function generateCareerPathFromForm() {
+    try {
+        console.log('Generating career path from global handler');
+        const form = document.getElementById('careerForm');
+        if (!form) {
+            console.error('Career form not found');
+            return;
+        }
+        
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+        
+        console.log('Career form data:', data);
+        
+        // Validate required fields
+        if (!data.current_role || !data.experience || !data.industry || !data.goal) {
+            showMessage('Please fill in all required fields', 'error');
+            return;
+        }
+        
+        // Generate career prediction
+        const prediction = createCareerPrediction(data);
+        displayCareerResults(prediction);
+        
+        showMessage('Career path generated successfully!', 'success');
+        
+    } catch (error) {
+        console.error('Career path generation error:', error);
+        showMessage('Failed to generate career path. Please try again.', 'error');
+    }
+}
+
+function createCareerPrediction(data) {
+    const careerPaths = {
+        technology: {
+            leadership: {
+                nextRole: "Senior Software Engineer",
+                nextRoleDescription: "Lead technical projects and mentor junior developers while building management skills.",
+                timeline: "1-2 years",
+                longTermRole: "Engineering Manager",
+                longTermDescription: "Manage engineering teams and drive technical strategy for products.",
+                salaryRange: "$140k - $200k+",
+                skillsNeeded: ["Team leadership", "Project management", "Strategic thinking", "Communication"],
+                actionSteps: ["Take on team lead responsibilities", "Complete management training", "Build stakeholder relationships", "Develop technical vision"],
+                advice: "Focus on developing both technical excellence and people management skills. Start mentoring others and taking on cross-functional projects."
+            },
+            technical: {
+                nextRole: "Senior Developer/Architect",
+                nextRoleDescription: "Become the go-to technical expert and design complex systems.",
+                timeline: "1-2 years",
+                longTermRole: "Principal Engineer/CTO",
+                longTermDescription: "Lead technical architecture decisions and innovation across the organization.",
+                salaryRange: "$160k - $250k+",
+                skillsNeeded: ["System design", "Advanced programming", "Architecture patterns", "Technical leadership"],
+                actionSteps: ["Master advanced technologies", "Contribute to open source", "Design system architecture", "Mentor other engineers"],
+                advice: "Deepen your technical expertise in emerging technologies and focus on system design and architecture skills."
+            }
+        },
+        finance: {
+            leadership: {
+                nextRole: "Senior Financial Analyst",
+                nextRoleDescription: "Lead financial planning initiatives and guide strategic decisions.",
+                timeline: "1-2 years",
+                longTermRole: "Finance Director",
+                longTermDescription: "Oversee financial operations and strategy for business units.",
+                salaryRange: "$130k - $190k+",
+                skillsNeeded: ["Strategic planning", "Team management", "Financial modeling", "Executive communication"],
+                actionSteps: ["Lead major financial projects", "Complete MBA or CFA", "Build executive relationships", "Develop business acumen"],
+                advice: "Combine financial expertise with business strategy knowledge. Focus on becoming a strategic business partner."
+            }
+        },
+        default: {
+            nextRole: "Senior Professional",
+            nextRoleDescription: "Advance to a senior level in your current field with expanded responsibilities.",
+            timeline: "1-2 years",
+            longTermRole: "Department Leader",
+            longTermDescription: "Lead a team or department in your area of expertise.",
+            salaryRange: "$100k - $150k+",
+            skillsNeeded: ["Leadership", "Communication", "Strategic thinking", "Industry expertise"],
+            actionSteps: ["Take on leadership roles", "Develop expertise", "Build professional network", "Pursue relevant certifications"],
+            advice: "Focus on developing both technical skills and leadership capabilities. Build strong relationships within your industry."
+        }
+    };
+    
+    // Get specific prediction or use default
+    let prediction = careerPaths.default;
+    if (careerPaths[data.industry] && careerPaths[data.industry][data.goal]) {
+        prediction = careerPaths[data.industry][data.goal];
+    }
+    
+    // Adjust timeline based on experience
+    let timeline = prediction.timeline;
+    if (data.experience === '0-1') {
+        timeline = timeline.replace('1-2', '2-3');
+    } else if (data.experience === '10+') {
+        timeline = timeline.replace('2-3', '1-2');
+    }
+    
+    return {
+        ...prediction,
+        timeline: timeline
+    };
+}
+
+function displayCareerResults(prediction) {
+    const resultsHTML = `
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-target me-2"></i>Recommended Next Step</h6>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="text-primary">${prediction.nextRole}</h5>
+                        <p>${prediction.nextRoleDescription}</p>
+                        <div class="timeline-estimate">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>Timeline: ${prediction.timeline}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-chart-line me-2"></i>Long-term Vision</h6>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="text-success">${prediction.longTermRole}</h5>
+                        <p>${prediction.longTermDescription}</p>
+                        <div class="salary-estimate">
+                            <small class="text-muted">
+                                <i class="fas fa-dollar-sign me-1"></i>Potential salary: ${prediction.salaryRange}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-list-check me-2"></i>Action Plan</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Skills to Develop:</h6>
+                                <ul class="list-unstyled">
+                                    ${prediction.skillsNeeded.map(skill => `<li><i class="fas fa-arrow-right text-primary me-2"></i>${skill}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Next Steps:</h6>
+                                <ul class="list-unstyled">
+                                    ${prediction.actionSteps.map(step => `<li><i class="fas fa-check-circle text-success me-2"></i>${step}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Career Advice</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <strong>Personalized Recommendation:</strong> ${prediction.advice}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Insert results
+    const resultsSection = document.getElementById('resultsSection');
+    const resultsContent = document.getElementById('resultsContent');
+    
+    if (resultsContent) {
+        resultsContent.innerHTML = resultsHTML;
+        if (resultsSection) {
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    } else {
+        console.error('Results sections not found');
+    }
+}
+
 function generateCareerPath() {
-    // This will be handled by the specific career path predictor
-    console.log('Career path generation called from global handler');
+    // Fallback function for compatibility
+    generateCareerPathFromForm();
 }
 
 console.log('AI Tools JavaScript Fix loaded successfully');
