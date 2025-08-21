@@ -1132,6 +1132,11 @@ def salary_intelligence_system():
     """Comprehensive salary intelligence and eligibility checker"""
     return render_template('enhanced/salary_intelligence_system.html')
 
+@enhanced_bp.route('/immigration-law-resources')
+def immigration_law_resources():
+    """Immigration law resources and consulting connections"""
+    return render_template('enhanced/immigration_law_resources.html')
+
 @enhanced_bp.route('/global-benefits-comparison')
 @login_required
 def global_benefits_comparison():

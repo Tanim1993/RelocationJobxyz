@@ -27,6 +27,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fix Language Learning Roadmap buttons
     setupLanguageRoadmapButtons();
     
+    // Fix Immigration Law Resources
+    const immigrationForm = document.getElementById('immigrationResourceForm');
+    if (immigrationForm) {
+        console.log('Immigration form found, setting up event listener');
+        immigrationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Immigration form submitted via global handler');
+            generateImmigrationResources();
+        });
+    }
+    
     // Fix Career Path Predictor (if exists)
     const careerForm = document.getElementById('careerForm');
     if (careerForm) {

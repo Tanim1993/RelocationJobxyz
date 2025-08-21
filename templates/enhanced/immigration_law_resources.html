@@ -1,0 +1,619 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="{{ url_for('static', filename='js/ai-tools-fix.js') }}"></script>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold text-primary">
+                    <i class="fas fa-gavel me-3"></i>Immigration Law Resources & Consulting
+                </h1>
+                <p class="lead text-muted">
+                    Connect with immigration attorneys, access legal resources, and get expert guidance for your visa journey
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Assessment Form -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-search me-2"></i>Find Your Immigration Resources
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="immigrationResourceForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Current Country of Residence</label>
+                                <select class="form-select" name="current_country" required>
+                                    <option value="">Select your current country</option>
+                                    <option value="us">United States</option>
+                                    <option value="uk">United Kingdom</option>
+                                    <option value="ca">Canada</option>
+                                    <option value="au">Australia</option>
+                                    <option value="de">Germany</option>
+                                    <option value="fr">France</option>
+                                    <option value="jp">Japan</option>
+                                    <option value="cn">China</option>
+                                    <option value="in">India</option>
+                                    <option value="br">Brazil</option>
+                                    <option value="mx">Mexico</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Target Country for Immigration</label>
+                                <select class="form-select" name="target_country" required>
+                                    <option value="">Select target country</option>
+                                    <option value="us">United States</option>
+                                    <option value="uk">United Kingdom</option>
+                                    <option value="ca">Canada</option>
+                                    <option value="au">Australia</option>
+                                    <option value="de">Germany</option>
+                                    <option value="fr">France</option>
+                                    <option value="jp">Japan</option>
+                                    <option value="sg">Singapore</option>
+                                    <option value="nz">New Zealand</option>
+                                    <option value="nl">Netherlands</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Immigration Purpose</label>
+                                <select class="form-select" name="immigration_purpose" required>
+                                    <option value="">Select purpose</option>
+                                    <option value="work">Work/Employment</option>
+                                    <option value="study">Study/Education</option>
+                                    <option value="family">Family Reunification</option>
+                                    <option value="investment">Investment/Business</option>
+                                    <option value="refugee">Refugee/Asylum</option>
+                                    <option value="permanent">Permanent Residence</option>
+                                    <option value="citizenship">Citizenship</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Urgency Level</label>
+                                <select class="form-select" name="urgency">
+                                    <option value="low">Planning ahead (6+ months)</option>
+                                    <option value="medium">Moderate (3-6 months)</option>
+                                    <option value="high">Urgent (within 3 months)</option>
+                                    <option value="immediate">Immediate (within 1 month)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Current Immigration Status (if applicable)</label>
+                            <select class="form-select" name="current_status">
+                                <option value="none">No current status</option>
+                                <option value="tourist">Tourist/Visitor</option>
+                                <option value="student">Student Visa</option>
+                                <option value="work">Work Visa</option>
+                                <option value="temporary">Temporary Resident</option>
+                                <option value="permanent">Permanent Resident</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Specific Concerns or Questions (optional)</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="concerns" value="visa_application" id="visa_app">
+                                        <label class="form-check-label" for="visa_app">Visa application process</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="concerns" value="document_preparation" id="docs">
+                                        <label class="form-check-label" for="docs">Document preparation</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="concerns" value="interview_prep" id="interview">
+                                        <label class="form-check-label" for="interview">Interview preparation</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="concerns" value="legal_representation" id="legal">
+                                        <label class="form-check-label" for="legal">Legal representation</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="concerns" value="timeline_planning" id="timeline">
+                                        <label class="form-check-label" for="timeline">Timeline planning</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="concerns" value="cost_estimation" id="costs">
+                                        <label class="form-check-label" for="costs">Cost estimation</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-search me-2"></i>Find Immigration Resources
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="row mt-4" id="resourcesSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-briefcase me-2"></i>Your Immigration Resources & Recommendations
+                    </h5>
+                </div>
+                <div class="card-body" id="resourcesResults">
+                    <!-- Results will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Access Resources -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="text-center mb-4">
+                <i class="fas fa-link me-2"></i>Quick Access Immigration Resources
+            </h3>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-university fa-2x text-primary mb-3"></i>
+                    <h5>Government Resources</h5>
+                    <p class="text-muted">Official immigration websites and government portals</p>
+                    <button class="btn btn-outline-primary" onclick="showGovernmentResources()">View Resources</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x text-success mb-3"></i>
+                    <h5>Legal Professionals</h5>
+                    <p class="text-muted">Find qualified immigration attorneys and consultants</p>
+                    <button class="btn btn-outline-success" onclick="showLegalProfessionals()">Find Lawyers</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-comments fa-2x text-warning mb-3"></i>
+                    <h5>Community Support</h5>
+                    <p class="text-muted">Connect with immigration communities and forums</p>
+                    <button class="btn btn-outline-warning" onclick="showCommunitySupport()">Join Community</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Contact Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <h5><i class="fas fa-phone me-2"></i>Emergency Immigration Help</h5>
+                <p class="mb-2">If you're facing an urgent immigration issue, here are immediate resources:</p>
+                <ul class="mb-0">
+                    <li><strong>ACLU Immigrants' Rights Project:</strong> National hotline for immediate legal assistance</li>
+                    <li><strong>Local Bar Association:</strong> Most have immigration law referral services</li>
+                    <li><strong>Non-profit Legal Aid:</strong> Free or low-cost legal services in many areas</li>
+                    <li><strong>Embassy/Consulate:</strong> Your home country's diplomatic mission</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('immigrationResourceForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Immigration resource form submitted');
+            generateImmigrationResources();
+        });
+    }
+});
+
+function generateImmigrationResources() {
+    try {
+        const form = document.getElementById('immigrationResourceForm');
+        const formData = new FormData(form);
+        const data = {};
+        
+        // Get regular form fields
+        for (let [key, value] of formData.entries()) {
+            if (key === 'concerns') {
+                if (!data.concerns) data.concerns = [];
+                data.concerns.push(value);
+            } else {
+                data[key] = value;
+            }
+        }
+        
+        // Get checked concerns
+        const concernsChecked = document.querySelectorAll('input[name="concerns"]:checked');
+        data.concerns = Array.from(concernsChecked).map(cb => cb.value);
+        
+        console.log('Immigration form data:', data);
+        
+        if (!data.target_country || !data.immigration_purpose) {
+            showMessage('Please select target country and immigration purpose', 'error');
+            return;
+        }
+        
+        const resources = createImmigrationResources(data);
+        displayImmigrationResults(resources);
+        
+        showMessage('Immigration resources generated successfully!', 'success');
+        
+    } catch (error) {
+        console.error('Immigration resources error:', error);
+        showMessage('Failed to generate resources. Please try again.', 'error');
+    }
+}
+
+function createImmigrationResources(data) {
+    const countries = {
+        'us': 'United States', 'uk': 'United Kingdom', 'ca': 'Canada',
+        'au': 'Australia', 'de': 'Germany', 'fr': 'France',
+        'jp': 'Japan', 'sg': 'Singapore', 'nz': 'New Zealand',
+        'nl': 'Netherlands', 'other': 'Other'
+    };
+    
+    const purposes = {
+        'work': 'Work/Employment', 'study': 'Study/Education',
+        'family': 'Family Reunification', 'investment': 'Investment/Business',
+        'refugee': 'Refugee/Asylum', 'permanent': 'Permanent Residence',
+        'citizenship': 'Citizenship'
+    };
+    
+    const targetCountry = countries[data.target_country] || 'Other';
+    const purpose = purposes[data.immigration_purpose] || 'General';
+    
+    return {
+        targetCountry: targetCountry,
+        purpose: purpose,
+        urgency: data.urgency || 'medium',
+        concerns: data.concerns || [],
+        governmentResources: getGovernmentResources(data.target_country),
+        legalProfessionals: getLegalProfessionals(data.target_country),
+        communityResources: getCommunityResources(data.target_country),
+        timeline: getImmigrationTimeline(data.immigration_purpose, data.urgency),
+        costs: getEstimatedCosts(data.target_country, data.immigration_purpose),
+        nextSteps: getNextSteps(data),
+        urgentActions: getUrgentActions(data.urgency, data.concerns)
+    };
+}
+
+function getGovernmentResources(country) {
+    const resources = {
+        'us': [
+            { name: 'USCIS - U.S. Citizenship and Immigration Services', url: 'https://www.uscis.gov', description: 'Official U.S. immigration agency' },
+            { name: 'State Department Visa Services', url: 'https://travel.state.gov/content/travel/en/us-visas.html', description: 'Visa application information' },
+            { name: 'Department of Labor Foreign Labor Certification', url: 'https://www.dol.gov/agencies/eta/foreign-workers', description: 'Work visa requirements' }
+        ],
+        'ca': [
+            { name: 'Immigration, Refugees and Citizenship Canada (IRCC)', url: 'https://www.canada.ca/en/immigration-refugees-citizenship.html', description: 'Official Canadian immigration website' },
+            { name: 'Express Entry System', url: 'https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry.html', description: 'Skilled worker immigration program' }
+        ],
+        'uk': [
+            { name: 'UK Visas and Immigration', url: 'https://www.gov.uk/government/organisations/uk-visas-and-immigration', description: 'Official UK immigration services' },
+            { name: 'Points-based Immigration System', url: 'https://www.gov.uk/guidance/new-immigration-system-what-you-need-to-know', description: 'UK immigration requirements' }
+        ],
+        'au': [
+            { name: 'Department of Home Affairs', url: 'https://immi.homeaffairs.gov.au/', description: 'Australian immigration services' },
+            { name: 'SkillSelect', url: 'https://immi.homeaffairs.gov.au/visas/working-in-australia/skillselect', description: 'Skilled migration program' }
+        ]
+    };
+    return resources[country] || resources['us'];
+}
+
+function getLegalProfessionals(country) {
+    const professionals = {
+        'us': [
+            { name: 'American Immigration Lawyers Association (AILA)', type: 'Directory', contact: 'https://www.aila.org/about/member-search', description: 'Find certified immigration attorneys' },
+            { name: 'National Immigration Forum', type: 'Non-profit', contact: 'https://immigrationforum.org/', description: 'Immigration advocacy and resources' }
+        ],
+        'ca': [
+            { name: 'Immigration Consultants of Canada Regulatory Council (ICCRC)', type: 'Directory', contact: 'https://iccrc-crcic.ca/find-a-professional/', description: 'Regulated immigration consultants' },
+            { name: 'Canadian Bar Association Immigration Section', type: 'Directory', contact: 'https://www.cba.org/', description: 'Immigration lawyers directory' }
+        ],
+        'uk': [
+            { name: 'Immigration Law Practitioners\' Association (ILPA)', type: 'Directory', contact: 'https://ilpa.org.uk/', description: 'Immigration law specialists' },
+            { name: 'Office of the Immigration Services Commissioner', type: 'Directory', contact: 'https://www.gov.uk/find-an-immigration-adviser', description: 'Regulated immigration advisers' }
+        ]
+    };
+    return professionals[country] || professionals['us'];
+}
+
+function getCommunityResources(country) {
+    return [
+        { name: 'Reddit Immigration Communities', description: 'Country-specific immigration discussion forums', link: 'r/immigration, r/IWantOut' },
+        { name: 'Facebook Immigration Groups', description: 'Local immigration support groups', link: 'Search for "[Country] Immigration Support"' },
+        { name: 'Meetup Immigration Events', description: 'In-person networking and support meetings', link: 'Immigration meetups in your city' },
+        { name: 'LinkedIn Immigration Professionals', description: 'Connect with immigration experts and consultants', link: 'Immigration law professionals network' }
+    ];
+}
+
+function getImmigrationTimeline(purpose, urgency) {
+    const timelines = {
+        'work': {
+            'immediate': '2-4 weeks for expedited processing',
+            'high': '1-3 months typical processing',
+            'medium': '3-6 months standard processing',
+            'low': '6-12 months for complex cases'
+        },
+        'study': {
+            'immediate': '2-6 weeks for student visas',
+            'high': '1-2 months before semester start',
+            'medium': '3-4 months advance planning',
+            'low': '6-12 months for competitive programs'
+        },
+        'family': {
+            'immediate': '3-6 months for immediate relatives',
+            'high': '6-12 months for spouse/children',
+            'medium': '1-2 years for other family',
+            'low': '2-5 years for extended family'
+        },
+        'permanent': {
+            'immediate': '1-2 years minimum processing',
+            'high': '2-3 years typical timeline',
+            'medium': '3-5 years standard process',
+            'low': '5+ years for complex cases'
+        }
+    };
+    
+    return timelines[purpose] ? timelines[purpose][urgency] || '6-12 months typical' : '6-12 months typical';
+}
+
+function getEstimatedCosts(country, purpose) {
+    const costs = {
+        'us': {
+            'work': '$2,000-$15,000 (including legal fees)',
+            'study': '$500-$2,000 (application fees)',
+            'family': '$1,500-$5,000 (petition and processing)',
+            'permanent': '$5,000-$20,000 (total process)'
+        },
+        'ca': {
+            'work': '$1,500-$10,000 CAD',
+            'study': '$400-$1,500 CAD',
+            'permanent': '$3,000-$15,000 CAD'
+        },
+        'uk': {
+            'work': '£1,500-£8,000 GBP',
+            'study': '£500-£2,000 GBP',
+            'permanent': '£3,000-£12,000 GBP'
+        }
+    };
+    
+    return costs[country] ? costs[country][purpose] || '$2,000-$10,000' : '$2,000-$10,000';
+}
+
+function getNextSteps(data) {
+    const steps = [
+        'Research specific visa requirements for your situation',
+        'Gather required documents and translations',
+        'Consider consulting with an immigration attorney',
+        'Prepare financial documentation and proof of funds',
+        'Schedule any required medical examinations',
+        'Apply for necessary background checks'
+    ];
+    
+    if (data.urgency === 'immediate') {
+        steps.unshift('Contact emergency immigration services immediately');
+        steps.unshift('Verify current legal status and expiration dates');
+    }
+    
+    return steps;
+}
+
+function getUrgentActions(urgency, concerns) {
+    if (urgency === 'immediate') {
+        return [
+            'Contact immigration attorney within 24 hours',
+            'Verify all current visa/status expiration dates',
+            'Gather all existing immigration documents',
+            'Document any emergency circumstances',
+            'Contact relevant embassy/consulate if needed'
+        ];
+    } else if (urgency === 'high') {
+        return [
+            'Schedule consultation with immigration professional',
+            'Begin document collection process',
+            'Research expedited processing options',
+            'Prepare initial application materials'
+        ];
+    }
+    return [
+        'Create immigration planning timeline',
+        'Research all available visa options',
+        'Begin saving for application costs',
+        'Consider language or skill requirements'
+    ];
+}
+
+function displayImmigrationResults(resources) {
+    const resultsHTML = `
+        <div class="row">
+            <!-- Overview Card -->
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Your Immigration Profile</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <strong>Target Country:</strong><br>
+                                <span class="text-primary fs-5">${resources.targetCountry}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Purpose:</strong><br>
+                                <span class="text-success fs-5">${resources.purpose}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Timeline:</strong><br>
+                                <span class="text-info fs-6">${resources.timeline}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>Est. Costs:</strong><br>
+                                <span class="text-warning fs-6">${resources.costs}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Government Resources -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-university me-2"></i>Government Resources</h6>
+                    </div>
+                    <div class="card-body">
+                        ${resources.governmentResources.map(resource => `
+                            <div class="border-bottom pb-2 mb-2">
+                                <h6 class="text-primary">${resource.name}</h6>
+                                <p class="text-muted small mb-1">${resource.description}</p>
+                                <a href="${resource.url}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-external-link-alt me-1"></i>Visit Site
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Legal Professionals -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-gavel me-2"></i>Legal Professionals</h6>
+                    </div>
+                    <div class="card-body">
+                        ${resources.legalProfessionals.map(professional => `
+                            <div class="border-bottom pb-2 mb-2">
+                                <h6 class="text-success">${professional.name}</h6>
+                                <span class="badge bg-secondary mb-1">${professional.type}</span>
+                                <p class="text-muted small mb-1">${professional.description}</p>
+                                <a href="${professional.contact}" target="_blank" class="btn btn-outline-success btn-sm">
+                                    <i class="fas fa-search me-1"></i>Find Professional
+                                </a>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Community Resources -->
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-users me-2"></i>Community Support</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            ${resources.communityResources.map(community => `
+                                <div class="col-md-6 mb-2">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-comments text-warning me-2 mt-1"></i>
+                                        <div>
+                                            <h6 class="mb-1">${community.name}</h6>
+                                            <p class="text-muted small mb-1">${community.description}</p>
+                                            <small class="text-info">${community.link}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Next Steps -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-list-check me-2"></i>Next Steps</h6>
+                    </div>
+                    <div class="card-body">
+                        <ol class="mb-0">
+                            ${resources.nextSteps.map(step => `<li class="mb-2">${step}</li>`).join('')}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Urgent Actions -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header ${resources.urgency === 'immediate' ? 'bg-danger text-white' : 'bg-warning text-dark'}">
+                        <h6 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>
+                            ${resources.urgency === 'immediate' ? 'Immediate Actions' : 'Priority Actions'}
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="mb-0">
+                            ${resources.urgentActions.map(action => `<li class="mb-2">${action}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        ${resources.urgency === 'immediate' ? `
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger">
+                    <h5><i class="fas fa-phone me-2"></i>Emergency Contact Required</h5>
+                    <p class="mb-2">Your situation requires immediate attention. Contact an immigration attorney or emergency services today.</p>
+                    <button class="btn btn-light btn-sm" onclick="showEmergencyContacts()">
+                        <i class="fas fa-phone me-1"></i>Show Emergency Contacts
+                    </button>
+                </div>
+            </div>
+        </div>
+        ` : ''}
+    `;
+    
+    document.getElementById('resourcesResults').innerHTML = resultsHTML;
+    document.getElementById('resourcesSection').style.display = 'block';
+    document.getElementById('resourcesSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Quick access functions
+function showGovernmentResources() {
+    showMessage('Government resources provide official immigration information and applications', 'info');
+}
+
+function showLegalProfessionals() {
+    showMessage('Legal professionals can provide personalized guidance and representation', 'info');
+}
+
+function showCommunitySupport() {
+    showMessage('Community support offers peer advice and shared experiences', 'info');
+}
+
+function showEmergencyContacts() {
+    showMessage('Emergency contacts: ACLU Immigrants Rights (212-549-2500), Local Bar Association, Legal Aid Services', 'info');
+}
+</script>
+{% endblock %}
