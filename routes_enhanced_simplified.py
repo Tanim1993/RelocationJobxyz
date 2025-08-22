@@ -30,13 +30,11 @@ enhanced_bp = Blueprint('ai_tools_2024', __name__, url_prefix='/ai')
 # === ORIGINAL 6 FEATURES (WORKING) ===
 
 @enhanced_bp.route('/salary-intelligence')
-@login_required
 def salary_intelligence():
     """Salary intelligence and comparison tool"""
     return render_template('enhanced/salary_intelligence.html')
 
 @enhanced_bp.route('/api/salary-analysis', methods=['POST'])
-@login_required
 def api_salary_analysis():
     """API endpoint for salary analysis"""
     data = request.get_json()
@@ -83,13 +81,11 @@ def api_salary_analysis():
         return jsonify({'error': str(e)}), 500
 
 @enhanced_bp.route('/visa-navigator')
-@login_required
 def visa_navigator():
     """Visa navigator and application tracker"""
     return render_template('enhanced/visa_navigator.html')
 
 @enhanced_bp.route('/api/visa-requirements', methods=['POST'])
-@login_required
 def api_visa_requirements():
     """API endpoint for visa requirements analysis"""
     data = request.get_json()
@@ -131,13 +127,11 @@ def api_visa_requirements():
         return jsonify({'error': str(e)}), 500
 
 @enhanced_bp.route('/cultural-intelligence')
-@login_required
 def cultural_intelligence():
     """Cultural intelligence and workplace adaptation tool"""
     return render_template('enhanced/cultural_intelligence.html')
 
 @enhanced_bp.route('/api/cultural-analysis', methods=['POST'])
-@login_required
 def api_cultural_analysis():
     """API endpoint for cultural compatibility analysis"""
     data = request.get_json()
@@ -173,13 +167,11 @@ def api_cultural_analysis():
         return jsonify({'error': str(e)}), 500
 
 @enhanced_bp.route('/ats-dashboard')
-@login_required
 def ats_dashboard():
     """ATS dashboard for employers"""
     return render_template('enhanced/ats_dashboard.html')
 
 @enhanced_bp.route('/api/ats/jobs', methods=['GET', 'POST'])
-@login_required
 def api_ats_jobs():
     """API endpoint for ATS job management"""
     if request.method == 'POST':
@@ -222,13 +214,11 @@ def api_ats_jobs():
             return jsonify({'error': str(e)}), 500
 
 @enhanced_bp.route('/relocation-calculator')
-@login_required
 def relocation_calculator():
     """Cost calculator for relocation"""
     return render_template('enhanced/relocation_calculator.html')
 
 @enhanced_bp.route('/interview-prep')
-@login_required
 def interview_prep():
     """Interview preparation tool"""
     return render_template('enhanced/interview_prep.html')
@@ -236,13 +226,11 @@ def interview_prep():
 # === NEW 10 AI FEATURES (SIMPLIFIED MOCK RESPONSES) ===
 
 @enhanced_bp.route('/career-path-predictor')
-@login_required
 def career_path_predictor():
     """AI Career Path Predictor"""
     return render_template('enhanced/career_path_predictor.html')
 
 @enhanced_bp.route('/api/career-prediction', methods=['POST'])
-@login_required
 def api_career_prediction():
     """Mock API for career path prediction"""
     return jsonify({
@@ -265,13 +253,11 @@ def api_career_prediction():
     })
 
 @enhanced_bp.route('/immigration-policy-tracker')
-@login_required
 def immigration_policy_tracker():
     """Immigration Policy Tracker"""
     return render_template('enhanced/immigration_policy_tracker.html')
 
 @enhanced_bp.route('/api/policy-updates', methods=['GET'])
-@login_required
 def api_policy_updates():
     """Mock API for policy updates"""
     return jsonify({
@@ -287,13 +273,11 @@ def api_policy_updates():
     })
 
 @enhanced_bp.route('/tax-optimizer')
-@login_required
 def tax_optimizer():
     """International Tax Optimizer"""
     return render_template('enhanced/tax_optimizer.html')
 
 @enhanced_bp.route('/api/tax-optimization', methods=['POST'])
-@login_required
 def api_tax_optimization():
     """Mock API for tax optimization"""
     return jsonify({
@@ -309,13 +293,11 @@ def api_tax_optimization():
     })
 
 @enhanced_bp.route('/remote-work-compatibility')
-@login_required
 def remote_work_compatibility():
     """Remote Work Compatibility Scorer"""
     return render_template('enhanced/remote_work_compatibility.html')
 
 @enhanced_bp.route('/api/remote-work-score', methods=['POST'])
-@login_required
 def api_remote_work_score():
     """Mock API for remote work scoring"""
     return jsonify({
@@ -335,13 +317,11 @@ def api_remote_work_score():
     })
 
 @enhanced_bp.route('/cultural-mentor-matching')
-@login_required
 def cultural_mentor_matching():
     """Cultural Mentor Matching"""
     return render_template('enhanced/cultural_mentor_matching.html')
 
 @enhanced_bp.route('/api/mentor-matching', methods=['POST'])
-@login_required
 def api_mentor_matching():
     """Mock API for mentor matching"""
     return jsonify({
@@ -362,13 +342,11 @@ def api_mentor_matching():
     })
 
 @enhanced_bp.route('/resume-localizer')
-@login_required
 def resume_localizer():
     """AI Resume Localizer"""
     return render_template('enhanced/resume_localizer.html')
 
 @enhanced_bp.route('/api/resume-localization', methods=['POST'])
-@login_required
 def api_resume_localization():
     """Mock API for resume localization"""
     return jsonify({
@@ -415,7 +393,6 @@ def language_proficiency_predictor():
     return render_template('enhanced/language_proficiency_predictor.html')
 
 @enhanced_bp.route('/api/language-assessment', methods=['POST'])
-@login_required
 def api_language_assessment():
     """Mock API for language assessment"""
     return jsonify({
@@ -443,13 +420,11 @@ def api_language_assessment():
     })
 
 @enhanced_bp.route('/housing-market-intelligence')
-@login_required
 def housing_market_intelligence():
     """Housing Market Intelligence"""
     return render_template('enhanced/housing_market_intelligence.html')
 
 @enhanced_bp.route('/api/housing-analysis', methods=['POST'])
-@login_required
 def api_housing_analysis():
     """Mock API for housing analysis"""
     return jsonify({
@@ -1138,13 +1113,11 @@ def immigration_law_resources():
     return render_template('enhanced/immigration_law_resources.html')
 
 @enhanced_bp.route('/global-benefits-comparison')
-@login_required
 def global_benefits_comparison():
     """Global Benefits Comparison Engine"""
     return render_template('enhanced/global_benefits_comparison.html')
 
 @enhanced_bp.route('/api/benefits-comparison', methods=['POST'])
-@login_required
 def api_benefits_comparison():
     """Mock API for benefits comparison"""
     return jsonify({
