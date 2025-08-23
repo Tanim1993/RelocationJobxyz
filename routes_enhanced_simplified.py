@@ -1102,6 +1102,11 @@ def error_tracker():
     """Error tracking dashboard for debugging non-functional buttons"""
     return render_template('enhanced/error_tracker.html')
 
+@enhanced_bp.route('/git-push-admin')
+def git_push_admin():
+    """Auto Git Push administration dashboard"""
+    return render_template('admin/git_pusher_admin.html')
+
 @enhanced_bp.route('/salary-intelligence-system')
 def salary_intelligence_system():
     """Comprehensive salary intelligence and eligibility checker"""

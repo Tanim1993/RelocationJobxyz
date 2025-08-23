@@ -65,3 +65,13 @@ with app.app_context():
     
     # Create all tables
     db.create_all()
+    
+    # Initialize Auto Git Pusher for daily commits
+    try:
+        from auto_git_pusher import init_auto_git_pusher
+        # Schedule daily push at 2:00 AM UTC (you can change the time here)
+        init_auto_git_pusher(app, daily_hour=2, daily_minute=0)
+        logging.info("Auto Git Pusher initialized - daily pushes scheduled at 2:00 AM UTC")
+    except Exception as e:
+        logging.error(f"Failed to initialize Auto Git Pusher: {e}")
+        logging.info("Continuing without auto Git push functionality")
