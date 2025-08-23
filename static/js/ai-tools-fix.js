@@ -727,3 +727,46 @@ function generateCareerPath() {
 }
 
 console.log('AI Tools JavaScript Fix loaded successfully');
+
+// Initialize cultural spinners integration
+document.addEventListener('DOMContentLoaded', function() {
+    // Add cultural spinner support to all AI tool forms
+    const aiToolForms = document.querySelectorAll('form[id*="Form"], form[class*="ai-tool"]');
+    aiToolForms.forEach(form => {
+        if (!form.classList.contains('no-spinner')) {
+            // Auto-detect cultural theme based on tool type
+            const formId = form.id || '';
+            let theme = 'asian'; // default
+            
+            if (formId.includes('language') || formId.includes('proficiency')) {
+                theme = 'asian';
+            } else if (formId.includes('cultural') || formId.includes('intelligence')) {
+                theme = 'middle-eastern';
+            } else if (formId.includes('career') || formId.includes('guidance')) {
+                theme = 'european';
+            } else if (formId.includes('salary') || formId.includes('intelligence')) {
+                theme = 'nordic';
+            } else if (formId.includes('immigration') || formId.includes('law')) {
+                theme = 'native';
+            } else if (formId.includes('roadmap') || formId.includes('learning')) {
+                theme = 'latin';
+            }
+            
+            form.setAttribute('data-cultural-theme', theme);
+        }
+    });
+    
+    // Enhance submit buttons with cultural spinner triggers
+    const submitButtons = document.querySelectorAll('button[type="submit"], .btn-primary');
+    submitButtons.forEach(button => {
+        if (!button.classList.contains('cultural-spinner-trigger')) {
+            button.classList.add('cultural-spinner-trigger');
+            
+            // Set theme based on context
+            const formParent = button.closest('form');
+            if (formParent && formParent.getAttribute('data-cultural-theme')) {
+                button.setAttribute('data-cultural-theme', formParent.getAttribute('data-cultural-theme'));
+            }
+        }
+    });
+});

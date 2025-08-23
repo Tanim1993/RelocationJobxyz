@@ -1107,6 +1107,11 @@ def git_push_admin():
     """Auto Git Push administration dashboard"""
     return render_template('admin/git_pusher_admin.html')
 
+@enhanced_bp.route('/cultural-spinners')
+def cultural_spinners_demo():
+    """Cultural Loading Spinners demonstration and testing"""
+    return render_template('enhanced/cultural_spinners_demo.html')
+
 @enhanced_bp.route('/salary-intelligence-system')
 def salary_intelligence_system():
     """Comprehensive salary intelligence and eligibility checker"""

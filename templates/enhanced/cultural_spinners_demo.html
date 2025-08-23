@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+
+{% block title %}Cultural Loading Spinners{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cultural_spinners.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="display-6">Cultural Loading Spinners</h1>
+                <div>
+                    <button class="btn btn-primary" onclick="showAllSpinners()">
+                        <i class="fas fa-play"></i> Demo All Themes
+                    </button>
+                    <button class="btn btn-success" onclick="testFormSpinner()">
+                        <i class="fas fa-upload"></i> Test Form Loading
+                    </button>
+                </div>
+            </div>
+
+            <!-- Theme Overview -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-palette"></i> Available Cultural Themes
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Interactive Theme Selector</h6>
+                            <div id="theme-selector-container" class="mb-3"></div>
+                            <div id="selected-theme-demo" class="text-center"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>About Cultural Spinners</h6>
+                            <p>Each spinner reflects cultural design elements from different regions:</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-yin-yang text-warning"></i> <strong>Asian:</strong> Harmony and balance</li>
+                                <li><i class="fas fa-chess-rook text-secondary"></i> <strong>European:</strong> Strength and tradition</li>
+                                <li><i class="fas fa-star text-purple"></i> <strong>Middle Eastern:</strong> Sacred geometry</li>
+                                <li><i class="fas fa-sun text-warning"></i> <strong>African:</strong> Vibrant tribal patterns</li>
+                                <li><i class="fas fa-music text-danger"></i> <strong>Latin American:</strong> Festive celebration</li>
+                                <li><i class="fas fa-snowflake text-info"></i> <strong>Nordic:</strong> Clean minimalism</li>
+                                <li><i class="fas fa-feather text-success"></i> <strong>Native American:</strong> Spiritual guidance</li>
+                                <li><i class="fas fa-water text-primary"></i> <strong>Pacific Islander:</strong> Ocean flow</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Spinner Gallery -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-images"></i> Live Spinner Gallery
+                    </h5>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="refreshSpinners()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="pauseSpinners()">
+                            <i class="fas fa-pause"></i> Pause
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="spinner-gallery">
+                        <!-- Spinners will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Examples -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-code"></i> Usage Examples
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Basic JavaScript Usage</h6>
+                            <pre class="bg-light p-3 rounded"><code>// Create a cultural spinner
+culturalSpinners.create('my-container', 'asian', 'large');
+
+// Remove spinner and show content
+culturalSpinners.remove('my-container', '&lt;h3&gt;Loading complete!&lt;/h3&gt;');
+
+// Auto-detect theme from form content
+&lt;form data-cultural-theme="nordic"&gt;
+  &lt;!-- Form automatically gets Nordic theme --&gt;
+&lt;/form&gt;</code></pre>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>HTML Integration</h6>
+                            <pre class="bg-light p-3 rounded"><code>&lt;!-- Add cultural spinner class --&gt;
+&lt;button class="btn btn-primary cultural-spinner-trigger" 
+        data-cultural-theme="pacific" 
+        data-spinner-id="upload-spinner"&gt;
+  Upload File
+&lt;/button&gt;
+
+&lt;!-- Spinner container --&gt;
+&lt;div id="upload-spinner"&gt;&lt;/div&gt;
+
+&lt;!-- Direct CSS classes --&gt;
+&lt;div class="cultural-spinner spinner-african large"&gt;
+  &lt;div class="spinner-text"&gt;Processing...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Testing Area -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-flask"></i> Interactive Testing
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- Test Form -->
+                            <form id="test-form" class="cultural-test-form" data-cultural-theme="">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Choose Theme for Test</label>
+                                            <select class="form-select" id="test-theme-selector">
+                                                <option value="asian">Asian Harmony</option>
+                                                <option value="european">European Castle</option>
+                                                <option value="middle-eastern">Middle Eastern Mandala</option>
+                                                <option value="african">African Tribal</option>
+                                                <option value="latin">Latin American Fiesta</option>
+                                                <option value="nordic">Nordic Minimalist</option>
+                                                <option value="native">Native Dream Catcher</option>
+                                                <option value="pacific">Pacific Islander Wave</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Loading Duration (seconds)</label>
+                                            <input type="range" class="form-range" id="duration-slider" min="1" max="10" value="3">
+                                            <div class="text-center"><span id="duration-display">3</span> seconds</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Custom Loading Message</label>
+                                    <input type="text" class="form-control" id="custom-message" placeholder="Enter custom loading message (optional)">
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-play"></i> Test Cultural Spinner
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <div id="test-spinner-container" class="text-center p-4 border rounded bg-light">
+                                <p class="text-muted">Click "Test Cultural Spinner" to see the selected theme in action</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/cultural_spinners.js') }}"></script>
+<script>
+let gallerySpinners = [];
+let galleryPaused = false;
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    // Create theme selector
+    window.culturalSpinners.createThemeSelector('theme-selector-container', function(theme) {
+        // Demo selected theme
+        window.culturalSpinners.create('selected-theme-demo', theme, 'normal', 'Previewing ' + theme + ' theme...');
+        setTimeout(() => {
+            window.culturalSpinners.remove('selected-theme-demo', '<i class="fas fa-check text-success"></i> Theme preview complete');
+        }, 2000);
+    });
+    
+    // Load spinner gallery
+    loadSpinnerGallery();
+    
+    // Setup test form
+    setupTestForm();
+    
+    // Duration slider update
+    document.getElementById('duration-slider').addEventListener('input', function(e) {
+        document.getElementById('duration-display').textContent = e.target.value;
+    });
+});
+
+function loadSpinnerGallery() {
+    const gallery = document.getElementById('spinner-gallery');
+    const themes = window.culturalSpinners.getAvailableThemes();
+    
+    gallery.innerHTML = '';
+    gallerySpinners = [];
+    
+    themes.forEach((theme, index) => {
+        const col = document.createElement('div');
+        col.className = 'col-md-3 col-sm-6 mb-4';
+        
+        col.innerHTML = `
+            <div class="card text-center">
+                <div class="card-header">
+                    <h6 class="card-title mb-0">${theme.name}</h6>
+                    <small class="text-muted">${theme.description}</small>
+                </div>
+                <div class="card-body">
+                    <div id="gallery-spinner-${index}" class="mb-2"></div>
+                    <button class="btn btn-sm btn-outline-primary" onclick="restartGallerySpinner(${index}, '${theme.key}')">
+                        <i class="fas fa-redo"></i> Restart
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        gallery.appendChild(col);
+        
+        // Create spinner for this theme
+        window.culturalSpinners.create(`gallery-spinner-${index}`, theme.key, 'normal');
+        gallerySpinners.push({
+            id: `gallery-spinner-${index}`,
+            theme: theme.key,
+            index: index
+        });
+    });
+}
+
+function restartGallerySpinner(index, theme) {
+    const spinnerId = `gallery-spinner-${index}`;
+    window.culturalSpinners.remove(spinnerId, '');
+    setTimeout(() => {
+        window.culturalSpinners.create(spinnerId, theme, 'normal');
+    }, 100);
+}
+
+function showAllSpinners() {
+    gallerySpinners.forEach((spinner, index) => {
+        setTimeout(() => {
+            restartGallerySpinner(spinner.index, spinner.theme);
+        }, index * 200);
+    });
+}
+
+function refreshSpinners() {
+    if (!galleryPaused) {
+        showAllSpinners();
+    }
+}
+
+function pauseSpinners() {
+    galleryPaused = !galleryPaused;
+    const btn = event.target.closest('button');
+    
+    if (galleryPaused) {
+        btn.innerHTML = '<i class="fas fa-play"></i> Resume';
+        btn.className = 'btn btn-sm btn-outline-success';
+    } else {
+        btn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+        btn.className = 'btn btn-sm btn-outline-secondary';
+        showAllSpinners();
+    }
+}
+
+function setupTestForm() {
+    const form = document.getElementById('test-form');
+    const themeSelector = document.getElementById('test-theme-selector');
+    
+    // Update form theme attribute when selector changes
+    themeSelector.addEventListener('change', function(e) {
+        form.setAttribute('data-cultural-theme', e.target.value);
+    });
+    
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const theme = themeSelector.value;
+        const duration = parseInt(document.getElementById('duration-slider').value) * 1000;
+        const customMessage = document.getElementById('custom-message').value;
+        
+        // Clear previous content
+        window.culturalSpinners.remove('test-spinner-container', '');
+        
+        // Create spinner with custom or default message
+        setTimeout(() => {
+            window.culturalSpinners.create('test-spinner-container', theme, 'large', customMessage || null);
+            
+            // Remove after specified duration
+            setTimeout(() => {
+                window.culturalSpinners.remove('test-spinner-container', 
+                    `<div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> 
+                        <strong>Test Complete!</strong><br>
+                        Theme: ${theme}<br>
+                        Duration: ${duration / 1000} seconds
+                    </div>`
+                );
+            }, duration);
+        }, 100);
+    });
+}
+
+function testFormSpinner() {
+    // Create a mock form submission
+    const themes = ['asian', 'european', 'african', 'latin', 'nordic'];
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+    
+    const mockForm = document.createElement('form');
+    mockForm.setAttribute('data-cultural-theme', randomTheme);
+    mockForm.style.position = 'relative';
+    mockForm.style.padding = '20px';
+    mockForm.style.border = '2px dashed #dee2e6';
+    mockForm.style.borderRadius = '0.375rem';
+    mockForm.innerHTML = `
+        <h6>Mock Form Submission (${randomTheme} theme)</h6>
+        <p class="text-muted mb-0">This demonstrates automatic form spinner detection</p>
+    `;
+    
+    const container = document.getElementById('test-spinner-container');
+    container.innerHTML = '';
+    container.appendChild(mockForm);
+    
+    // Trigger form spinner
+    window.culturalSpinners.showFormSpinner(mockForm, randomTheme);
+    
+    // Remove after 4 seconds
+    setTimeout(() => {
+        const overlay = mockForm.querySelector('.form-spinner-overlay');
+        if (overlay) {
+            overlay.remove();
+        }
+        container.innerHTML = '<div class="alert alert-info"><i class="fas fa-info-circle"></i> Form submission simulation complete!</div>';
+    }, 4000);
+}
+
+// Auto-refresh gallery every 30 seconds if not paused
+setInterval(() => {
+    if (!galleryPaused) {
+        refreshSpinners();
+    }
+}, 30000);
+</script>
+{% endblock %}
