@@ -376,11 +376,20 @@ class CulturalSpinners {
 
 // Initialize cultural spinners when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.culturalSpinners = new CulturalSpinners();
-    console.log('Cultural Spinners library loaded successfully');
+    if (!window.culturalSpinners) {
+        window.culturalSpinners = new CulturalSpinners();
+        console.log('Cultural Spinners library loaded successfully');
+    }
 });
 
 // Export for module systems
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = CulturalSpinners;
+}
+
+// Prevent duplicate declarations
+if (typeof window !== 'undefined' && window.culturalSpinners) {
+    console.log('Cultural Spinners already initialized');
+} else if (typeof window !== 'undefined') {
+    window.culturalSpinners = new CulturalSpinners();
 }
