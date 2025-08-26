@@ -137,34 +137,169 @@ def api_cultural_analysis():
     data = request.get_json()
     
     try:
-        profile = data.get('profile', {})
+        # Extract form data
+        background_country = data.get('background_country', '')
         target_countries = data.get('target_countries', [])
-        work_style = data.get('work_style', {})
+        communication_style = data.get('communication_style', 'direct')
+        work_values = data.get('work_values', [])
+        leadership_style = data.get('leadership_style', 'collaborative')
+        decision_making = data.get('decision_making', 'consensus')
+        hierarchy_comfort = data.get('hierarchy_comfort', 'moderate')
+        work_life_balance = data.get('work_life_balance', 'balanced')
         
-        analysis = cultural_ai.analyze_cultural_fit(
-            user_profile=profile,
-            target_countries=target_countries,
-            work_preferences=work_style
-        )
+        # Cultural dimensions scoring
+        cultural_scores = {}
         
+        for country in target_countries:
+            scores = {
+                'overall_fit': 50,  # Base score
+                'communication_style': 50,
+                'work_life_balance': 50,
+                'hierarchy_comfort': 50,
+                'adaptation_difficulty': 50
+            }
+            
+            # Communication style analysis
+            if country.lower() in ['germany', 'netherlands', 'sweden', 'denmark', 'norway']:
+                # Direct communication cultures
+                if communication_style == 'direct':
+                    scores['communication_style'] = 85
+                elif communication_style == 'diplomatic':
+                    scores['communication_style'] = 65
+                else:
+                    scores['communication_style'] = 45
+                    
+            elif country.lower() in ['japan', 'south korea', 'thailand', 'indonesia']:
+                # Indirect communication cultures
+                if communication_style == 'indirect':
+                    scores['communication_style'] = 85
+                elif communication_style == 'diplomatic':
+                    scores['communication_style'] = 75
+                else:
+                    scores['communication_style'] = 40
+                    
+            elif country.lower() in ['united states', 'canada', 'australia', 'united kingdom']:
+                # Moderately direct cultures
+                if communication_style in ['direct', 'diplomatic']:
+                    scores['communication_style'] = 80
+                else:
+                    scores['communication_style'] = 60
+                    
+            # Work-life balance analysis
+            if country.lower() in ['denmark', 'sweden', 'norway', 'netherlands', 'germany']:
+                # Strong work-life balance cultures
+                if work_life_balance in ['balanced', 'life_focused']:
+                    scores['work_life_balance'] = 90
+                else:
+                    scores['work_life_balance'] = 50
+                    
+            elif country.lower() in ['united states', 'singapore', 'south korea', 'japan']:
+                # Work-intensive cultures
+                if work_life_balance == 'work_focused':
+                    scores['work_life_balance'] = 85
+                elif work_life_balance == 'balanced':
+                    scores['work_life_balance'] = 70
+                else:
+                    scores['work_life_balance'] = 45
+                    
+            # Hierarchy comfort analysis
+            if country.lower() in ['japan', 'south korea', 'singapore', 'germany']:
+                # Hierarchical cultures
+                if hierarchy_comfort in ['high', 'moderate']:
+                    scores['hierarchy_comfort'] = 80
+                else:
+                    scores['hierarchy_comfort'] = 45
+                    
+            elif country.lower() in ['denmark', 'sweden', 'norway', 'netherlands', 'australia']:
+                # Flat hierarchy cultures
+                if hierarchy_comfort == 'low':
+                    scores['hierarchy_comfort'] = 85
+                elif hierarchy_comfort == 'moderate':
+                    scores['hierarchy_comfort'] = 70
+                else:
+                    scores['hierarchy_comfort'] = 50
+                    
+            # Leadership style compatibility
+            leadership_bonus = 0
+            if leadership_style == 'collaborative' and country.lower() in ['sweden', 'denmark', 'netherlands', 'canada']:
+                leadership_bonus = 10
+            elif leadership_style == 'directive' and country.lower() in ['germany', 'japan', 'singapore']:
+                leadership_bonus = 8
+            elif leadership_style == 'consultative':
+                leadership_bonus = 5  # Generally adaptable
+                
+            # Apply leadership bonus to relevant scores
+            scores['hierarchy_comfort'] += leadership_bonus
+            scores['communication_style'] += leadership_bonus // 2
+            
+            # Calculate overall fit
+            scores['overall_fit'] = int((scores['communication_style'] + scores['work_life_balance'] + scores['hierarchy_comfort']) / 3)
+            
+            # Calculate adaptation difficulty (inverse of overall fit)
+            scores['adaptation_difficulty'] = max(10, 100 - scores['overall_fit'])
+            
+            # Ensure scores are within bounds
+            for key in scores:
+                scores[key] = max(10, min(100, scores[key]))
+                
+            cultural_scores[country] = scores
+        
+        # Generate recommendations
+        recommendations = []
+        avg_scores = {country: scores['overall_fit'] for country, scores in cultural_scores.items()}
+        best_fit = max(avg_scores.items(), key=lambda x: x[1]) if avg_scores else ('Unknown', 0)
+        
+        if best_fit[1] >= 80:
+            recommendations.append(f"{best_fit[0]} appears to be an excellent cultural fit for you!")
+        elif best_fit[1] >= 65:
+            recommendations.append(f"{best_fit[0]} shows good cultural compatibility with some areas for adaptation.")
+        else:
+            recommendations.append("Consider cultural preparation training before relocating to any of these countries.")
+            
+        # Communication recommendations
+        if communication_style == 'indirect':
+            recommendations.append("Practice more direct communication for Western business environments.")
+        elif communication_style == 'direct':
+            recommendations.append("Learn diplomatic communication approaches for Asian markets.")
+            
+        # Work style recommendations
+        if work_life_balance == 'work_focused':
+            recommendations.append("Be prepared for stronger work-life boundary expectations in Nordic countries.")
+        elif work_life_balance == 'life_focused':
+            recommendations.append("Understand high-performance work culture expectations in competitive markets.")
+            
+        # Adaptation timeline
+        avg_adaptation = sum(scores['adaptation_difficulty'] for scores in cultural_scores.values()) / len(cultural_scores) if cultural_scores else 50
+        
+        if avg_adaptation <= 30:
+            timeline = "3-6 months for basic cultural adaptation"
+        elif avg_adaptation <= 50:
+            timeline = "6-12 months for comfortable cultural integration"
+        elif avg_adaptation <= 70:
+            timeline = "12-18 months for full cultural adaptation"
+        else:
+            timeline = "18-24 months with structured cultural training recommended"
+            
+        # Cultural training recommendations
+        training_needed = []
+        if any(scores['communication_style'] < 60 for scores in cultural_scores.values()):
+            training_needed.append("Cross-cultural communication workshop")
+        if any(scores['hierarchy_comfort'] < 60 for scores in cultural_scores.values()):
+            training_needed.append("Organizational culture and hierarchy training")
+        if any(scores['work_life_balance'] < 60 for scores in cultural_scores.values()):
+            training_needed.append("Work culture expectations briefing")
+        if avg_adaptation > 60:
+            training_needed.append("Cultural mentorship program")
+            
         return jsonify({
-            'cultural_scores': {
-                country: {
-                    'overall_fit': score.overall_fit,
-                    'communication_style': score.communication_style,
-                    'work_life_balance': score.work_life_balance,
-                    'hierarchy_comfort': score.hierarchy_comfort,
-                    'adaptation_difficulty': score.adaptation_difficulty
-                }
-                for country, score in analysis.cultural_scores.items()
-            },
-            'recommendations': analysis.recommendations,
-            'adaptation_timeline': analysis.adaptation_timeline,
-            'cultural_training_needed': analysis.cultural_training_needed
+            'cultural_scores': cultural_scores,
+            'recommendations': recommendations,
+            'adaptation_timeline': timeline,
+            'cultural_training_needed': training_needed
         })
     
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': f'Cultural analysis failed: {str(e)}'}), 500
 
 @enhanced_bp.route('/ats-dashboard')
 def ats_dashboard():
@@ -223,6 +358,209 @@ def interview_prep():
     """Interview preparation tool"""
     return render_template('enhanced/interview_prep.html')
 
+@enhanced_bp.route('/api/interview-prep', methods=['POST'])
+def api_interview_prep():
+    """API endpoint for interview preparation with real processing"""
+    data = request.get_json()
+    
+    try:
+        # Extract form data
+        company_name = data.get('company_name', '')
+        position = data.get('position', '')
+        industry = data.get('industry', '')
+        interview_type = data.get('interview_type', 'behavioral')
+        experience_level = data.get('experience_level', 'mid')
+        location = data.get('location', '')
+        preparation_time = data.get('preparation_time', '1 week')
+        
+        # Generate company research
+        company_research = []
+        if company_name:
+            company_research.extend([
+                f"Research {company_name}'s mission, values, and recent news",
+                f"Study {company_name}'s products/services and target market",
+                f"Review {company_name}'s company culture and work environment",
+                f"Look up recent press releases and announcements from {company_name}"
+            ])
+        else:
+            company_research.extend([
+                "Research the company's background and history",
+                "Understand their business model and revenue streams",
+                "Study their competitive landscape",
+                "Review their recent financial performance"
+            ])
+            
+        # Generate technical preparation based on position
+        technical_prep = []
+        if any(tech in position.lower() for tech in ['engineer', 'developer', 'programmer']):
+            technical_prep.extend([
+                "Review algorithms and data structures",
+                "Practice coding problems on platforms like LeetCode",
+                "Prepare system design concepts",
+                "Review your past projects and be ready to discuss technical decisions"
+            ])
+        elif any(role in position.lower() for role in ['manager', 'director', 'lead']):
+            technical_prep.extend([
+                "Prepare leadership and team management examples",
+                "Review project management methodologies",
+                "Practice conflict resolution scenarios",
+                "Prepare budget and resource management examples"
+            ])
+        elif 'data' in position.lower():
+            technical_prep.extend([
+                "Review statistical concepts and machine learning basics",
+                "Prepare data analysis case studies",
+                "Practice SQL queries and data manipulation",
+                "Review your portfolio of data projects"
+            ])
+        else:
+            technical_prep.extend([
+                f"Research key skills required for {position} roles",
+                "Prepare examples demonstrating your relevant experience",
+                "Review industry best practices and trends",
+                "Practice role-specific scenarios and case studies"
+            ])
+            
+        # Generate behavioral questions based on experience level
+        behavioral_questions = []
+        if experience_level == 'entry':
+            behavioral_questions.extend([
+                "Tell me about a challenging project you worked on in school/internship",
+                "Describe a time when you had to learn something new quickly",
+                "How do you handle feedback and criticism?",
+                "Why are you interested in this role and our company?"
+            ])
+        elif experience_level == 'mid':
+            behavioral_questions.extend([
+                "Tell me about a time you had to work with a difficult team member",
+                "Describe a project where you had to meet a tight deadline",
+                "How do you prioritize tasks when everything seems urgent?",
+                "Tell me about a mistake you made and how you handled it"
+            ])
+        else:  # senior
+            behavioral_questions.extend([
+                "Describe a time you had to lead a team through a major change",
+                "Tell me about a strategic decision you made that didn't work out",
+                "How do you mentor and develop junior team members?",
+                "Describe a time you had to influence stakeholders without authority"
+            ])
+            
+        # Generate industry-specific questions
+        industry_questions = []
+        if industry.lower() in ['technology', 'tech', 'software']:
+            industry_questions.extend([
+                "How do you stay current with technology trends?",
+                "Describe your approach to debugging complex problems",
+                "How do you ensure code quality in your projects?",
+                "What's your opinion on the latest trends in software development?"
+            ])
+        elif industry.lower() in ['finance', 'banking', 'fintech']:
+            industry_questions.extend([
+                "How do you approach risk assessment?",
+                "Describe your experience with regulatory compliance",
+                "How do you handle sensitive financial data?",
+                "What trends do you see in the financial industry?"
+            ])
+        else:
+            industry_questions.extend([
+                f"What trends do you see in the {industry} industry?",
+                f"How would you approach challenges specific to {industry}?",
+                "Describe your experience working in this industry",
+                "What makes you passionate about this field?"
+            ])
+            
+        # Generate STAR method examples
+        star_examples = [
+            {
+                'scenario': 'Project Management',
+                'situation': 'Describe a complex project you managed',
+                'task': 'What was your specific responsibility?',
+                'action': 'What steps did you take to ensure success?',
+                'result': 'What was the outcome and lessons learned?'
+            },
+            {
+                'scenario': 'Problem Solving',
+                'situation': 'Describe a challenging problem you encountered',
+                'task': 'What needed to be solved or improved?',
+                'action': 'How did you approach finding a solution?',
+                'result': 'What was the impact of your solution?'
+            },
+            {
+                'scenario': 'Teamwork',
+                'situation': 'Tell me about working with a diverse team',
+                'task': 'What was your role in the team?',
+                'action': 'How did you contribute to team success?',
+                'result': 'What did the team achieve together?'
+            }
+        ]
+        
+        # Generate preparation timeline
+        time_map = {
+            '1 day': 'Intensive preparation',
+            '3 days': 'Focused preparation',
+            '1 week': 'Comprehensive preparation',
+            '2 weeks': 'Thorough preparation'
+        }
+        
+        preparation_plan = {
+            'timeline': time_map.get(preparation_time, 'Standard preparation'),
+            'daily_tasks': []
+        }
+        
+        if '1 day' in preparation_time:
+            preparation_plan['daily_tasks'] = [
+                "Morning: Company research and role preparation",
+                "Afternoon: Practice key behavioral questions",
+                "Evening: Review technical concepts and prepare questions"
+            ]
+        elif '3 days' in preparation_time:
+            preparation_plan['daily_tasks'] = [
+                "Day 1: Deep company research and industry analysis",
+                "Day 2: Technical preparation and skill review",
+                "Day 3: Mock interview practice and final review"
+            ]
+        elif '1 week' in preparation_time:
+            preparation_plan['daily_tasks'] = [
+                "Days 1-2: Company research and industry analysis",
+                "Days 3-4: Technical preparation and skill development",
+                "Days 5-6: Behavioral question practice and STAR examples",
+                "Day 7: Mock interview and final preparation"
+            ]
+        else:  # 2 weeks
+            preparation_plan['daily_tasks'] = [
+                "Week 1: Deep research, technical study, and skill building",
+                "Week 2: Practice interviews, refine answers, and final preparation"
+            ]
+            
+        # Questions to ask the interviewer
+        questions_to_ask = [
+            f"What does success look like for this {position} role in the first 90 days?",
+            "What are the biggest challenges facing the team right now?",
+            "How does the company support professional development and career growth?",
+            f"What do you enjoy most about working at {company_name}?" if company_name else "What do you enjoy most about working here?",
+            "What are the next steps in the interview process?"
+        ]
+        
+        return jsonify({
+            'company_research': company_research,
+            'technical_preparation': technical_prep,
+            'behavioral_questions': behavioral_questions,
+            'industry_questions': industry_questions,
+            'star_examples': star_examples,
+            'preparation_plan': preparation_plan,
+            'questions_to_ask': questions_to_ask,
+            'success_tips': [
+                "Practice your answers out loud, not just in your head",
+                "Prepare specific examples that demonstrate your skills",
+                "Research the interviewer on LinkedIn if possible",
+                "Plan your route and arrival time in advance",
+                "Bring multiple copies of your resume and a notepad"
+            ]
+        })
+        
+    except Exception as e:
+        return jsonify({'error': f'Interview preparation failed: {str(e)}'}), 500
+
 # === NEW 10 AI FEATURES (SIMPLIFIED MOCK RESPONSES) ===
 
 @enhanced_bp.route('/career-path-predictor')
@@ -232,25 +570,138 @@ def career_path_predictor():
 
 @enhanced_bp.route('/api/career-prediction', methods=['POST'])
 def api_career_prediction():
-    """Mock API for career path prediction"""
-    return jsonify({
-        'current_analysis': {
-            'experience_level': 'Senior',
-            'industry_position': 'Strong',
-            'skill_alignment': 85,
-            'market_demand': 'High'
-        },
-        'career_paths': [
-            {
-                'title': 'Senior Software Engineer',
-                'probability': 85,
+    """API for career path prediction with real processing"""
+    data = request.get_json()
+    
+    try:
+        # Extract form data
+        current_role = data.get('current_role', '')
+        experience_years = int(data.get('experience_years', 3))
+        industry = data.get('industry', '')
+        skills = data.get('skills', [])
+        interests = data.get('interests', [])
+        career_goals = data.get('career_goals', '')
+        leadership_exp = data.get('leadership_experience', False)
+        
+        # Analyze current position
+        experience_level = 'Entry Level'
+        if experience_years >= 8:
+            experience_level = 'Senior'
+        elif experience_years >= 4:
+            experience_level = 'Mid-Level'
+        elif experience_years >= 2:
+            experience_level = 'Junior'
+            
+        # Calculate skill alignment based on provided skills
+        technical_skills = [s for s in skills if any(tech in s.lower() for tech in ['python', 'java', 'react', 'aws', 'sql', 'machine learning', 'data', 'cloud', 'devops'])]
+        soft_skills = [s for s in skills if any(soft in s.lower() for soft in ['leadership', 'communication', 'management', 'teamwork', 'problem solving'])]
+        
+        skill_alignment = min(95, 50 + len(technical_skills) * 8 + len(soft_skills) * 6)
+        
+        # Determine market demand
+        high_demand_roles = ['software engineer', 'data scientist', 'cloud architect', 'devops', 'product manager', 'cybersecurity']
+        market_demand = 'High' if any(role in current_role.lower() for role in high_demand_roles) else 'Moderate'
+        
+        # Generate career paths based on input
+        career_paths = []
+        
+        # Technical advancement path
+        if any(tech in current_role.lower() for tech in ['engineer', 'developer', 'programmer']):
+            if experience_years >= 5:
+                career_paths.append({
+                    'title': f'Senior {current_role}',
+                    'probability': max(70, skill_alignment - 15),
+                    'timeline': '1-2 years',
+                    'required_skills': ['Advanced technical skills', 'Mentoring', 'System design'],
+                    'salary_range': f'${80 + experience_years * 10}k - ${120 + experience_years * 15}k'
+                })
+                
+                if leadership_exp:
+                    career_paths.append({
+                        'title': 'Engineering Manager',
+                        'probability': max(60, skill_alignment - 25),
+                        'timeline': '2-3 years',
+                        'required_skills': ['Team leadership', 'Project management', 'Technical oversight'],
+                        'salary_range': f'${100 + experience_years * 12}k - ${150 + experience_years * 18}k'
+                    })
+            else:
+                career_paths.append({
+                    'title': f'Senior {current_role}',
+                    'probability': max(80, skill_alignment - 10),
+                    'timeline': f'{max(1, 6 - experience_years)} years',
+                    'required_skills': ['Advanced technical skills', 'Code review', 'Technical documentation'],
+                    'salary_range': f'${60 + experience_years * 8}k - ${90 + experience_years * 12}k'
+                })
+        
+        # Management path
+        if leadership_exp and experience_years >= 3:
+            career_paths.append({
+                'title': 'Team Lead',
+                'probability': max(65, skill_alignment - 20),
                 'timeline': '1-2 years',
-                'required_skills': ['Leadership', 'System Design'],
-                'salary_range': '$120k - $180k'
-            }
-        ],
-        'recommended_actions': ['Develop leadership skills']
-    })
+                'required_skills': ['Team coordination', 'Project planning', 'Stakeholder communication'],
+                'salary_range': f'${70 + experience_years * 10}k - ${110 + experience_years * 15}k'
+            })
+            
+        # Specialist path
+        if 'data' in current_role.lower() or 'data' in ' '.join(skills).lower():
+            career_paths.append({
+                'title': 'Senior Data Scientist',
+                'probability': max(75, skill_alignment - 15),
+                'timeline': '2-3 years', 
+                'required_skills': ['Machine Learning', 'Statistical Analysis', 'Data Visualization'],
+                'salary_range': f'${90 + experience_years * 12}k - ${140 + experience_years * 18}k'
+            })
+            
+        # Add consulting/freelance path for experienced professionals
+        if experience_years >= 5:
+            career_paths.append({
+                'title': 'Independent Consultant',
+                'probability': max(50, skill_alignment - 30),
+                'timeline': '1-2 years',
+                'required_skills': ['Business development', 'Client management', 'Specialized expertise'],
+                'salary_range': f'${100 + experience_years * 15}k - ${200 + experience_years * 25}k'
+            })
+            
+        # If no specific paths identified, add general advancement
+        if not career_paths:
+            career_paths.append({
+                'title': f'Senior {current_role or "Professional"}',
+                'probability': max(70, skill_alignment),
+                'timeline': '2-3 years',
+                'required_skills': ['Advanced expertise', 'Professional development', 'Networking'],
+                'salary_range': f'${50 + experience_years * 8}k - ${80 + experience_years * 12}k'
+            })
+        
+        # Generate recommended actions
+        actions = []
+        if skill_alignment < 70:
+            actions.append('Develop core technical skills in your field')
+        if not leadership_exp and experience_years >= 2:
+            actions.append('Seek leadership opportunities (lead small projects or mentor junior colleagues)')
+        if len(technical_skills) < 3:
+            actions.append('Learn in-demand technical skills relevant to your industry')
+        if 'networking' not in [i.lower() for i in interests]:
+            actions.append('Build professional network through industry events and online communities')
+        if not any('certification' in goal.lower() for goal in [career_goals]):
+            actions.append('Consider relevant professional certifications')
+            
+        if not actions:
+            actions = ['Continue building expertise in your current role', 'Explore advanced training opportunities']
+        
+        return jsonify({
+            'current_analysis': {
+                'experience_level': experience_level,
+                'industry_position': 'Strong' if skill_alignment >= 75 else 'Developing',
+                'skill_alignment': skill_alignment,
+                'market_demand': market_demand
+            },
+            'career_paths': career_paths[:4],  # Limit to top 4 paths
+            'recommended_actions': actions[:5]  # Limit to top 5 actions
+        })
+        
+    except Exception as e:
+        return jsonify({'error': f'Career prediction failed: {str(e)}'}), 500
 
 @enhanced_bp.route('/immigration-policy-tracker')
 def immigration_policy_tracker():
@@ -394,30 +845,157 @@ def language_proficiency_predictor():
 
 @enhanced_bp.route('/api/language-assessment', methods=['POST'])
 def api_language_assessment():
-    """Mock API for language assessment"""
-    return jsonify({
-        'current_level': 75,
-        'required_level': 85,
-        'gap_analysis': {
-            'gap': 10,
-            'details': 'Need to improve business communication skills'
-        },
-        'improvement_plan': {
-            'duration': '6 months',
-            'study_hours_per_week': '8 hours',
-            'recommended_resources': ['Business English course', 'Speaking practice'],
-            'milestones': ['Month 1: Basic business vocabulary', 'Month 3: Presentation skills']
-        },
-        'certification_recommendations': [
-            {
+    """API for language assessment with real processing"""
+    data = request.get_json()
+    
+    try:
+        # Extract form data
+        target_language = data.get('target_language', 'English')
+        current_level = data.get('current_level', 'intermediate')
+        target_country = data.get('target_country', 'United States')
+        job_role = data.get('job_role', '')
+        study_hours = data.get('study_hours', '4-6 hours')
+        learning_goals = data.get('learning_goals', [])
+        professional_exp = data.get('professional_experience', [])
+        certifications = data.get('certifications', '')
+        
+        # Calculate current proficiency score
+        level_scores = {
+            'basic': 40,
+            'intermediate': 60,
+            'advanced': 80,
+            'professional': 90,
+            'native': 100
+        }
+        current_score = level_scores.get(current_level, 60)
+        
+        # Adjust score based on professional experience
+        if 'business_meetings' in professional_exp:
+            current_score += 5
+        if 'presentations' in professional_exp:
+            current_score += 8
+        if 'technical_writing' in professional_exp:
+            current_score += 6
+        if 'leadership' in professional_exp:
+            current_score += 7
+        if 'negotiations' in professional_exp:
+            current_score += 10
+            
+        # Account for certifications
+        if certifications:
+            if any(cert in certifications.upper() for cert in ['TOEFL', 'IELTS', 'CAMBRIDGE']):
+                current_score += 10
+        
+        current_score = min(current_score, 100)
+        
+        # Determine required level based on role and country
+        required_score = 85  # Default professional requirement
+        if any(keyword in job_role.lower() for keyword in ['manager', 'director', 'lead', 'senior']):
+            required_score = 95
+        elif any(keyword in job_role.lower() for keyword in ['junior', 'entry', 'intern']):
+            required_score = 75
+            
+        gap = max(0, required_score - current_score)
+        
+        # Generate improvement plan
+        hours_map = {
+            '1-3 hours': 2,
+            '4-6 hours': 5,
+            '7-10 hours': 8,
+            '10+ hours': 12
+        }
+        weekly_hours = hours_map.get(study_hours, 5)
+        
+        # Calculate duration based on gap and study time
+        if gap == 0:
+            duration = "You're already at the required level!"
+            months = 0
+        else:
+            months = max(2, gap // (weekly_hours // 2))
+            duration = f"{months} months"
+            
+        # Generate personalized resources
+        resources = []
+        if 'job_interviews' in learning_goals:
+            resources.extend(['Interview English Course', 'Mock Interview Practice'])
+        if 'workplace_communication' in learning_goals:
+            resources.extend(['Business English Textbook', 'Professional Email Writing'])
+        if 'social_interaction' in learning_goals:
+            resources.extend(['Conversation Clubs', 'Cultural Exchange Programs'])
+        if 'academic_purposes' in learning_goals:
+            resources.extend(['Academic Writing Course', 'Research Paper Guidelines'])
+            
+        if not resources:
+            resources = ['General English Course', 'Language Exchange Partner']
+            
+        # Generate milestones
+        milestones = []
+        if months > 0:
+            if months >= 1:
+                milestones.append(f"Month 1: Basic {target_language} vocabulary for {job_role}")
+            if months >= 2:
+                milestones.append(f"Month 2: Professional communication skills")
+            if months >= 3:
+                milestones.append(f"Month 3: Industry-specific terminology")
+            if months >= 4:
+                milestones.append(f"Month 4: Advanced presentation skills")
+            if months >= 6:
+                milestones.append(f"Month 6: Certification exam preparation")
+                
+        # Certification recommendations
+        cert_recommendations = []
+        if target_country in ['United States', 'Canada']:
+            cert_recommendations.append({
                 'name': 'TOEFL iBT',
-                'description': 'Academic English test',
+                'description': 'Academic and professional English test',
                 'level': 'Advanced',
-                'preparation_time': '3 months'
-            }
-        ],
-        'cultural_language_tips': ['Use formal greetings', 'Avoid slang in business']
-    })
+                'preparation_time': f'{max(2, months//2)} months'
+            })
+        elif target_country in ['United Kingdom', 'Australia']:
+            cert_recommendations.append({
+                'name': 'IELTS Academic',
+                'description': 'International English testing system',
+                'level': 'Advanced', 
+                'preparation_time': f'{max(2, months//2)} months'
+            })
+        else:
+            cert_recommendations.append({
+                'name': 'Cambridge English',
+                'description': 'Internationally recognized English certification',
+                'level': 'Advanced',
+                'preparation_time': f'{max(2, months//2)} months'
+            })
+            
+        # Cultural language tips
+        cultural_tips = []
+        if target_country == 'United States':
+            cultural_tips = ['Use direct communication style', 'Maintain eye contact during conversations', 'Small talk is important in business']
+        elif target_country == 'United Kingdom':
+            cultural_tips = ['Understatement is valued', 'Queuing etiquette is important', 'Use "please" and "thank you" frequently']
+        elif target_country == 'Canada':
+            cultural_tips = ['Politeness is highly valued', 'Multiculturalism is embraced', 'Use "eh" appropriately in casual conversation']
+        else:
+            cultural_tips = ['Research local communication styles', 'Observe local business customs', 'Practice active listening']
+        
+        return jsonify({
+            'current_level': current_score,
+            'required_level': required_score,
+            'gap_analysis': {
+                'gap': gap,
+                'details': f'You need to improve by {gap} points to reach professional requirements for {job_role} in {target_country}' if gap > 0 else f'Congratulations! You meet the language requirements for {job_role} in {target_country}'
+            },
+            'improvement_plan': {
+                'duration': duration,
+                'study_hours_per_week': f'{weekly_hours} hours',
+                'recommended_resources': resources,
+                'milestones': milestones
+            },
+            'certification_recommendations': cert_recommendations,
+            'cultural_language_tips': cultural_tips
+        })
+        
+    except Exception as e:
+        return jsonify({'error': f'Assessment processing failed: {str(e)}'}), 500
 
 @enhanced_bp.route('/housing-market-intelligence')
 def housing_market_intelligence():
