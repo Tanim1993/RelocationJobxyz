@@ -1,0 +1,334 @@
+/* Cultural Themed Loading Spinners */
+
+/* Base spinner container */
+.cultural-spinner {
+    width: 60px;
+    height: 60px;
+    margin: 20px auto;
+    position: relative;
+    display: inline-block;
+}
+
+.cultural-spinner.large {
+    width: 80px;
+    height: 80px;
+}
+
+.cultural-spinner.small {
+    width: 40px;
+    height: 40px;
+}
+
+/* Asian Harmony Spinner - Yin Yang inspired */
+.spinner-asian {
+    border-radius: 50%;
+    background: linear-gradient(90deg, #e74c3c 50%, #f1c40f 50%);
+    animation: yinYangSpin 2s linear infinite;
+    position: relative;
+}
+
+.spinner-asian::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: linear-gradient(90deg, transparent 50%, #3498db 50%);
+    animation: yinYangSpin 2s linear infinite reverse;
+}
+
+@keyframes yinYangSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* European Castle Spinner */
+.spinner-european {
+    width: 60px;
+    height: 60px;
+    border: 4px solid #34495e;
+    border-top: 4px solid #e74c3c;
+    border-radius: 50%;
+    animation: europeanCastle 1.5s linear infinite;
+    position: relative;
+}
+
+.spinner-european::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #f39c12;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: europeanCastle 1s linear infinite reverse;
+}
+
+@keyframes europeanCastle {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Middle Eastern Mandala Spinner */
+.spinner-middle-eastern {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    animation: mandalaRotate 3s linear infinite;
+}
+
+.spinner-middle-eastern::before,
+.spinner-middle-eastern::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #9b59b6;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: mandalaOrbit 2s linear infinite;
+}
+
+.spinner-middle-eastern::after {
+    animation-delay: 1s;
+    border-color: #e67e22;
+}
+
+@keyframes mandalaRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes mandalaOrbit {
+    0% { transform: translate(-50%, -50%) rotate(0deg) translateX(20px) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg) translateX(20px) rotate(-360deg); }
+}
+
+/* African Tribal Pattern Spinner */
+.spinner-african {
+    width: 60px;
+    height: 60px;
+    background: conic-gradient(#e74c3c, #f39c12, #27ae60, #3498db, #e74c3c);
+    border-radius: 50%;
+    position: relative;
+    animation: tribalSpin 2s linear infinite;
+}
+
+.spinner-african::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    height: 60%;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.spinner-african::after {
+    content: '';
+    position: absolute;
+    top: 35%;
+    left: 35%;
+    width: 30%;
+    height: 30%;
+    background: conic-gradient(#e74c3c, #f39c12, #27ae60, #3498db, #e74c3c);
+    border-radius: 50%;
+    animation: tribalSpin 1s linear infinite reverse;
+}
+
+@keyframes tribalSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Latin American Fiesta Spinner */
+.spinner-latin {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    animation: fiestaRotate 2s ease-in-out infinite;
+}
+
+.spinner-latin::before,
+.spinner-latin::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    animation: fiestaOrbit 1.5s linear infinite;
+}
+
+.spinner-latin::before {
+    background: #e74c3c;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.spinner-latin::after {
+    background: #f39c12;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 0.75s;
+}
+
+@keyframes fiestaRotate {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+}
+
+@keyframes fiestaOrbit {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.5); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+/* Nordic Minimalist Spinner */
+.spinner-nordic {
+    width: 60px;
+    height: 60px;
+    border: 3px solid #ecf0f1;
+    border-top: 3px solid #2c3e50;
+    border-radius: 50%;
+    animation: nordicSpin 1.2s linear infinite;
+    background: linear-gradient(45deg, #3498db 25%, transparent 25%, transparent 75%, #3498db 75%);
+    background-size: 8px 8px;
+}
+
+@keyframes nordicSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Native American Dream Catcher Spinner */
+.spinner-native {
+    width: 60px;
+    height: 60px;
+    border: 3px solid #8e44ad;
+    border-radius: 50%;
+    position: relative;
+    animation: dreamCatcherSpin 3s linear infinite;
+}
+
+.spinner-native::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #27ae60;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: dreamCatcherInner 2s linear infinite reverse;
+}
+
+.spinner-native::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #e74c3c;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: dreamCatcherCore 1s linear infinite;
+}
+
+@keyframes dreamCatcherSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes dreamCatcherInner {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes dreamCatcherCore {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.5); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Pacific Islander Wave Spinner */
+.spinner-pacific {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #3498db, #1abc9c);
+    border-radius: 50%;
+    position: relative;
+    animation: waveSpin 2s ease-in-out infinite;
+    overflow: hidden;
+}
+
+.spinner-pacific::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: waveFlow 1.5s linear infinite;
+}
+
+@keyframes waveSpin {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+}
+
+@keyframes waveFlow {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Loading text animation */
+.spinner-text {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #7f8c8d;
+    animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cultural-spinner {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .cultural-spinner.large {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .cultural-spinner.small {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* Theme integration with existing Bootstrap classes */
+.cultural-spinner.text-primary .spinner-text { color: var(--bs-primary); }
+.cultural-spinner.text-success .spinner-text { color: var(--bs-success); }
+.cultural-spinner.text-warning .spinner-text { color: var(--bs-warning); }
+.cultural-spinner.text-danger .spinner-text { color: var(--bs-danger); }
+.cultural-spinner.text-info .spinner-text { color: var(--bs-info); }

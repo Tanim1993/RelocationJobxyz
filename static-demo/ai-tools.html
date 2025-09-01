@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools - International Jobs Platform</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cultural_spinners.css">
+    
+    <style>
+        .demo-notice {
+            background: #3b82f6;
+            color: white;
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .ai-tool-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        }
+        .ai-tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .portfolio-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Portfolio Demo Notice -->
+    <div class="demo-notice">
+        <i class="fas fa-info-circle me-2"></i>
+        <strong>Portfolio Demo:</strong> AI Tools showcase with interactive demos and mock functionality.
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-globe-americas me-2"></i>
+                GlobalCareers
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="ai-tools.html">
+                            <i class="fas fa-robot me-1"></i>AI Tools
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-user me-1"></i>Demo User
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        <!-- Portfolio Banner -->
+        <div class="portfolio-banner">
+            <h1><i class="fas fa-robot me-3"></i>AI-Powered Career Tools</h1>
+            <p class="lead mb-0">16 Comprehensive Tools for International Job Seekers</p>
+        </div>
+
+        <!-- AI Tools Grid -->
+        <div class="row g-4">
+            <!-- Language Proficiency Predictor -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card ai-tool-card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="tool-icon text-primary">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <h5 class="card-title text-white">Language Proficiency Predictor</h5>
+                        <p class="card-text text-muted">
+                            Assess your language skills and get personalized learning plans with cultural tips.
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary" onclick="showToolDemo('Language Proficiency')">
+                                <i class="fas fa-play me-2"></i>Try Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Career Path Predictor -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card ai-tool-card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="tool-icon text-success">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <h5 class="card-title text-white">Career Path Predictor</h5>
+                        <p class="card-text text-muted">
+                            Analyze your career trajectory and discover personalized advancement opportunities.
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-success" onclick="showToolDemo('Career Path')">
+                                <i class="fas fa-play me-2"></i>Try Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cultural Intelligence Analyzer -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card ai-tool-card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="tool-icon text-info">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h5 class="card-title text-white">Cultural Intelligence Analyzer</h5>
+                        <p class="card-text text-muted">
+                            Assess cultural compatibility and get adaptation strategies for target countries.
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-info" onclick="showToolDemo('Cultural Intelligence')">
+                                <i class="fas fa-play me-2"></i>Try Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interview Preparation -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card ai-tool-card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="tool-icon text-warning">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h5 class="card-title text-white">Interview Preparation</h5>
+                        <p class="card-text text-muted">
+                            Generate personalized interview prep guides with company-specific insights.
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-warning" onclick="showToolDemo('Interview Prep')">
+                                <i class="fas fa-play me-2"></i>Try Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Salary Intelligence -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card ai-tool-card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="tool-icon text-danger">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="card-title text-white">Salary Intelligence System</h5>
+                        <p class="card-text text-muted">
+                            Analyze salary data and get negotiation strategies for international positions.
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-danger" onclick="showToolDemo('Salary Intelligence')">
+                                <i class="fas fa-play me-2"></i>Try Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Immigration Law Resources -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card ai-tool-card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="tool-icon text-primary">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <h5 class="card-title text-white">Immigration Law Resources</h5>
+                        <p class="card-text text-muted">
+                            Connect with legal resources and get guidance on immigration processes.
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-primary" onclick="showToolDemo('Immigration Law')">
+                                <i class="fas fa-play me-2"></i>Try Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Language Learning Roadmap -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card ai-tool-card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="tool-icon text-success">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h5 class="card-title text-white">Interactive Language Roadmap</h5>
+                        <p class="card-text text-muted">
+                            Gamified language learning with achievements, XP tracking, and milestones.
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-success" onclick="showToolDemo('Language Roadmap')">
+                                <i class="fas fa-play me-2"></i>Try Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visa Navigator -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card ai-tool-card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="tool-icon text-info">
+                            <i class="fas fa-passport"></i>
+                        </div>
+                        <h5 class="card-title text-white">Visa Navigator</h5>
+                        <p class="card-text text-muted">
+                            Navigate visa requirements and get step-by-step application guidance.
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-info" onclick="showToolDemo('Visa Navigator')">
+                                <i class="fas fa-play me-2"></i>Try Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Housing Market Intelligence -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card ai-tool-card h-100 text-center p-4">
+                    <div class="card-body">
+                        <div class="tool-icon text-warning">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h5 class="card-title text-white">Housing Market Intelligence</h5>
+                        <p class="card-text text-muted">
+                            Analyze housing markets and get recommendations for your relocation.
+                        </p>
+                        <div class="mt-auto">
+                            <button class="btn btn-warning" onclick="showToolDemo('Housing Market')">
+                                <i class="fas fa-play me-2"></i>Try Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Showcase -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card" style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%);">
+                    <div class="card-body text-center py-5">
+                        <h2 class="text-white mb-4">
+                            <i class="fas fa-star me-2"></i>Portfolio Highlights
+                        </h2>
+                        
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="text-primary mb-2">
+                                    <i class="fas fa-robot" style="font-size: 2rem;"></i>
+                                </div>
+                                <h5 class="text-white">16 AI Tools</h5>
+                                <p class="text-muted">Comprehensive suite of career tools</p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-success mb-2">
+                                    <i class="fas fa-cogs" style="font-size: 2rem;"></i>
+                                </div>
+                                <h5 class="text-white">Real Processing</h5>
+                                <p class="text-muted">Backend APIs with form validation</p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-info mb-2">
+                                    <i class="fas fa-globe-americas" style="font-size: 2rem;"></i>
+                                </div>
+                                <h5 class="text-white">Cultural Intelligence</h5>
+                                <p class="text-muted">Cross-cultural analysis and tips</p>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="text-warning mb-2">
+                                    <i class="fas fa-palette" style="font-size: 2rem;"></i>
+                                </div>
+                                <h5 class="text-white">Modern UI/UX</h5>
+                                <p class="text-muted">Dark theme with animations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo Modal -->
+        <div class="modal fade" id="demoModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-white" id="demoModalTitle">AI Tool Demo</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center py-4">
+                            <div class="cultural-spinner mb-4" id="demoSpinner">
+                                <div class="spinner-cultural" data-theme="asian-harmony">
+                                    <div class="harmony-circle"></div>
+                                    <div class="harmony-circle"></div>
+                                    <div class="harmony-circle"></div>
+                                </div>
+                            </div>
+                            <h4 class="text-primary" id="demoTitle">Processing Your Request...</h4>
+                            <p class="text-muted" id="demoDescription">
+                                In the full application, this tool would process your input and provide personalized results.
+                            </p>
+                            <div class="alert alert-info mt-4">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Portfolio Demo:</strong> This showcases the UI/UX design and animations. 
+                                The working version includes full backend processing and real AI analysis.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="simulateResults()">
+                            <i class="fas fa-eye me-2"></i>View Sample Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-globe-americas me-2"></i>GlobalCareers</h5>
+                    <p>Connecting international talent with global opportunities</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p class="mb-1">
+                        <i class="fas fa-code me-2"></i>
+                        <strong>Portfolio Demo</strong> - AI Tools Showcase
+                    </p>
+                    <p class="text-muted small">
+                        Interactive demos with cultural animations and modern UI
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/cultural_spinners.js"></script>
+    <script src="js/ai-tools-fix.js"></script>
+    
+    <script>
+        function showToolDemo(toolName) {
+            const modal = new bootstrap.Modal(document.getElementById('demoModal'));
+            document.getElementById('demoModalTitle').textContent = toolName + ' - Demo';
+            document.getElementById('demoTitle').textContent = 'Analyzing ' + toolName + ' Request...';
+            
+            const descriptions = {
+                'Language Proficiency': 'Assessing your language skills and generating personalized learning plans with cultural insights.',
+                'Career Path': 'Analyzing your career data and predicting advancement opportunities with salary ranges.',
+                'Cultural Intelligence': 'Evaluating cultural compatibility and providing adaptation strategies for target countries.',
+                'Interview Prep': 'Generating company-specific interview preparation guides with behavioral and technical questions.',
+                'Salary Intelligence': 'Analyzing market data and providing salary negotiation strategies for international positions.',
+                'Immigration Law': 'Connecting you with legal resources and providing immigration process guidance.',
+                'Language Roadmap': 'Creating gamified learning paths with XP tracking and achievement milestones.',
+                'Visa Navigator': 'Analyzing visa requirements and providing step-by-step application guidance.',
+                'Housing Market': 'Evaluating housing markets and providing relocation recommendations.'
+            };
+            
+            document.getElementById('demoDescription').textContent = descriptions[toolName] || 'Processing your request with AI analysis...';
+            modal.show();
+            
+            // Simulate processing time
+            setTimeout(() => {
+                document.getElementById('demoTitle').textContent = toolName + ' Analysis Complete!';
+                document.getElementById('demoSpinner').style.display = 'none';
+            }, 3000);
+        }
+        
+        function simulateResults() {
+            alert('🎯 Sample Results:\n\n✅ Personalized analysis completed\n✅ Recommendations generated\n✅ Action plan created\n\nIn the full application, you would see detailed results with charts, timelines, and actionable insights!');
+        }
+        
+        // Initialize demo features
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🤖 AI Tools Portfolio Demo Loaded');
+            console.log('✨ Features: 16 AI Tools with Cultural Animations');
+        });
+    </script>
+</body>
+</html>

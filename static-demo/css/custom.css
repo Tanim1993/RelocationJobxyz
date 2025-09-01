@@ -1,0 +1,213 @@
+/* Custom styles for Relocation Jobs Hub */
+
+/* Fix input field colors in dark theme */
+[data-bs-theme="dark"] input.form-control,
+[data-bs-theme="dark"] .dark-input {
+    background-color: #1a1a1a !important;
+    border: 1px solid #495057 !important;
+    color: #f8f9fa !important;
+}
+
+[data-bs-theme="dark"] input.form-control:focus,
+[data-bs-theme="dark"] .dark-input:focus {
+    background-color: #1a1a1a !important;
+    border-color: #0d6efd !important;
+    color: #f8f9fa !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+[data-bs-theme="dark"] input.form-control::placeholder,
+[data-bs-theme="dark"] .dark-input::placeholder {
+    color: #6c757d !important;
+    opacity: 0.8;
+}
+
+/* Additional override for stubborn white backgrounds */
+input.dark-input {
+    background-color: #1a1a1a !important;
+    border: 1px solid #495057 !important;
+    color: #f8f9fa !important;
+}
+
+input.dark-input:focus {
+    background-color: #1a1a1a !important;
+    border-color: #0d6efd !important;
+    color: #f8f9fa !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+input.dark-input::placeholder {
+    color: #6c757d !important;
+    opacity: 0.8;
+}
+
+/* Compact spacing */
+.py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.py-3 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Remove any white overlays */
+.modal-backdrop {
+    display: none !important;
+}
+
+.popover, .tooltip {
+    z-index: 1070;
+}
+
+/* Ensure proper spacing between elements */
+.g-2 > * {
+    padding: 0.5rem;
+}
+
+.job-description, .requirements {
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+.job-description ul, .requirements ul {
+    padding-left: 1.5rem;
+}
+
+.job-description h1, .job-description h2, .job-description h3,
+.requirements h1, .requirements h2, .requirements h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--bs-primary);
+}
+
+.relocation-benefits {
+    background: linear-gradient(135deg, var(--bs-success) 0%, var(--bs-info) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.email-content {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: var(--bs-light);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.375rem;
+    padding: 1rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+[data-bs-theme="dark"] .email-content {
+    background-color: var(--bs-dark);
+    color: var(--bs-light);
+    border-color: var(--bs-secondary);
+}
+
+.relocation-badges .badge {
+    margin-bottom: 0.25rem;
+}
+
+.card.border-start {
+    border-left-width: 4px !important;
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Job card hover effects */
+.card:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-bs-theme="dark"] .card:hover {
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .lead {
+        font-size: 1rem;
+    }
+    
+    .email-content {
+        font-size: 0.75rem;
+        padding: 0.75rem;
+    }
+}
+
+/* Loading states */
+.btn.loading {
+    position: relative;
+}
+
+.btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    margin: auto;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Custom scrollbar for email content */
+.email-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.email-content::-webkit-scrollbar-track {
+    background: var(--bs-secondary);
+    border-radius: 4px;
+}
+
+.email-content::-webkit-scrollbar-thumb {
+    background: var(--bs-primary);
+    border-radius: 4px;
+}
+
+.email-content::-webkit-scrollbar-thumb:hover {
+    background: var(--bs-primary-dark);
+}
+
+/* Print styles for email templates */
+@media print {
+    .navbar, .card-header, .card-footer, .btn, nav {
+        display: none !important;
+    }
+    
+    .email-content {
+        background: white !important;
+        color: black !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
